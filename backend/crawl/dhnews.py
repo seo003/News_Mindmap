@@ -30,7 +30,7 @@ def get_data():
             dict_data = {"title": title, "link": link, "date": date}
             result.append(dict_data)
 
-        return {"대학저널": result}
+        return result
 
     # 웹사이트 요청 실패 시 출력
     else:

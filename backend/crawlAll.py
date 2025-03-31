@@ -12,14 +12,17 @@ from crawl.usline import get_data as usline
 from crawl.veritas import get_data as veritas
 from crawl.yna import get_data as yna
 
+# 락을 생성
+lock = threading.Lock()
 
-def fetch_news(source, result_dict):
+def fetch_news(source, result_list):
     data = source()
-    if isinstance(data, dict) and "Error" not in data:
-        result_dict.update(data)
+    if isinstance(data, list) and data != ['error']:
+        with lock:
+            result_list.extend(data)
 
 def crawl_all():
-    data = {}
+    data = []
     threads = []
 
     sources = [chosun, dhnews, incheon, kcce, kyosu, moe, unipress, unn, usline, veritas, yna]

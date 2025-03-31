@@ -67,6 +67,6 @@ def get_data():
         result.append(dict_data)
 
     if len(result) == 0:
-        return {"Error": response.status_code}
+        return ['error']
 
-    return {"조선에듀": result}
+    return result

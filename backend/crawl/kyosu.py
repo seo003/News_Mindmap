@@ -33,7 +33,7 @@ def get_data():
             dict_data = {"title": title, "link": link, "date": date}
             result.append(dict_data)
 
-        return {"교수신문": result}
+        return result
     else:
         print(f"Failed to fetch the page, status code: {response.status_code}")
-        return {"Error": response.status_code}
+        return ['error']

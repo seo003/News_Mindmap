@@ -1,989 +1,917 @@
-{
-    "대학지성IN&OUT": [
-        {
-            "title": "한국철학회 제57대 회장에 양일모 서울대 교수 선출",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12169",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "대학원혁신사업의 성과와 발전 과제",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12156",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "KAIST 이창희 교수, 2025 광주디자인비엔날레 큐레이터 선임",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12155",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한국학중앙연구원 장서각, 「동래군필적」 연구로 이보정 신도비 복원",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12154",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "전공자율선택제 운영의 과제와 제도적 개선 방향",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12152",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "KAIST 서선옥 교수, 2025 프런티어 과학상 수상",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12144",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "건국대병원 정소정 교수, 문석학술상 수상",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12143",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "‘국가교육혁신정책포럼’ 출범식 및 창립 세미나 개최",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12140",
-            "date": "2025.03.25"
-        },
-        {
-            "title": "KAIST, 2024 미국 등록 특허 세계 10위, 국내대학 3년 연속 1위",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12139",
-            "date": "2025.03.25"
-        },
-        {
-            "title": "KAIST 최경철 교수, SID(국제정보디스플레이학회) 석학회원 선임",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12117",
-            "date": "2025.03.21"
-        },
-        {
-            "title": "교육부, 무전공 선발 확대·등록금 동결 대학에 재정지원 확대",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12116",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "대학-출연연 간 인적·물적 벽 허문다 … 우주·과학 인재양성 강화",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12114",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "김성도 고려대 언어학과 교수, 이탈리아 Bruno Kessler Foundation 초청 강연",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12113",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "교수사회의 격차와 갈등 해소 시급 … 비정년트랙 차별 개선 방안은?",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12112",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "KAIST, ‘자연의 구도자’ 박광진 교수 작품 기증 협약",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12106",
-            "date": "2025.03.18"
-        },
-        {
-            "title": "중앙대, 서울대 경제학부 이근 교수 석학교수로 영입",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12103",
-            "date": "2025.03.17"
-        },
-        {
-            "title": "韓, 고등교육 자격인정 글로벌 협약 비준…협약국 간 고등교육 학위 등 인정",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12083",
-            "date": "2025.03.14"
-        },
-        {
-            "title": "KAIST 백세범 교수, 사이언스 어드밴시스 부편집장 임명",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12082",
-            "date": "2025.03.14"
-        },
-        {
-            "title": "중앙대 첨단영상대학원 영화영상이론전공, '영화미디어학센터' 출범",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12081",
-            "date": "2025.03.13"
-        },
-        {
-            "title": "전국교수연구자연대, 전국 대학총장에 공개서한 … \"지성의 전당 복원하고, 극우 난동 단호히 대처해야\"",
-            "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12080",
-            "date": "2025.03.13"
-        }
-    ],
-    "조선에듀": [
-        {
-            "title": "한국조지메이슨대학교, 조셉 윤 美 대사대리 특별 간담회 개최",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/28/2025032880012.html",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "직장인 10명 중 6명 “내 직업 불안하다”",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/27/2025032780075.html",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "기업 47% “외국어 교육 개편 계획 있다”",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/27/2025032780069.html",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "서울과기대-클라썸, 교육 혁신 및 인재 양성 위한 전략적 업무협약 체결",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680047.html",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "인하대, ‘인천시 올바른 언어 문화 만들기’ 우리말 가꿈이 모집 ",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680034.html",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "2025년 각 지자체 응시료 지원 사업... 토익 수험생 95% “이용 의향 있어”",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680030.html",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "고려대 정보대학, AI·블록체인 창업 아이디어 경진대회 개최",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/24/2025032480052.html",
-            "date": "2025.03.24"
-        },
-        {
-            "title": "부산대-YBM, 글로벌 인재 양성 위한 업무협약 체결",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/20/2025032080027.html",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "교육부, ‘글로컬대학 제3차 혁신지원 토론회’ 개최",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/18/2025031880033.html",
-            "date": "2025.03.18"
-        },
-        {
-            "title": "한국전문대학교육협의회-한국원격대학협의회 업무협약 체결",
-            "link": "https://edu.chosun.com/site/data/html_dir/2025/03/17/2025031780069.html",
-            "date": "2025.03.17"
-        }
-    ],
-    "베리타스알파": [
-        {
-            "title": "[단독] [2026 3월학평 가채점 배치표] 대구진협 서울대/연대 의예 291점 ‘최고’ 가톨릭대/성대/울산대/고대 의예 288점",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547676",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "[부고] 이동진 (건양사이버대 총장)씨 모친상",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547675",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "KAIST 생명과학과 김진우 교수 연구팀 세계 최초 손상된 시력 회복 망막 치료제 개발 성공",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547660",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "국립목포대 MNU메이커스페이스 시제품제작/양산화 One-Stop 지원 사업 참가자 모집",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547661",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "춘해보건대 성인학습자 신입생을 위한 실전형 워크숍 진행",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547667",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "건국대-서울시교육청 교육환경 혁신 위한 업무협약 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547674",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "숙명여대-용산구 지역혁신중심 대학지원체계(RISE) 사업 추진 업무협약 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547666",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "충북보건과학대 무슬림 유학생 위한 맞춤형 할랄식당 조성",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547659",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "충남대 SW중심대학사업단-대전ICT산업협회 업무협약 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547663",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "UNIST-포스텍 저온 공정으로 차세대 반도체 소재 이황화몰리브덴(MoS2) 결함 제거",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547668",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "한기대 STEP '메타버스 전용 학습공간' 확장 오픈",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547665",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "경복대 영상미디어콘텐츠과 칼리시와 취업보장형 산학협력 MOU 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547670",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "세종대 대학일자리플러스센터 2025년 컴퓨터활용능력 1급 대비 실무과정 운영",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547669",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "강원국제개발협력센터-강원도 국제협력관,  '공적개발원조(ODA) 역량강화 워크숍' 개최",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547645",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "강원대 영어영문학전공-강원에코테크,  '신제품 글로벌 사업화를 위한 교육협력 업무협약' 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547644",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "강원대 데이터보안/활용 혁신융합대학 사업단-후평2동 주민자치회-후평2동 행정복지센터, '어르신 디지털 보안 교육 봉사 프로그램 협약' 체결",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547643",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "광주 남구청소년상담복지센터, 대광여고서 생명존중/폭력예방 캠페인",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547642",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "인크루트, 주요 공기업 신입 공고 소개",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547641",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한림대 도헌학술원, 강원대 철학과 이진남 교수 초청 2025-1학기 〈Culture & Writer's School〉1강 성료",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547640",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "상아탑 밖으로 나가 지역발전 이끄는 건국대",
-            "link": "https://www.veritas-a.com/news/articleView.html?idxno=547639",
-            "date": "2025.03.28"
-        }
-    ],
-    "연합뉴스": [
-        {
-            "title": "트럼프 \"러, 우크라전 휴전 합의 안하면 러 원유에 25% 2차관세\"(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330060651071",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "임윤찬이 재탄생시킨 바흐 변주곡…변주 끝에 도달한 환희",
-            "link": "https://www.yna.co.kr/view/AKR20250330060000005",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "트럼프 \"러, 우크라전 휴전 합의 안하면 러 원유에 25% 2차관세\"",
-            "link": "https://www.yna.co.kr/view/AKR20250330060600071",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "수단 군부 수장 \"반군 항복할 때까지 계속 싸울 것\"(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330043351099",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "[속보] 트럼프 \"이란, 핵 합의 안하면 폭격과 2차 관세 직면할 것\"< NBC >",
-            "link": "https://www.yna.co.kr/view/AKR20250330060500071",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "[속보] \"트럼프, 금주에 푸틴 러시아 대통령과 대화 예정\" < NBC >",
-            "link": "https://www.yna.co.kr/view/AKR20250330060300071",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "고려대·충남대·부산대 의대생 전원 등록…경희대도 복귀(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330055351530",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "[속보] 트럼프 \"러와 우크라전 휴전합의 못하면 러산 원유에 2차 관세\" < NBC >",
-            "link": "https://www.yna.co.kr/view/AKR20250330060100071",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "'탁구 천재' 오준성, WTT 첸나이 단식 우승…신유빈은 혼복 제패(종합2보)",
-            "link": "https://www.yna.co.kr/view/AKR20250330004602007",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "김수현, 내일 기자회견…故김새론 관련 입장 표명",
-            "link": "https://www.yna.co.kr/view/AKR20250330059500005",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "남태평양 통가 해역서 규모 7.1 지진…쓰나미 주의보",
-            "link": "https://www.yna.co.kr/view/AKR20250330058900076",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "경찰, '장제원 성폭력' 고소한 전 비서 추가 조사",
-            "link": "https://www.yna.co.kr/view/AKR20250330058500004",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "민주, 文 소환 통보에 \"명백한 정치보복…尹정권 최후의 발악\"(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330038551001",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "유럽 스타트업 궤도 로켓, 발사 40초만에 추락(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330056451085",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "통가 누쿠알로파 동북동쪽 바다서 규모 7.3 지진",
-            "link": "https://www.yna.co.kr/view/AKR20250330058100530",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "서채현, 전국 스포츠클라이밍 선수권 여자부 2관왕 '우뚝'",
-            "link": "https://www.yna.co.kr/view/AKR20250330057900007",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "삼척시청, 대구시청 꺾고 핸드볼 H리그 2위로 올라서(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330048351007",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "이란, '핵협상 제안' 트럼프 서한에 \"직접 협상은 거부\"",
-            "link": "https://www.yna.co.kr/view/AKR20250330057600099",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "적십자, 미얀마 강진에 1억달러 긴급모금 캠페인",
-            "link": "https://www.yna.co.kr/view/AKR20250330057100109",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "에콰도르, 갱단 소탕하려 트럼프에 미군 파견 요청",
-            "link": "https://www.yna.co.kr/view/AKR20250330056600009",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "유럽 스타트업 궤도로켓 시험 발사 직후 추락",
-            "link": "https://www.yna.co.kr/view/AKR20250330056400085",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "체포영장 발부 ICC 보란듯…네타냐후 4월2일 헝가리행",
-            "link": "https://www.yna.co.kr/view/AKR20250330056200099",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "전남 신안 해상서 어선과 화물선 충돌…3명 부상",
-            "link": "https://www.yna.co.kr/view/AKR20250330056300054",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "헌재 앞 탄핵 반대 철야집회 확대…찬성측 파면촉구 서명운동(종합)",
-            "link": "https://www.yna.co.kr/view/AKR20250330032351004",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "고려대·충남대·부산대 의대생도 전원 등록…복귀 '대세'로",
-            "link": "https://www.yna.co.kr/view/AKR20250330055300530",
-            "date": "2025.03.30"
-        }
-    ],
-    "한국대학신문(UNN)": [
-        {
-            "title": "[부고] 이동진(건양사이버대 총장)씨 모친상",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576984",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "상명대-천안교육지원청, 지역교육 생태계 강화를 위해 맞손",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576982",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "인천시민대학, 2025년 경인여대캠퍼스 입학식 개최",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576981",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "경남대, ‘다문화·탈북학생 멘토링장학금 사업’ 경남권역 주관대학 선정",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576980",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "“AI·메타버스···디지털로 교육 환경 혁신”",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576979",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "서울여대-중랑구청-서일대, 지역현안해결 위한 업무협약",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576978",
-            "date": "2025.03.29"
-        },
-        {
-            "title": "‘고3’ 중간고사 D-30… 마지막 학기 내신 준비 방법은?",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576975",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한림대 시민지성 한림연단, ‘죽음학 전도사’ 정현채 서울대 명예교수 4월 2일 강연",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576976",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "유승엽 남서울대 교수, 제30대 한국광고학회 회장 취임",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576977",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "교육청·지자체 등 협약형 특성화고 공모사업 위한 협력 ‘활발’",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576974",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "울산대, 2025년 생활과학교실 지역운영센터 선정",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576973",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "[라이즈(RISE) 레이더] 충남테크노파크-건양대 맞손… “기초지자체 연계 협력”",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576972",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "“평생교육시대, 역량·스킬을 한 눈에”… ‘오픈배지 3.0’ 시대 열린다",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576967",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서울대, 후원도 정기 구독 시대 기부 문화 바꾼다",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576969",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서울대‧울산대 의대 전원 복귀 결정… 흔들리는 ‘단일대오’",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576971",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "정부 “의사과학자 양성에 867억 원 투입… 석박사 80여 명 지원”",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576970",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "대학병원도 연구중심으로… 복지부 1기 인증 연구중심병원 21곳 선정",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576960",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "뒤늦게 알려진 선행…국립목포해양대 재학생, SRT 열차에서 응급환자 구해",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576968",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "이주호 부총리, 전공자율선택제 안착을 위한 현장 의견 청취",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576959",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "[라이즈(RISE) 레이더] 서울 서대문구-명지전문대, ‘서울 라이즈 성공’ 위한 MOU",
-            "link": "https://news.unn.net/news/articleView.html?idxno=576958",
-            "date": "2025.03.28"
-        }
-    ],
-    "유스라인(Usline)": [
-        {
-            "title": "국립순천대, 첨단소재 광양캠퍼스 개소로 지역혁신의 새 장 열어",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29169",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "국립목포대, 전남개발공사 채용설명회 성황리에 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29168",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "우석대 교육혁신본부 ‘Self-Mapping 공유 day’ 이벤트 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29167",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "조선대, 광주시와 함께 2025 글로컬대학 혁신 아젠다 ‘웰에이징 Asia No.1 대학’ 설명회 성황리 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29166",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "남부대, 지역아동센터광주지원단, ‘2025년 특화프로그램 우수사례집’ 발간 기념식 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29165",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "단국대 우리은행과 함께 사회 초년생 맞춤 금융교육 실시",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29164",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "동의대 국문과 전동균 교수, 제8회 김종삼 시문학상 수상",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29163",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "경일대·영남대, 경북 북부 산불 피해 학생·주민 지원",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29162",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "제3회 서울예술상 대상을 수상한 경기대학교 연기학과 이곤 교수",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29161",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "덕성여대-(사)SeeD 특수교육디지털교육협회 연구 협력 맞손",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29160",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "극동대 간호학과, 디지털 헬스케어 스타트업 ㈜큐리오커넥트와 산학협력 체결",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29159",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "목원대 박혜윤 교수, 카자흐스탄 카라간다 국립필하모니교향악단 초청 협연",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29158",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "이화여대, ‘AI & 비즈니스 애널리틱스’ 석·박사 과정 신설",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29157",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "라오스에 전한 교육의 온기…  강남대 예비특수교사들의 특별한 여정",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29156",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "한동대    -㈜포항연합기술지주, 글로컬 대학 사업 으로 지역기업 글로벌 진출 돕는 'V2G 세미나' 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29154",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "가천대, 성악·기악 전공, 유럽어문학과와 ‘프랑스 시낭송과 가곡의 밤’ 개최",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29153",
-            "date": "2025.03.27"
-        },
-        {
-            "title": "배화여대, 특화사업 '찾아가는 쑥쑥 튼튼 놀이터' 프로그램 진행",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29150",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "중앙대 가상융합대학, 국내 최초 라오스 XR 관광 콘텐츠 공개… 한국 기술로 재탄생",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29146",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "숭실대 글로벌미디어학부 학생 인공지능 분야 최우수 국제 학술대회 'AAAI 2025'서 논문 발표",
-            "link": "https://www.usline.kr/news/articleView.html?idxno=29145",
-            "date": "2025.03.26"
-        }
-    ],
-    "한국전문대학교육협의회": [
-        {
-            "title": "[보도자료] 2024년도 학사학위 전공심화과정 재학생 및 졸업생 만족도 조사결과 발표",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55102",
-            "date": "2025.02.18"
-        },
-        {
-            "title": "[보도자료] 전문대학-메인비즈협회 간 대구ㆍ경북지역 라이즈 사업 간담회 개최",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55095",
-            "date": "2025.02.07"
-        },
-        {
-            "title": "[보도자료] 한국전문대학교육협의회-메인비즈협회 부산지역 간담회 개최(25.01.23)",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55093",
-            "date": "2025.02.06"
-        },
-        {
-            "title": "[보도자료] 국가미래직업교육포럼(NFVEF) 출범식 및 제1차 국회세미나 개최",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55090",
-            "date": "2025.02.06"
-        },
-        {
-            "title": "[보도자료] 전문대학 현안에 대해 신속한 대응, 지원 강화를 위한 전문대교협 조직 개편",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55083",
-            "date": "2025.01.09"
-        },
-        {
-            "title": "(보도자료) 2024년 자랑스런 전문대학인상 수상자를 발표합니다",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55073",
-            "date": "2024.12.18"
-        },
-        {
-            "title": "보도자료_ “전문대학 인력양성을 통한 K-컬처 글로벌 역량강화 필요하다”",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55064",
-            "date": "2024.12.04"
-        },
-        {
-            "title": "[보도자료] 전문대학·지역 혁신기업, ‘지역 일자리 활성화’ 협력",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55062",
-            "date": "2024.11.29"
-        },
-        {
-            "title": "[보도자료] 『2027학년도 전문대학 입학전형 기본사항』발표",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55029",
-            "date": "2024.09.12"
-        },
-        {
-            "title": "[보도자료] 전문대학 합격예측 꿈꾸GO에서 확인한다",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55023",
-            "date": "2024.08.30"
-        },
-        {
-            "title": "[보도자료] 2025학년도 전문대학 수시모집 및 수시 입학정보박람회 개최",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55016",
-            "date": "2024.08.21"
-        },
-        {
-            "title": "[보도자료] 지역 정주형 전문대학 창업 및 일자리 활성화 세미나 개최합니다",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55015",
-            "date": "2024.08.20"
-        },
-        {
-            "title": "[보도자료] 고등직업교육연구소, 2024년 인사이드 리포트 발표",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55011",
-            "date": "2024.08.14"
-        },
-        {
-            "title": "[보도자료] 2025학년도 수시 권역별 전문대학 입학정보자료집 발간",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55008",
-            "date": "2024.08.08"
-        },
-        {
-            "title": "(동정)김영도 동의과학대학교 총장, 한국전문대학교육협의회 제22대 회장 선출",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54994",
-            "date": "2024.07.01"
-        },
-        {
-            "title": "(동정 보도자료) 한국전문대학교육협의회 2024년 전문대학 하계 총장 세미나 및 임시총회 개최",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54986",
-            "date": "2024.06.20"
-        },
-        {
-            "title": "[보도자료] 2024년 전문대학 글로벌 현장학습 학생 오리엔테이션 개최합니다",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54981",
-            "date": "2024.06.18"
-        },
-        {
-            "title": "[보도자료] 고등직업교육연구소 정부 및 지자체 재정지원 현황 분석했습니다",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54975",
-            "date": "2024.06.05"
-        },
-        {
-            "title": "[보도자료] 2024년 하계방학(7월-8월) 교·직원 대면 연수를 곧 시작합니다.",
-            "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54974",
-            "date": "2024.06.04"
-        }
-    ],
-    "대학저널": [
-        {
-            "title": "[인생 성공 매력] ⑦ “안녕하세요~”..인사만 잘해도 사회생활 절반 성공!",
-            "link": "https://dhnews.co.kr/news/view/1065594047878303",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "전주대·전북 경제통상진흥원, 외국인 유학생 지역 정착·취업 활성화 위한 MOU",
-            "link": "https://dhnews.co.kr/news/view/1065604561149785",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "건국대·광진구청, 서울시 RISE 사업 추진 업무협약",
-            "link": "https://dhnews.co.kr/news/view/1065602785999249",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "경남대, ‘다문화·탈북학생 멘토링장학금 사업’ 주관대학 선정",
-            "link": "https://dhnews.co.kr/news/view/1065602513822803",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한림대 강영희 석좌교수, ‘미국영양학회 우수 석학회원’ 선정",
-            "link": "https://dhnews.co.kr/news/view/1065602251717167",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한신대, 2025년 다시서기 어깨동무 인문학 교육 입학식",
-            "link": "https://dhnews.co.kr/news/view/1065602060253822",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "성균관대, 2025년 다학제 국제 특별 컨퍼런스 수상식 성료",
-            "link": "https://dhnews.co.kr/news/view/1065600277746038",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "세종대 회화과, 2025년도 ‘날개전 <허밍–해빗(Humming–Habit)>’ 개최",
-            "link": "https://dhnews.co.kr/news/view/1065598271563476",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "충북보건과학대, 무슬림 유학생 위한 할랄식당 조성",
-            "link": "https://dhnews.co.kr/news/view/1065597082095824",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "광주여대, 2025 KWU 일자리 서포터즈 발대식",
-            "link": "https://dhnews.co.kr/news/view/1065596834613570",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "동국대기술지주·씨엔티테크, 5.7억 원 규모 제1호 개인투자조합 결성",
-            "link": "https://dhnews.co.kr/news/view/1065596582395516",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "라사라패션직업전문학교, 4월 우수패션인재 선발을 위해 ‘우선선발전형’ 시작",
-            "link": "https://dhnews.co.kr/news/view/1065594002587225",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "경상국립대, 포스코와 ‘제1차 GNU-SDGs/ESG 재학생 아카데미’ 개최",
-            "link": "https://dhnews.co.kr/news/view/1065592258731810",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한신대 신학과 85학번, 입학 40주년 기념 장학금·발전기금 전달식",
-            "link": "https://dhnews.co.kr/news/view/1065590616325844",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "상지대-헝가리 국립아카이브, ‘학술 교류’ 업무협약",
-            "link": "https://dhnews.co.kr/news/view/1065590325046322",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서진영 작가, '비싼 화장품이 팔리는 데는 이유가 있다' 출간",
-            "link": "https://dhnews.co.kr/news/view/1065590378425553",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한국외대, 태국 예술 문화 공연 개최",
-            "link": "https://dhnews.co.kr/news/view/1065590270993110",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "계명대, 청년 취업 지원 ‘아Chill한 취업 챌린지’ 열어",
-            "link": "https://dhnews.co.kr/news/view/1065589858342322",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "전북대, 故 한수옥 회장 추도식 개최",
-            "link": "https://dhnews.co.kr/news/view/1065589587366802",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "치바과학대학교 출신 한국인 약사 40명 돌파...일본약대 조기입시 성과",
-            "link": "https://dhnews.co.kr/news/view/1065589182228118",
-            "date": "2025.03.28"
-        }
-    ],
-    "교수신문": [
-        {
-            "title": "한신대, ‘2025년 다시서기 어깨동무 인문학 교육 입학식’ 진행",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132675",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "세종대 회화과, 2025년도 \" 날개전 '허밍–해빗(Humming–Habit)' \" 개최",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132673",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "영진사이버대, 대구과역시청소년단체협의회·유네스코대구협회와 산학협력 협약 체결",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132672",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "상지대 사회봉사단, 언어치료 봉사 동아리 ‘언.재.나’ 활동 지원",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132670",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "상지대-고려인 글로벌 네트워크, 업무협약 체결",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132669",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서울여자대학교-중랑구청-서일대학교, 지역현안해결 위한 업무협약",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132668",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "영산대 B&B전공 한이섭 교수, 한국제과기능장협회장 표창",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132665",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "국립창원대 운영 창녕군 어린이급식관리지원센터,  어린이 건강 식습관 상시 교육 프로그램 ‘호평’",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132664",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "원광대, 제30회 전국 대학생 모의유엔회의 개최",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132658",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "계명대, 청년 취업 지원을 위한 ‘아Chill한 취업 챌린지’ 열어",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132663",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "인천지역 공공의대설립을 위한 방안 모색 토론회",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132662",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한국외대, 태국 예술 문화 공연 개최",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132660",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "상지대-헝가리 국립아카이브, 업무 협약 체결",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132659",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한국출판문화산업진흥원, 세종도서 지원 사업 공청회 열어…‘출판문화 발전 모색’",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132656",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한국저작권보호원-대한민국 국제저작권법학회 업무협약 체결",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132655",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "한신대 신학과 85학번, 입학 40주년 기념 장학금 및 발전기금 전달식 가져",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132652",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서울교육대학교, 포인투랩과 MOU 체결",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132651",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "김포대 유튜브크리에이터과 선우의성 교수, 대한민국마케팅대상 특별상 수상",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132650",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "서울여자대학교, 제2회 글로벌ICT인문융합학부 컨퍼런스 개최",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132649",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "임동진 한국이민정책학회 회장, 상지코리아포럼에서 주제발표",
-            "link": "https://www.kyosu.net/news/articleView.html?idxno=132648",
-            "date": "2025.03.28"
-        }
-    ],
-    "교육부보도자료": [
-        {
-            "title": "한전, 올해부터 3년간 고졸 일자리 300개 창출",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102948&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "지역 기반형 유아교육·보육으로 지방을 살린다",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102947&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.26"
-        },
-        {
-            "title": "일본 정부는 고등학교 교과서의 역사 왜곡을 즉각 시정하라!",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102944&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.25"
-        },
-        {
-            "title": "2026학년도 대학수학능력시험 6월 모의평가 시행계획 발표",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102939&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.25"
-        },
-        {
-            "title": "2026학년도 대학수학능력시험 시행기본계획 발표",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102938&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.25"
-        },
-        {
-            "title": "고교학점제의 모든 것, 교육부에 직접 물어보세요",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102921&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.24"
-        },
-        {
-            "title": "인적자원개발의 모범이 되는 공공기관과 기업을 찾습니다",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102920&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.24"
-        },
-        {
-            "title": "교육시설통합정보망을 통해 데이터 기반의 학교시설 안전 및 유지관리 체계 마련",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102895&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "2025~2027년 대학·전문대학 혁신지원사업 및 국립대학육성사업 기본계획 발표",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102894&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.20"
-        },
-        {
-            "title": "제4차 인재양성전략회의 개최",
-            "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102898&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
-            "date": "2025.03.19"
-        }
-    ],
-    "인천광역시보도자료": [
-        {
-            "title": "유정복 인천시장, 17개 시도 대표하여 피해지역 위로 방문",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108667&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "새 단장한 인천문화예술회관 공연장, 2025년 상·하반기 정기대관 신청하세요",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108666&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "청소년을 위한 한 걸음! 인천 청소년기관장 간담회 성료",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108664&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "2045 탄소중립 도시 인천! 청년 서포터스와 함께 만들어간다",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108663&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "여성 인재 발굴·육성! 2025년 인천 여성리더 아카데미 개강",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108662&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "2025년 인천아빠 육아천사단 부모교육 ‘우리아이 마음성장 클리닉’",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108660&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "인천시, 현장에서 깨끗한 수돗물의 해법을 찾다",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012108659&curPage=1",
-            "date": "2025.03.30"
-        },
-        {
-            "title": "인천시, 제10회 서해수호의 날 기념식 개최",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012099958&curPage=1",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "지역사회를 빛낸 시민들! 인천시, 모범선행시민 61명 표창",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012096770&curPage=1",
-            "date": "2025.03.28"
-        },
-        {
-            "title": "「제43회 대한민국연극제」명예대회장으로 전무송 원로배우 위촉",
-            "link": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000012096759&curPage=1",
-            "date": "2025.03.28"
-        }
-    ]
-}
+[
+    {
+        "title": "한양대 2025선행보고서 공개.. 인문/상경/자연 논술기출 '주목'",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547688",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인제대 유아교육과 해운대백병원 위험 산모/신생아 치료센터 1주년 행사 지원",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547719",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인제대-렉스소프트 AI 기반 정밀의료 기술 개발 맞손",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547718",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인제대 인제한국학연구원 설립",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547717",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "광주여대 MAUM교육원, 2025년 3월  대학 구성원 소통 모임 '마음수다' 실시",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547727",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "조선대 대학일자리플러스센터 기업별/산업별 취업 특강 개최",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547716",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "성균관대 이진기 교수 연구팀, AI 기반 이중에멀젼 생성 자동화 시스템 개발",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547726",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "국립창원대 의류학과 진해장애인복지관과 상호협력 업무협약(MOU) 체결",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547715",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경북대 총동창회, 정기이사회 및 정기총회 개최",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547725",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "조선대 2025학년도 '천원의 아침밥' 홍보 행사 시행",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547714",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "김대종 세종대 교수  \"트럼프 2기, 한국생존전략\"신간 출간",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547724",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "건국대 글로컬캠퍼스 대학일자리플러스사업단,  지역 공군부대 전역예정 장병 대상 취업교육 실시",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547723",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "국립창원대 글로컬첨단과학기술대학 에너지화학공학부 정해성 교수 연구팀 '나노다공성 망간산화물 친환경 합성법' 세계 최초 개발",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547713",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "강원대 제4회 봄봄축제 성료",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547712",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "상명대 국어문화원, 이민자 사회통합프로그램 거점 운영기관 10년간 연속 수행",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547721",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전북대 계열별 모집 입학 신입생 위한 지원 프로그램 운영",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547711",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "KAIST 2025년 중2~3 여학생 대상 이공계 체험 캠프.. '총 150명 내외'",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547684",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "북일고 2026 입학설명회 일정.. 5월21일부터 주말/평일 나눠 진행",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547677",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[포토] 남해해성고 교육과정 설명회 '남해해성고만의 교육 문화 조성'",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547691",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[포토] 남해해성고 '제1회 보물섬 국제학술포럼' 공식 출범",
+        "link": "https://www.veritas-a.com/news/articleView.html?idxno=547690",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한국철학회 제57대 회장에 양일모 서울대 교수 선출",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12169",
+        "date": "2025.03.29"
+    },
+    {
+        "title": "대학원혁신사업의 성과와 발전 과제",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12156",
+        "date": "2025.03.29"
+    },
+    {
+        "title": "KAIST 이창희 교수, 2025 광주디자인비엔날레 큐레이터 선임",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12155",
+        "date": "2025.03.28"
+    },
+    {
+        "title": "한국학중앙연구원 장서각, 「동래군필적」 연구로 이보정 신도비 복원",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12154",
+        "date": "2025.03.28"
+    },
+    {
+        "title": "전공자율선택제 운영의 과제와 제도적 개선 방향",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12152",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "KAIST 서선옥 교수, 2025 프런티어 과학상 수상",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12144",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "건국대병원 정소정 교수, 문석학술상 수상",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12143",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "‘국가교육혁신정책포럼’ 출범식 및 창립 세미나 개최",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12140",
+        "date": "2025.03.25"
+    },
+    {
+        "title": "KAIST, 2024 미국 등록 특허 세계 10위, 국내대학 3년 연속 1위",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12139",
+        "date": "2025.03.25"
+    },
+    {
+        "title": "KAIST 최경철 교수, SID(국제정보디스플레이학회) 석학회원 선임",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12117",
+        "date": "2025.03.21"
+    },
+    {
+        "title": "교육부, 무전공 선발 확대·등록금 동결 대학에 재정지원 확대",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12116",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "대학-출연연 간 인적·물적 벽 허문다 … 우주·과학 인재양성 강화",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12114",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "김성도 고려대 언어학과 교수, 이탈리아 Bruno Kessler Foundation 초청 강연",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12113",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "교수사회의 격차와 갈등 해소 시급 … 비정년트랙 차별 개선 방안은?",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12112",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "KAIST, ‘자연의 구도자’ 박광진 교수 작품 기증 협약",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12106",
+        "date": "2025.03.18"
+    },
+    {
+        "title": "중앙대, 서울대 경제학부 이근 교수 석학교수로 영입",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12103",
+        "date": "2025.03.17"
+    },
+    {
+        "title": "韓, 고등교육 자격인정 글로벌 협약 비준…협약국 간 고등교육 학위 등 인정",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12083",
+        "date": "2025.03.14"
+    },
+    {
+        "title": "KAIST 백세범 교수, 사이언스 어드밴시스 부편집장 임명",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12082",
+        "date": "2025.03.14"
+    },
+    {
+        "title": "중앙대 첨단영상대학원 영화영상이론전공, '영화미디어학센터' 출범",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12081",
+        "date": "2025.03.13"
+    },
+    {
+        "title": "전국교수연구자연대, 전국 대학총장에 공개서한 … \"지성의 전당 복원하고, 극우 난동 단호히 대처해야\"",
+        "link": "http://www.unipress.co.kr/news/articleView.html?idxno=12080",
+        "date": "2025.03.13"
+    },
+    {
+        "title": "국립순천대, 첨단소재 광양캠퍼스 개소로 지역혁신의 새 장 열어",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29169",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "국립목포대, 전남개발공사 채용설명회 성황리에 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29168",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "우석대 교육혁신본부 ‘Self-Mapping 공유 day’ 이벤트 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29167",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "조선대, 광주시와 함께 2025 글로컬대학 혁신 아젠다 ‘웰에이징 Asia No.1 대학’ 설명회 성황리 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29166",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "남부대, 지역아동센터광주지원단, ‘2025년 특화프로그램 우수사례집’ 발간 기념식 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29165",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "단국대 우리은행과 함께 사회 초년생 맞춤 금융교육 실시",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29164",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "동의대 국문과 전동균 교수, 제8회 김종삼 시문학상 수상",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29163",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "경일대·영남대, 경북 북부 산불 피해 학생·주민 지원",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29162",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "제3회 서울예술상 대상을 수상한 경기대학교 연기학과 이곤 교수",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29161",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "덕성여대-(사)SeeD 특수교육디지털교육협회 연구 협력 맞손",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29160",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "극동대 간호학과, 디지털 헬스케어 스타트업 ㈜큐리오커넥트와 산학협력 체결",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29159",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "목원대 박혜윤 교수, 카자흐스탄 카라간다 국립필하모니교향악단 초청 협연",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29158",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "이화여대, ‘AI & 비즈니스 애널리틱스’ 석·박사 과정 신설",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29157",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "라오스에 전한 교육의 온기…  강남대 예비특수교사들의 특별한 여정",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29156",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "한동대    -㈜포항연합기술지주, 글로컬 대학 사업 으로 지역기업 글로벌 진출 돕는 'V2G 세미나' 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29154",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "가천대, 성악·기악 전공, 유럽어문학과와 ‘프랑스 시낭송과 가곡의 밤’ 개최",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29153",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "배화여대, 특화사업 '찾아가는 쑥쑥 튼튼 놀이터' 프로그램 진행",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29150",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "중앙대 가상융합대학, 국내 최초 라오스 XR 관광 콘텐츠 공개… 한국 기술로 재탄생",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29146",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "숭실대 글로벌미디어학부 학생 인공지능 분야 최우수 국제 학술대회 'AAAI 2025'서 논문 발표",
+        "link": "https://www.usline.kr/news/articleView.html?idxno=29145",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "한국조지메이슨대학교, 조셉 윤 美 대사대리 특별 간담회 개최",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/28/2025032880012.html",
+        "date": "2025.03.28"
+    },
+    {
+        "title": "직장인 10명 중 6명 “내 직업 불안하다”",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/27/2025032780075.html",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "기업 47% “외국어 교육 개편 계획 있다”",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/27/2025032780069.html",
+        "date": "2025.03.27"
+    },
+    {
+        "title": "서울과기대-클라썸, 교육 혁신 및 인재 양성 위한 전략적 업무협약 체결",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680047.html",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "인하대, ‘인천시 올바른 언어 문화 만들기’ 우리말 가꿈이 모집 ",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680034.html",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "2025년 각 지자체 응시료 지원 사업... 토익 수험생 95% “이용 의향 있어”",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/26/2025032680030.html",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "고려대 정보대학, AI·블록체인 창업 아이디어 경진대회 개최",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/24/2025032480052.html",
+        "date": "2025.03.24"
+    },
+    {
+        "title": "부산대-YBM, 글로벌 인재 양성 위한 업무협약 체결",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/20/2025032080027.html",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "교육부, ‘글로컬대학 제3차 혁신지원 토론회’ 개최",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/18/2025031880033.html",
+        "date": "2025.03.18"
+    },
+    {
+        "title": "한국전문대학교육협의회-한국원격대학협의회 업무협약 체결",
+        "link": "https://edu.chosun.com/site/data/html_dir/2025/03/17/2025031780069.html",
+        "date": "2025.03.17"
+    },
+    {
+        "title": "전북대, 계열별 모집 입학 신입생 지원 프로그램 운영",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577006",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "명지대 교수기도회, 제자들을 위한 정오 음악회 개최",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577005",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "대구한의대 반려동물산업학과, 최첨단 반려동물뷰티케어실습실 완공",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577004",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전문대교협, 전국홍보협의회와 연계 전략 체계 구축",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577003",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "우송대 호텔외식조리대학, 밀키트 창업메뉴 개발 경연대회 개최",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한국고등직업교육평가원 기준실무위원회 회의 개최",
+        "link": "https://news.unn.net/news/articleView.html?idxno=577000",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경북대 의대생 전원 복귀 결정",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576996",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "배화여대, 학생이 주도하는 협력 학습의 장 ‘다차원 학습공동체’ 운영",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576995",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "조선이공대-동일미래과학고, 지역정주형 인재 육성 ‘맞손’",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576994",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "재능대-인천대, ‘인천 RISE 사업’ 업무협약 체결",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576993",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "이주호 부총리, 부산대-부산교대와 글로컬대학 간담회 개최",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576992",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "디지털·관계역량 동시에 잡는다… 춘해보건대, 성인학습자 실전형 워크숍 진행",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576991",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경동대 이천육아종합지원센터, 장애영유아 보육교사 전문성 강화",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576990",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한국항공대, 국내 항공안전 허브 ‘KAU 항공안전센터’ 개원",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576989",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "‘함께 만드는 창업 생태계’ 연세대 에스큐브, 3호점 공식 출범",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576988",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인하대 강태준 교수 연구팀, 체온으로 전기 생산하는 인공피부 개발",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576987",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한양대, ‘한국-캐나다 상호 문화교류의 해’ 맞아 창작 뮤지컬 프로젝트 추진",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576986",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[부고] 이동진(건양사이버대 총장)씨 모친상",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576984",
+        "date": "2025.03.30"
+    },
+    {
+        "title": "상명대-천안교육지원청, 지역교육 생태계 강화를 위해 맞손",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576982",
+        "date": "2025.03.29"
+    },
+    {
+        "title": "인천시민대학, 2025년 경인여대캠퍼스 입학식 개최",
+        "link": "https://news.unn.net/news/articleView.html?idxno=576981",
+        "date": "2025.03.29"
+    },
+    {
+        "title": "[인사] TBC",
+        "link": "https://www.yna.co.kr/view/AKR20250331087900053",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "명품 플랫폼 발란, 기업회생 신청…\"인수합병 추진\"(종합)",
+        "link": "https://www.yna.co.kr/view/AKR20250331087251030",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "미얀마 군부, 강진 참사에도 반군 공습 계속…지원은 '외면'",
+        "link": "https://www.yna.co.kr/view/AKR20250331087400084",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전남 담양군, 생활 인구 42만여명…등록인구 8.3배",
+        "link": "https://www.yna.co.kr/view/AKR20250331087500054",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "尹 탄찬측 긴급집중행동 선포…반대측은 철야집회 확대 예고",
+        "link": "https://www.yna.co.kr/view/AKR20250331086900004",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "머스크측 숙청 속…美반도체법 지원 담당 한국계 직원도 퇴직",
+        "link": "https://www.yna.co.kr/view/AKR20250331086000071",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[1보] 명품 플랫폼 발란, 기업회생절차 신청",
+        "link": "https://www.yna.co.kr/view/AKR20250331087200030",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "태국서도 '붕괴 빌딩' 생존자 수색 사활…드론·탐지견도 투입",
+        "link": "https://www.yna.co.kr/view/AKR20250331086600076",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "진실화해위, 6·25 북한군'서울대병원 학살' 진실규명할 듯",
+        "link": "https://www.yna.co.kr/view/AKR20250331086200004",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전세사기 '건축왕' 일당, 3번째 기소된 80억대 혐의 부인",
+        "link": "https://www.yna.co.kr/view/AKR20250331086300065",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "건설업체 부담 낮추고 중소기업 지원 늘리고…지방계약제도 개선",
+        "link": "https://www.yna.co.kr/view/AKR20250331027200530",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "\"한국 화장품 수출, 프랑스 제쳤다.…지난해 미국 시장 1위\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331083300009",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "與, 케이블TV 간담회…\"지역채널 운영·콘텐츠 투자 계속해야\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331082200001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "'대행은 대통령몫 헌법재판관 임명 불가' 野 잇단 법안 발의",
+        "link": "https://www.yna.co.kr/view/AKR20250331084800001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "나경원 등 與의원 30여명 '尹기각·각하' 촉구…\"즉시 선고\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331081500001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "아산재단, 경북 산불 피해 복구 성금 1억원 기부",
+        "link": "https://www.yna.co.kr/view/AKR20250331085600530",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[게시판] 대웅제약, 의원급 의료기관에 디지털 헬스케어 진단기기 제공",
+        "link": "https://www.yna.co.kr/view/AKR20250331085800017",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[프로야구] 1일 선발투수",
+        "link": "https://www.yna.co.kr/view/AKR20250328174451007",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "동아쏘시오홀딩스 \"경영효율 높일 신속·과감 의사결정 할 것\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331085400017",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "여야, 野 '쌍탄핵' 가능성에 4월 임시국회 일정 충돌",
+        "link": "https://www.yna.co.kr/view/AKR20250331081000001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "트럼프 말한마디에 뜨거운 구리 가격…\"미국서 올해 28% 급등\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331056700009",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "野, '尹파면' 헌재 압박 최고조…\"을사8적·반역자 될 건가\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331079300001",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경찰, 경호차장 구속 기각에 \"尹구속취소 고려된듯\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331085200004",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "방역당국 \"'야생 삵 AI 확진' 인체 감염 없어…모니터링 종료\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331085300530",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "中 \"남중국해서 1억t 규모 심층 원유·가스 유전 발견\"",
+        "link": "https://www.yna.co.kr/view/AKR20250331084300083",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "[보도자료] 2024년도 학사학위 전공심화과정 재학생 및 졸업생 만족도 조사결과 발표",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55102",
+        "date": "2025.02.18"
+    },
+    {
+        "title": "[보도자료] 전문대학-메인비즈협회 간 대구ㆍ경북지역 라이즈 사업 간담회 개최",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55095",
+        "date": "2025.02.07"
+    },
+    {
+        "title": "[보도자료] 한국전문대학교육협의회-메인비즈협회 부산지역 간담회 개최(25.01.23)",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55093",
+        "date": "2025.02.06"
+    },
+    {
+        "title": "[보도자료] 국가미래직업교육포럼(NFVEF) 출범식 및 제1차 국회세미나 개최",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55090",
+        "date": "2025.02.06"
+    },
+    {
+        "title": "[보도자료] 전문대학 현안에 대해 신속한 대응, 지원 강화를 위한 전문대교협 조직 개편",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55083",
+        "date": "2025.01.09"
+    },
+    {
+        "title": "(보도자료) 2024년 자랑스런 전문대학인상 수상자를 발표합니다",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55073",
+        "date": "2024.12.18"
+    },
+    {
+        "title": "보도자료_ “전문대학 인력양성을 통한 K-컬처 글로벌 역량강화 필요하다”",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55064",
+        "date": "2024.12.04"
+    },
+    {
+        "title": "[보도자료] 전문대학·지역 혁신기업, ‘지역 일자리 활성화’ 협력",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55062",
+        "date": "2024.11.29"
+    },
+    {
+        "title": "[보도자료] 『2027학년도 전문대학 입학전형 기본사항』발표",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55029",
+        "date": "2024.09.12"
+    },
+    {
+        "title": "[보도자료] 전문대학 합격예측 꿈꾸GO에서 확인한다",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55023",
+        "date": "2024.08.30"
+    },
+    {
+        "title": "[보도자료] 2025학년도 전문대학 수시모집 및 수시 입학정보박람회 개최",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55016",
+        "date": "2024.08.21"
+    },
+    {
+        "title": "[보도자료] 지역 정주형 전문대학 창업 및 일자리 활성화 세미나 개최합니다",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55015",
+        "date": "2024.08.20"
+    },
+    {
+        "title": "[보도자료] 고등직업교육연구소, 2024년 인사이드 리포트 발표",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55011",
+        "date": "2024.08.14"
+    },
+    {
+        "title": "[보도자료] 2025학년도 수시 권역별 전문대학 입학정보자료집 발간",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=55008",
+        "date": "2024.08.08"
+    },
+    {
+        "title": "(동정)김영도 동의과학대학교 총장, 한국전문대학교육협의회 제22대 회장 선출",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54994",
+        "date": "2024.07.01"
+    },
+    {
+        "title": "(동정 보도자료) 한국전문대학교육협의회 2024년 전문대학 하계 총장 세미나 및 임시총회 개최",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54986",
+        "date": "2024.06.20"
+    },
+    {
+        "title": "[보도자료] 2024년 전문대학 글로벌 현장학습 학생 오리엔테이션 개최합니다",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54981",
+        "date": "2024.06.18"
+    },
+    {
+        "title": "[보도자료] 고등직업교육연구소 정부 및 지자체 재정지원 현황 분석했습니다",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54975",
+        "date": "2024.06.05"
+    },
+    {
+        "title": "[보도자료] 2024년 하계방학(7월-8월) 교·직원 대면 연수를 곧 시작합니다.",
+        "link": "https://www.kcce.or.kr/web/board/1485.do?mode=view&schBcode=&schCon=&schStr=&pageIndex=1&pageUnit=20&idx=54974",
+        "date": "2024.06.04"
+    },
+    {
+        "title": "광주여대 MAUM교육원, 대학 구성원 소통 모임 ‘마음수다’ 진행",
+        "link": "https://dhnews.co.kr/news/view/1065581560294557",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경성대, ‘금융 인재양성 교육’ 운영",
+        "link": "https://dhnews.co.kr/news/view/1065581249551449",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "여기스터디사이버평생교육원, 최단기 취득 1년 과정 사회복지사 2급 4월 24일 개강",
+        "link": "https://dhnews.co.kr/news/view/1065579597674310",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "국립부경대-해양환경공단 해양환경조사연구원, ‘해양환경 보전’ MOU",
+        "link": "https://dhnews.co.kr/news/view/1065579117430558",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "명지대 교수기도회, 제자들을 위한 정오 음악회",
+        "link": "https://dhnews.co.kr/news/view/1065578757784224",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "신촌 그린컴퓨터아카데미 UIUX 웹퍼블리셔 취업대비 맞춤형 교육 진행",
+        "link": "https://dhnews.co.kr/news/view/1065578024427746",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "국립공주대 공주여성새로일하기센터, 5개 부문 여가부 장관 표창 수상",
+        "link": "https://dhnews.co.kr/news/view/1065577857792134",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "서울대 인문정보연구소-교원, ‘교육콘텐츠 개발’ 업무협약",
+        "link": "https://dhnews.co.kr/news/view/1065577777222340",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전북대, 시민과 함께하는 탄소중립 도시숲 조성",
+        "link": "https://dhnews.co.kr/news/view/1065577554541823",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "중견기업 맞춤형 인재, 지역 대학에서 맡는다",
+        "link": "https://dhnews.co.kr/news/view/1065577474765246",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전주대, ‘취업에 활용하는 생성형 AI교육’ 성료",
+        "link": "https://dhnews.co.kr/news/view/1065577119934302",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "GIST 강지승 박사, 고려대 최연소 교수 됐다",
+        "link": "https://dhnews.co.kr/news/view/1065575815361889",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인천대, 재능대와 RISE 사업 협력 위한 MOU",
+        "link": "https://dhnews.co.kr/news/view/1065576820901847",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한국항공대, ‘KAU 항공안전센터’ 개원",
+        "link": "https://dhnews.co.kr/news/view/1065576501960419",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "동아대, 하와이 현지서 입학설명회 진행",
+        "link": "https://dhnews.co.kr/news/view/1065576062173404",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "전남대 류지헌 교수, ‘X Realities and Learning 연구위원회’ 공동위원장 선출",
+        "link": "https://dhnews.co.kr/news/view/1065575211668732",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경북대 의대생 전원 복귀",
+        "link": "https://dhnews.co.kr/news/view/1065575130775828",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "건국대·서울시교육청교육연구정보원, RISE 사업 추진 MOU",
+        "link": "https://dhnews.co.kr/news/view/1065574993840011",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "“초등 사회 ‘역사’·과학 ‘산과 염기’ 어려워요…” 엘리하이 학습 앱으로 시작해 보세요",
+        "link": "https://dhnews.co.kr/news/view/1065597019985290",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "국립창원대, ‘나노다공성 망간산화물 친환경 합성법’ 세계 최초 개발",
+        "link": "https://dhnews.co.kr/news/view/1065574726071655",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "테솔로, ‘한중과학기술산업혁신포럼’서 로봇핸드 제품 소개",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132692",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "강성민 글항아리 대표, 출판도시문화재단 이사장 선임",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132690",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "광운대, 디지털헬스산업협회-스마트헬스케어협회와  신산업 분야 발전을 위한 업무협약(MOU) 체결",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132689",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "세종대 스마트생명산업융합학과 류제식 교수,  과기정통부 ‘2025년 신진연구자 인프라 지원사업’ 선정",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132688",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "청주대 윤성훈 교수 학술상 수상",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132687",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "리튬이온배터리, 꺼질 때까지 쓰면 수명 줄어든다!",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132686",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "영진사이버대학교, 2025학년도 YCU 취창업 특강 개최",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132684",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "인하대 강태준 교수 연구팀, 체온으로 전기 생산하는 인공피부 개발",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132683",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "김포대학교, 외국인 유학생 정착을 위한 설명회 성황리에 개최",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132682",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "세종대 대학일자리플러스센터, 2025년 컴퓨터활용능력 1급 대비 실무과정 운영",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132681",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "숙명여대-용산구, 지역혁신중심 대학지원체계(RISE) 사업 추진 업무협약 체결",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132680",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "변화를 원하면서도 망설이는 사람들…‘내 목소리’를 찾는 방법",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132623",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "서울은 만원을 넘어 초만원이다",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132624",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "외국인 유학생 86.5% “한국에서 취업하고 싶어요”",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132574",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한신대 종교와과학센터, ‘생명의 협력’ 기원과 미래를 밝힌다",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132619",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "김상돈의 교수만평",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132625",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "경복대학교, 영상미디어콘텐츠과 (주)칼리시와 취업보장형 산학협력 MOU 체결",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132678",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "미래 농업을 이끌 인재 양성을 위한 상지대 교육지원 프로그램",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132677",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한신대, ‘2025년 다시서기 어깨동무 인문학 교육 입학식’ 진행",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132675",
+        "date": "2025.03.28"
+    },
+    {
+        "title": "세종대 회화과, 2025년도 \" 날개전 '허밍–해빗(Humming–Habit)' \" 개최",
+        "link": "https://www.kyosu.net/news/articleView.html?idxno=132673",
+        "date": "2025.03.28"
+    },
+    {
+        "title": "대학의 재정 수입과 지출 분석을 통해 재정 안정화 방안 모색",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102965&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.31"
+    },
+    {
+        "title": "한전, 올해부터 3년간 고졸 일자리 300개 창출",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102948&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "지역 기반형 유아교육·보육으로 지방을 살린다",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102947&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.26"
+    },
+    {
+        "title": "일본 정부는 고등학교 교과서의 역사 왜곡을 즉각 시정하라!",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102944&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.25"
+    },
+    {
+        "title": "2026학년도 대학수학능력시험 6월 모의평가 시행계획 발표",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102939&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.25"
+    },
+    {
+        "title": "2026학년도 대학수학능력시험 시행기본계획 발표",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102938&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.25"
+    },
+    {
+        "title": "고교학점제의 모든 것, 교육부에 직접 물어보세요",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102921&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.24"
+    },
+    {
+        "title": "인적자원개발의 모범이 되는 공공기관과 기업을 찾습니다",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102920&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.24"
+    },
+    {
+        "title": "교육시설통합정보망을 통해 데이터 기반의 학교시설 안전 및 유지관리 체계 마련",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102895&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.20"
+    },
+    {
+        "title": "2025~2027년 대학·전문대학 혁신지원사업 및 국립대학육성사업 기본계획 발표",
+        "link": "https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=102894&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N",
+        "date": "2025.03.20"
+    }
+]
