@@ -24,3 +24,11 @@ yarn-error.log*
 __pycache__/
 *.pyc
 *.pyo
+
+#
+*.bin
+
+# FastText 모델 폴더
+models/
+
+backend/data/news.json
