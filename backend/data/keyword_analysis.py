@@ -36,52 +36,85 @@ def extract_university_keywords(tokenized_titles):
     return uni_keywords, other_titles
 
 
-def analyze_keywords(titles, tokenized_titles):
-    # === 대학교 기반 분류 ===
-    uni_keywords, remaining_titles = extract_university_keywords(tokenized_titles)
+def analyze_keywords(titles_with_links, tokenized_titles):
+    result = defaultdict(lambda: {"소분류": set(), "뉴스": []})
+    uni_pattern = re.compile(r".+대$")
 
-    print("\n=== [1] 대학교 기반 대분류/소분류 ===")
-    for uni, keywords in uni_keywords.items():
-        print(f"\n[대분류: {uni}]")
-        print("→ 소분류 키워드:", ', '.join(set(keywords)))
+    remaining_tokens = []
+    remaining_title_info = []
 
-    # === 기타 뉴스 처리 ===
-    if not remaining_titles:
-        print("\n※ 모든 키워드가 대학 기반으로 분류됨")
-        return
+    for idx, (item, tokens) in enumerate(zip(titles_with_links, tokenized_titles)):
+        title = item["title"]
+        link = item["link"]
 
-    dictionary = corpora.Dictionary(remaining_titles)
-    corpus = [dictionary.doc2bow(text) for text in remaining_titles]
-    lda_model = LdaModel(corpus, num_topics=10, id2word=dictionary, passes=15)
+        uni_kw = next((kw for kw in tokens if uni_pattern.match(kw)), None)
 
-    topics = []
-    print("\n=== [2] 기타 키워드 LDA 토픽 ===")
-    for topic_id in range(lda_model.num_topics):
-        keywords = lda_model.show_topic(topic_id, topn=5)
-        keyword_list = [word for word, _ in keywords]
-        if keyword_list:  # 비어있지 않은 경우만
-            topics.append(keyword_list)
-            print(f"토픽 {topic_id}: {', '.join(keyword_list)}")
+        if uni_kw:
+            main_kw = uni_kw
+        elif tokens:
+            main_kw = tokens[0]
+        else:
+            continue  # 키워드 없는 뉴스는 건너뜀
 
-    # === FastText 로드 및 클러스터링 ===
-    w2v_model = FastText.load(FASTTEXT_MODEL_PATH)
-    topic_vectors = [get_topic_vector(w2v_model, topic) for topic in topics]
-    n_clusters = 3
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    labels = kmeans.fit_predict(topic_vectors)
+        sub_keywords = [kw for kw in tokens if kw != main_kw]
 
-    # === 클러스터별 대분류/소분류 지정 ===
-    print("\n=== [3] 기타 키워드 기반 대분류/소분류 ===")
-    clustered_topics = defaultdict(list)
+        result[main_kw]["소분류"].update(sub_keywords)
+        result[main_kw]["뉴스"].append({"title": title, "link": link})
 
-    for i, label in enumerate(labels):
-        topic_keywords = topics[i]
-        if not topic_keywords:
-            continue
-        main_keyword = topic_keywords[0]
-        sub_keywords = topic_keywords[1:]
-        clustered_topics[main_keyword].extend(sub_keywords)
+        # 대학교 키워드 없을 경우 LDA 용으로 따로 저장
+        if not uni_kw:
+            remaining_tokens.append(tokens)
+            remaining_title_info.append({"title": title, "link": link, "tokens": tokens})
 
-    for main, subs in clustered_topics.items():
-        print(f"\n[대분류: {main}]")
-        print("→ 소분류 키워드:", ', '.join(set(subs)))
+    # === LDA + KMeans 분석 ===
+    if remaining_tokens:
+        dictionary = corpora.Dictionary(remaining_tokens)
+        corpus = [dictionary.doc2bow(text) for text in remaining_tokens]
+        lda_model = LdaModel(corpus, num_topics=10, id2word=dictionary, passes=15)
+
+        topics = []
+        for topic_id in range(lda_model.num_topics):
+            topic = [word for word, _ in lda_model.show_topic(topic_id, topn=5)]
+            if topic:
+                topics.append(topic)
+
+        w2v_model = FastText.load(FASTTEXT_MODEL_PATH)
+        topic_vectors = [get_topic_vector(w2v_model, topic) for topic in topics]
+        kmeans = KMeans(n_clusters=3, random_state=42)
+        labels = kmeans.fit_predict(topic_vectors)
+
+        clustered = defaultdict(list)
+        for i, label in enumerate(labels):
+            main = topics[i][0]
+            subs = topics[i][1:]
+            clustered[main].extend(subs)
+
+        # 클러스터링 결과 등록
+        for main, subs in clustered.items():
+            result[main]["소분류"].update(subs)
+
+        # 뉴스 분배
+        for item in remaining_title_info:
+            title, link, tokens = item["title"], item["link"], item["tokens"]
+            matched_main = None
+
+            for main in clustered:
+                if any(tok in clustered[main] or tok == main for tok in tokens):
+                    matched_main = main
+                    break
+
+            if matched_main:
+                result[matched_main]["뉴스"].append({"title": title, "link": link})
+
+    # set → list 변환
+    for val in result.values():
+        val["소분류"] = list(val["소분류"])
+
+    for main_category, data in result.items():
+        print(f"\n📌 대분류: {main_category}")
+        print(f"   └ 소분류: {', '.join(data['소분류'])}")
+        print("   └ 관련 뉴스:")
+        for news in data["뉴스"]:
+            print(f"      - 📰 {news['title']}")
+            print(f"        🔗 {news['link']}")
+    return result
