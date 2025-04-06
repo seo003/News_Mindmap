@@ -1,7 +1,6 @@
 import os
 
-# backend/ 폴더를 기준으로 경로 설정
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # backend/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 CONFIG_DIF = os.path.join(BASE_DIR, "config")
 
