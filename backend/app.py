@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from flask_cors import CORS  # 🔥 CORS import
+from flask_cors import CORS
 from data.keyword_extraction import extract_keywords
 from data.keyword_analysis import analyze_keywords
 

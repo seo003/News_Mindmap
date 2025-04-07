@@ -3,38 +3,13 @@ from gensim import corpora
 from gensim.models import LdaModel, FastText
 from sklearn.cluster import KMeans
 import numpy as np
-from config.config import FASTTEXT_MODEL_PATH, EXCLUDED_UNIVERSITY_PATH
+from config.config import FASTTEXT_MODEL_PATH
 import re
 from collections import defaultdict
-
-def load_excluded_universities(filepath):
-    if not os.path.exists(filepath):
-        return set()
-    with open(filepath, 'r', encoding='utf-8') as f:
-        return set(line.strip() for line in f if line.strip())
 
 def get_topic_vector(w2v_model, keywords):
     vectors = [w2v_model.wv[word] for word in keywords if word in w2v_model.wv]
     return np.mean(vectors, axis=0) if vectors else np.zeros(w2v_model.vector_size)
-
-def extract_university_keywords(tokenized_titles):
-    uni_keywords = defaultdict(list)
-    other_titles = []
-
-    # 제외할 대학교 유사 키워드 불러오기
-    excluded_unis = load_excluded_universities(EXCLUDED_UNIVERSITY_PATH)
-
-    for tokens in tokenized_titles:
-        unis = [word for word in tokens if re.match(r'.+대$', word) and word not in excluded_unis]
-        if unis:
-            for uni in unis:
-                related_keywords = [t for t in tokens if t != uni]
-                uni_keywords[uni].extend(related_keywords)
-        else:
-            other_titles.append(tokens)
-
-    return uni_keywords, other_titles
-
 
 def analyze_keywords(titles_with_links, tokenized_titles):
     result = defaultdict(lambda: {"소분류": set(), "뉴스": []})
@@ -66,7 +41,7 @@ def analyze_keywords(titles_with_links, tokenized_titles):
             remaining_tokens.append(tokens)
             remaining_title_info.append({"title": title, "link": link, "tokens": tokens})
 
-    # === LDA + KMeans 분석 ===
+    # LDA + KMeans 분석
     if remaining_tokens:
         dictionary = corpora.Dictionary(remaining_tokens)
         corpus = [dictionary.doc2bow(text) for text in remaining_tokens]
@@ -106,15 +81,15 @@ def analyze_keywords(titles_with_links, tokenized_titles):
             if matched_main:
                 result[matched_main]["뉴스"].append({"title": title, "link": link})
 
-    # set → list 변환
+    # set → list
     for val in result.values():
         val["소분류"] = list(val["소분류"])
 
     for main_category, data in result.items():
-        print(f"\n📌 대분류: {main_category}")
-        print(f"   └ 소분류: {', '.join(data['소분류'])}")
-        print("   └ 관련 뉴스:")
+        print(f"\n 대분류: {main_category}")
+        print(f"소분류: {', '.join(data['소분류'])}")
+        print("관련 뉴스:")
         for news in data["뉴스"]:
-            print(f"      - 📰 {news['title']}")
-            print(f"        🔗 {news['link']}")
+            print(f"-  {news['title']}")
+            print(f"   {news['link']}")
     return result

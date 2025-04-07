@@ -30,3 +30,6 @@ models/
 
 # 뉴스 데이터
 backend/data/news.json
+
+# 테스트 파일
+backend/test_run.py
