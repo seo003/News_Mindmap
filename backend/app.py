@@ -1,11 +1,13 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
+from flask_cors import CORS 
 from data.keyword_extraction import extract_keywords
 from data.keyword_analysis import analyze_keywords
 
+# Flask 앱 생성
 app = Flask(__name__)
 CORS(app)  
 
+# 키워드 분석 API
 @app.route("/api/keywords", methods=["GET"])
 def get_keywords():
     news_data, tokenized_titles = extract_keywords()
