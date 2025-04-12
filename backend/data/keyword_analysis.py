@@ -29,7 +29,7 @@ def analyze_keywords(titles_with_links, tokenized_titles):
         elif tokens:
             main_kw = tokens[0]
         else:
-            continue  # 키워드 없는 뉴스는 건너뜀
+            continue 
 
         sub_keywords = [kw for kw in tokens if kw != main_kw]
 

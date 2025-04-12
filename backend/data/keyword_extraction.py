@@ -35,5 +35,5 @@ def extract_keywords():
         tokenized_titles.append(unique_nouns)
         print(unique_nouns)
 
-    print(f"✅ 키워드 추출 완료 (총 {len(tokenized_titles)}개)")    
+    print(f"키워드 추출 완료 (총 {len(tokenized_titles)}개)")    
     return news_data, tokenized_titles
