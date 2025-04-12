@@ -50,7 +50,7 @@ body {
   border-radius: 100px;
   background-color: #13CE66;
   animation-name: loading-bar;
-  animation-duration: 5000ms;
+  animation-duration: 82000ms;
   animation-iteration-count: infinite;
   animation-timing-function: ease-out;
 }
