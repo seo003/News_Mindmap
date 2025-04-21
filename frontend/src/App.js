@@ -1,70 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import MindMap from './components/MindMap';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [keywords, setKeywords] = useState([]);
-
+  const [keywords, setKeywords] = useState(null);
 
   useEffect(() => {
-    // 로딩화면
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setLoading(false);
-    }, 80000);
+    }, 1000);
 
-    // Flask API에서 데이터 전달
+    // Flask API 호출
     fetch("http://localhost:5000/api/keywords")
       .then(response => response.json())
       .then(data => {
         setKeywords(data);
+        setLoading(false); 
       })
       .catch(error => {
         console.error("Error fetching data:", error);
+        setLoading(false); 
       });
+
+    return () => clearTimeout(timer); // cleanup
   }, []);
 
-  // 뉴스 크롤링 및 분석 로딩 화면
-  if (loading) {
+  // 로딩 중일 때
+  if (loading || !keywords) {
     return (
-      <section class="loading">
-        <h1 class="loading-title">뉴스정보 가져오는 중...</h1>
-        <div class="progress-bar" aria-hidden="true">
-          <span class="progress-bar-gauge"></span>
+      <section className="loading">
+        <h1 className="loading-title">뉴스정보 가져오는 중...</h1>
+        <div className="progress-bar" aria-hidden="true">
+          <span className="progress-bar-gauge"></span>
         </div>
       </section>
     );
   }
 
+  // 마인드맵 출력
   return (
     <div>
       <h1>마인드맵</h1>
-      <div>
-        {Object.keys(keywords).map((key) => (
-          <div key={key}>
-            <h2>{key}</h2> {/* 학교 이름/키워드 */}
-            <div>
-              <h3>뉴스</h3>
-              <ul>
-                {keywords[key].뉴스.map((newsItem, index) => (
-                  <li key={index}>
-                    <a href={newsItem.link} target="_blank" rel="noopener noreferrer">
-                      {newsItem.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3>소분류</h3>
-              <ul>
-                {keywords[key].소분류.map((subKeyword, index) => (
-                  <li key={index}>{subKeyword}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
+      <MindMap keywords={keywords} />
     </div>
   );
 }
