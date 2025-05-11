@@ -16,10 +16,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend": "react-scripts start",
+    "backend": "cross-env PYTHONIOENCODING=utf-8 python ../backend/app.py"
   },
   "eslintConfig": {
     "extends": [
@@ -38,5 +37,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3"
   }
 }

@@ -1,112 +1,212 @@
 import React, { useState, useRef, useEffect } from "react";
 import 'aframe';
 import { ForceGraph2D } from 'react-force-graph';
+
+import { useMindmapHandler } from "./useMindmapHandler"; 
 import {
   generateInitialMindMapData,
-  getSubNodesAndLinks
-} from "../utils/mindmapData";
+  parseNodeId,
+} from "../utils/mindmapUtil"; 
+
 
 const MindMap = ({ keywords }) => {
   const initialData = generateInitialMindMapData(keywords);
   const [graphData, setGraphData] = useState(initialData);
-  const [expandedCategory, setExpandedCategory] = useState(null);
-  const fgRef = useRef();  
 
-  const handleNodeClick = (node) => {
-    const isMainCategory = keywords[node.id];
+  const [expandedNodeIds, setExpandedNodeIds] = useState(new Set());
 
-    if (isMainCategory) {
-      const newCategory = node.id;
+  const fgRef = useRef();
 
-      const prevSubPrefix = expandedCategory ? `${expandedCategory}-` : null;
+  const {
+      handleNodeClick,
+      selectedNews,
+      setSelectedNews,
+      selectedNodeIdForNews,
+      setSelectedNodeIdForNews,
+  } = useMindmapHandler({
+      keywords,
+      fgRef,
+      graphData, setGraphData,
+      expandedNodeIds, setExpandedNodeIds,
+  });
 
-      const filteredNodes = graphData.nodes.filter(
-        (n) => !(prevSubPrefix && n.id.startsWith(prevSubPrefix))
-      );
 
-      const filteredLinks = graphData.links.filter((l) => {
-        const sourceId = typeof l.source === "object" ? l.source.id : l.source;
-        const targetId = typeof l.target === "object" ? l.target.id : l.target;
-        return !(
-          prevSubPrefix &&
-          sourceId === expandedCategory &&
-          targetId.startsWith(prevSubPrefix)
-        );
-      });
-
-      const { nodes: subNodes, links: subLinks } = getSubNodesAndLinks(
-        newCategory,
-        keywords[newCategory].소분류
-      );
-
-      setGraphData({
-        nodes: [...filteredNodes, ...subNodes],
-        links: [...filteredLinks, ...subLinks],
-      });
-
-      setExpandedCategory(newCategory);
+  useEffect(() => {
+    console.log("Keywords prop updated, regenerating initial mind map data.");
+    const newInitialData = generateInitialMindMapData(keywords);
+    setGraphData(newInitialData);
+    setExpandedNodeIds(new Set());
+    setSelectedNews(null); // 훅에서 받은 setter 사용
+    setSelectedNodeIdForNews(null); // 훅에서 받은 setter 사용
+    if (fgRef.current) {
+      fgRef.current.centerAt(0, 0, 1000);
     }
-  };
+  }, [keywords, setGraphData, setExpandedNodeIds, setSelectedNews, setSelectedNodeIdForNews]);
 
-  // 최초 렌더 시 중앙으로 줌인 및 퍼지게 설정
+
   useEffect(() => {
     if (fgRef.current) {
-      fgRef.current.centerAt(0, 0, 1000); 
-      fgRef.current.zoom(4);  
+      fgRef.current.d3Force('charge').strength(-450);
     }
-  }, []);
+  }, [graphData]); 
 
-  // 노드 위에 동그라미와 글자 표시
-const nodeCanvasObject = (node, ctx) => {
-  let nodeRadius;
-  let fontSize;
 
-  if (node.id === "뉴스") { // 메인 
-    nodeRadius = 20; 
-    fontSize = 12;
-  } else if (node.group === 0) { // 대분류 
-    nodeRadius = 10; 
-    fontSize = 7;
-  } else { // 소분류 
-    nodeRadius = 10; 
-    fontSize = 7;
-  }
+  const nodeCanvasObject = (node, ctx, scale) => {
+    // 유효한지 확인
+    if (!node || !node.id) {
+      console.warn("Skipping rendering for invalid node:", node);
+      return;
+    }
 
-  // 동그라미 그리기
-  ctx.beginPath();
-  ctx.arc(node.x, node.y, nodeRadius, 0, Math.PI * 2, false);
-  ctx.fillStyle = node.group === 0 ? 'lightblue' : 'lightgreen';
-  ctx.fill();
+    const label = node.label;
 
-  // 글자 그리기
-  ctx.font = `${fontSize}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = node.group === 0 ? 'black' : 'white';
-  ctx.fillText(node.id, node.x, node.y);
-};
+    let nodeRadius;
+    let fontSize;
+    let circleColor;
+    let textColor = 'black';
+
+    // Apply styling based on node level
+    if (node.level === 0) {
+      nodeRadius = 25; fontSize = 20; circleColor = '#ff9800'; textColor = 'white';
+    } else if (node.level === 1) {
+      nodeRadius = 18; fontSize = 20; circleColor = '#2196f3'; textColor = 'white';
+    } else if (node.level === 2) {
+      nodeRadius = 18; fontSize = 20; circleColor = '#4caf50'; textColor = 'white';
+    } else {
+      nodeRadius = 8; fontSize = 6; circleColor = '#9e9e9e'; textColor = 'black';
+      console.warn("Rendering node with unexpected level:", node);
+    }
+
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, nodeRadius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = circleColor;
+    ctx.fill();
+
+    // 줌 관계 없이 글자 크기 일정
+    const scaledFontSize = fontSize / scale;
+    ctx.font = `${scaledFontSize}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = textColor;
+    ctx.fillText(label, node.x, node.y);
+
+  };
+
+  const nodePointerAreaCanvasObject = (node, ctx, scale) => {
+    // 유효한지 확인
+    if (!node || !node.id) {
+      return;
+    }
+    let r = 18;
+    if (node.level === 0) r = 25;
+    else if (node.level === 1) r = 18;
+
+    // 클릭 영역 계산
+    const clickRadius = r * 1.5;
+
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, clickRadius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+    ctx.fill();
+  };
 
 
   return (
-    <div style={{ width: '100%', height: '90vh' }}>
+    <div style={{ position: 'relative', width: '100%', height: '90vh' }}>
       <ForceGraph2D
-        ref={fgRef} 
+        ref={fgRef}
         graphData={graphData}
-        nodeAutoColorBy="group"
-        nodeCanvasObject={nodeCanvasObject}  
-        onNodeClick={handleNodeClick}
-        linkDirectionalParticles={0}
-        linkDirectionalParticleSpeed={0.005}
-        d3Force="collide"
-        d3ForceCollide={50} 
-        d3ForceManyBody={0}
-        forceEngine="d3"
-        d3ForceCenter={null} 
-        linkWidth={2}
-        linkColor="#aaa"
-        nodeRelSize={10} 
-        nodeId="id"
+        nodeLabel="label"
+        nodeCanvasObject={nodeCanvasObject}
+        nodePointerAreaCanvasObject={nodePointerAreaCanvasObject}
+        onNodeClick={handleNodeClick} // 훅에서 받은 핸들러 사용
+        linkWidth={link => {
+           // 링크가 유효한지 확인
+           const sourceId = typeof link.source === 'object' ? link.source?.id : link.source;
+           const targetId = typeof link.target === 'object' ? link.target?.id : link.target;
+
+           if (!sourceId || !targetId) {
+             return 1;
+           }
+
+           const targetNode = graphData.nodes.find(n => n.id === targetId); // graphData 컴포넌트 상태 사용
+
+           if (targetNode) {
+             if (targetNode.level === 1) return 2;
+             if (targetNode.level === 2) return 1.5;
+           }
+           return 1;
+         }}
+        linkCanvasObject={(link, ctx, scale) => {
+           // 링크 그리기 (필요 시 화살표 등 추가 가능)
+           const source = typeof link.source === 'object' ? link.source : graphData.nodes.find(node => node.id === link.source); // graphData 사용
+           const target = typeof link.target === 'object' ? link.target : graphData.nodes.find(node => node.id === link.target); // graphData 사용
+
+           // 유효하지 않은 링크는 그리지 않음
+           if (!source || !target || !source.id || !target.id) {
+             return;
+           }
+
+
+           const start = { x: source.x, y: source.y };
+           const end = { x: target.x, y: target.y };
+
+           ctx.beginPath();
+           ctx.moveTo(start.x, start.y);
+           ctx.lineTo(end.x, end.y);
+           ctx.strokeStyle = link.color || '#cccccc';
+           ctx.lineWidth = link.width || 1;
+           ctx.stroke();
+         }}
+
       />
+
+      {/* 뉴스 목록 */}
+      {/* 훅에서 관리되는 상태 사용 */}
+      {selectedNews !== null && selectedNodeIdForNews && (
+        <div
+          style={{
+            position: 'absolute', top: '20px', right: '20px',
+            backgroundColor: 'white', border: '1px solid #ccc', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            maxWidth: '400px', maxHeight: '80%', overflowY: 'auto', zIndex: 1000,
+          }}
+        >
+          {/* 패널 닫기 버튼 */}
+          {/* 훅에서 받은 setter 사용 */}
+          <button
+            onClick={() => { setSelectedNews(null); setSelectedNodeIdForNews(null); }}
+            style={{
+              position: 'absolute', top: '5px', right: '5px',
+              background: 'none', border: 'none', fontSize: '1.2em',
+              cursor: 'pointer', color: '#888'
+            }}
+          >
+            &times;
+          </button>
+          {/* 패널 제목 */}
+          {/* 훅에서 받은 상태와 parseNodeId 헬퍼 사용 */}
+          <h4>{`'${selectedNodeIdForNews ? (parseNodeId(selectedNodeIdForNews)?.middleKeyword || parseNodeId(selectedNodeIdForNews)?.majorKeyword || '뉴스') : '뉴스'}' 관련 뉴스`}</h4>
+          {selectedNews.length === 0 ? (
+            <p>관련 뉴스가 없습니다.</p>
+          ) : (
+            <ul>
+              {selectedNews.map((news, index) => (
+                // 뉴스 객체가 유효한지 확인
+                news && news.link && news.title ? (
+                  // 뉴스 링크 클릭 시 새 탭에 표시
+                  <li key={index} style={{ marginBottom: '10px', wordBreak: 'break-word' }}>
+                    <a href={news.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#0066cc' }}>
+                      <strong>{news.title}</strong>
+                    </a>
+                  </li>
+                ) : (
+                  <li key={index} style={{ marginBottom: '10px', color: '#999' }}>유효하지 않은 뉴스 항목</li>
+                )
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };

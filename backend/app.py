@@ -5,7 +5,8 @@ from data.keyword_analysis import analyze_keywords
 
 # Flask 앱 생성
 app = Flask(__name__)
-CORS(app)  
+# CORS(app)  
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 # 키워드 분석 API
 @app.route("/api/keywords", methods=["GET"])
