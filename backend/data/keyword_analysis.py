@@ -174,7 +174,7 @@ def analyze_keywords(titles_with_links, tokenized_titles, num_final_topics=10, n
 
         used_keywords_in_topic = {group_name}
 
-        # --- '대학교' 대분류: 모든 대학교 이름을 중분류 후보로 추가 ---
+        # '대학교' 대분류: 모든 대학교 이름을 중분류 후보로 추가
         if group_name == university_aggregate_name:
             if all_universities_with_news:
                 for uni_name in all_universities_with_news:
@@ -189,7 +189,7 @@ def analyze_keywords(titles_with_links, tokenized_titles, num_final_topics=10, n
                 processed_group_names_for_structure.add(group_name)
 
 
-        # --- '대학교' 외 다른 대분류 (LDA 토픽 기반): 상위 LDA 키워드를 중분류 후보로 추가 ---
+        # '대학교' 외 다른 대분류 (LDA 토픽 기반): 상위 LDA 키워드를 중분류 후보로 추가 
         elif group_type == "topic":
             if group_name in primary_topic_groups:
                 group_data = primary_topic_groups[group_name]

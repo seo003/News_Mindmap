@@ -36,8 +36,8 @@ const MindMap = ({ keywords }) => {
     const newInitialData = generateInitialMindMapData(keywords);
     setGraphData(newInitialData);
     setExpandedNodeIds(new Set());
-    setSelectedNews(null); // 훅에서 받은 setter 사용
-    setSelectedNodeIdForNews(null); // 훅에서 받은 setter 사용
+    setSelectedNews(null); 
+    setSelectedNodeIdForNews(null); 
     if (fgRef.current) {
       fgRef.current.centerAt(0, 0, 1000);
     }
