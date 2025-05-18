@@ -18,7 +18,7 @@
   "scripts": {
     "start": "concurrently \"npm run frontend\" \"npm run backend\"",
     "frontend": "react-scripts start",
-    "backend": "cross-env PYTHONIOENCODING=utf-8 python ../backend/app.py"
+    "backend": "conda activate news-env && cross-env PYTHONIOENCODING=utf-8 python ../backend/app.py"
   },
   "eslintConfig": {
     "extends": [

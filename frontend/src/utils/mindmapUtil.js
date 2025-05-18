@@ -143,5 +143,23 @@ export const generateInitialMindMapData = (keywordsData) => {
         }
     });
 
+    const initialSpreadRadius = 400; 
+
+    nodes.forEach(node => {
+      if (node.level === 0) {
+        // 중앙 노드 (0,0)
+        node.x = 0;
+        node.y = 0;
+        node.fx = 0;
+        node.fy = 0;
+      } else {
+        // 다른 노드: 랜덤 위치
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = initialSpreadRadius * Math.sqrt(Math.random()); // 원형으로 고르게
+        node.x = radius * Math.cos(angle);
+        node.y = radius * Math.sin(angle);
+      }
+    });
+
     return { nodes, links };
 };

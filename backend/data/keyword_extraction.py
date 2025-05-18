@@ -22,6 +22,7 @@ def extract_nouns_full(title, stopwords):
     return nouns
 
 def extract_keywords():
+    print("키워드 추출 중...")
     with open(news_path, "r", encoding="utf-8") as f:
         news_data = json.load(f)
 
