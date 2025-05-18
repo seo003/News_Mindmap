@@ -7,7 +7,7 @@ from config.config import FASTTEXT_MODEL_PATH
 import re
 from collections import defaultdict, Counter
 
-# 뉴스 기사가 하나도 없는 대분류, 중분류 항목 제거 함수 
+# 중분류가 없거나 뉴스가 없는 대분류 노드 제거거
 def remove_empty_categories(categories):
     removed_categories = []
 

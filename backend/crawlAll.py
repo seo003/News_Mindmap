@@ -36,9 +36,10 @@ def crawl_all():
         thread.join()
 
     # JSON 파일로 저장
-    with open("data/news.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    # with open("data/news.json", "w", encoding="utf-8") as f:
+    #     json.dump(data, f, ensure_ascii=False, indent=4)
 
     print("크롤링 완료: 총 {len(data)}개 기사 수집")
+    return data
 
-crawl_all()
+# crawl_all()
