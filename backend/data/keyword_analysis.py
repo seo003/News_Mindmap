@@ -14,18 +14,18 @@ def remove_empty_categories(categories):
     MIDDLE_LIST_KEY = "middleKeywords"
     RELATED_NEWS_KEY = "relatedNews"
 
-    for daefunryu in categories:
-        removed_middle_categories = []
+    for main_category in categories:
+        valid_middle_categories = []
 
         # 중분류에 뉴스가 있는지 확인하고 유효한 중분류만 남김
-        for trungfunryu in daefunryu.get(MIDDLE_LIST_KEY, []):
-            if trungfunryu.get(RELATED_NEWS_KEY): 
-                removed_middle_categories.append(trungfunryu)
+        for middle_category in main_category.get(MIDDLE_LIST_KEY, []):
+            if middle_category.get(RELATED_NEWS_KEY): 
+                valid_middle_categories.append(middle_category)
 
-        daefunryu[MIDDLE_LIST_KEY] = removed_middle_categories
+        main_category[MIDDLE_LIST_KEY] = valid_middle_categories
 
-        if daefunryu.get(MIDDLE_LIST_KEY):
-            removed_categories.append(daefunryu)
+        if main_category.get(MIDDLE_LIST_KEY):
+            removed_categories.append(main_category)
 
     return removed_categories
 

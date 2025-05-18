@@ -12,7 +12,7 @@ from crawl.usline import get_data as usline
 from crawl.veritas import get_data as veritas
 from crawl.yna import get_data as yna
 
-# 락을 생성
+
 lock = threading.Lock()
 
 def fetch_news(source, result_list):
@@ -39,6 +39,6 @@ def crawl_all():
     with open("data/news.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-    print("✅ 크롤링 완료: news.json 저장됨")
+    print("크롤링 완료: 총 {len(data)}개 기사 수집")
 
 crawl_all()
