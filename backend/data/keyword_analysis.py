@@ -3,15 +3,13 @@ from collections import defaultdict, Counter
 import numpy as np
 from gensim.models import FastText
 from sklearn.cluster import KMeans
-from config.config import FASTTEXT_MODEL_PATH
+from config.config import FASTTEXT_MODEL_PATH, NON_UNIV_WORD_PATH
 
 MAJOR_KEY = "majorKeyword"
 MIDDLE_LIST_KEY = "middleKeywords"
 MIDDLE_ITEM_KEY = "middleKeyword"
 RELATED_NEWS_KEY = "relatedNews"
 OTHER_NEWS_KEY = "otherNews"
-
-
 
 """토큰 리스트의 평균 벡터 계산"""
 def get_document_vector(w2v_model, tokens):
@@ -21,16 +19,26 @@ def get_document_vector(w2v_model, tokens):
     return np.mean(w2v_model.wv[valid_words], axis=0)
 
 
+"""예외 키워드 목록을 텍스트 파일에서 불러오기"""
+def load_exclude_words(filepath):
+    with open(filepath, "r", encoding="utf-8") as file:
+        return set(line.strip() for line in file if line.strip())
+
+
 """대학 이름 기반 뉴스 분류, '대'로 끝나는 단어와 예외 KAIST 처리"""
 def split_news_by_uni_name(titles_with_links, tokenized_titles):
     univ_news = defaultdict(list)
     other_news = []
     # '대'로 끝나는 단어 정규표현식
     uni_pattern = re.compile(r".+대$")
+    # 대학교 명이 아닌 제외단어 리스트
+    exclude_words = load_exclude_words(NON_UNIV_WORD_PATH)
+
     for item, tokens in zip(titles_with_links, tokenized_titles):
         # news_info = {제목, 링크, 토큰}
         news_info = {"title": item["title"], "link": item["link"], "tokens": tokens}
-        uni_kw = next((kw for kw in tokens if uni_pattern.match(kw)), None)
+        uni_kw = next((kw for kw in tokens if uni_pattern.match(kw) and kw not in exclude_words), None)
+
         if not uni_kw and "KAIST" in tokens:
             uni_kw = "KAIST"
 
