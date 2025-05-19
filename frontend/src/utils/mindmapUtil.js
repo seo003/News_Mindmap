@@ -109,7 +109,14 @@ export const generateInitialMindMapData = (keywordsData) => {
          return { nodes: [], links: [] };
     }
     // 노드 객체 생성 시 parentId 설정
-    const nodes = [{ id: centralNodeId, group: 0, level: 0, label: "뉴스", type: 'central', parentId: null }];
+    const nodes = [{
+        id: centralNodeId,
+        group: 0,
+        level: 0,
+        label: "뉴스",
+        type: 'central',
+        parentId: null,
+    }];
     const links = [];
 
     if (!keywordsData || !Array.isArray(keywordsData)) {
