@@ -13,8 +13,8 @@ OTHER_NEWS_KEY = "otherNews"
 
 
 
+"""토큰 리스트의 평균 벡터 계산"""
 def get_document_vector(w2v_model, tokens):
-    """토큰 리스트의 평균 벡터 계산"""
     valid_words = [w for w in tokens if w in w2v_model.wv]
     if not valid_words:
         return np.zeros(w2v_model.vector_size)
@@ -43,8 +43,8 @@ def split_news_by_uni_name(titles_with_links, tokenized_titles):
     return univ_news, other_news
 
 
+"""FastText 임베딩으로 KMeans 클러스터링 실행"""
 def cluster_news(kmeans_num, news_list):
-    """FastText 임베딩으로 KMeans 클러스터링 실행"""
     try:
         # FastText 모델 불러오기기
         w2v_model = FastText.load(FASTTEXT_MODEL_PATH)
@@ -70,8 +70,8 @@ def cluster_news(kmeans_num, news_list):
     return {}
 
 
+"""대분류 카테고리 생성 (대학교 및 클러스터)"""
 def create_major_categories(uni_news, clustered_news):
-    """대분류 카테고리 생성 (대학교 및 클러스터)"""
     results = []
     # '대학교' 대분류 구조 생성
     if uni_news:
@@ -123,8 +123,8 @@ def create_major_categories(uni_news, clustered_news):
     return results
 
 
+"""각 대분류 내에서 중분류 키워드 선정 및 뉴스 할당"""
 def assign_middle_categories(category, university_news_by_name, num_middle_keywords):
-    """각 대분류 내에서 중분류 키워드 선정 및 뉴스 할당"""
     # 대분류 이름, 해당 뉴스 가져오기 및 초기화 
     major_name = category.get(MAJOR_KEY)
     news_list = category.get(OTHER_NEWS_KEY, [])
@@ -213,8 +213,9 @@ def assign_middle_categories(category, university_news_by_name, num_middle_keywo
 
     category[OTHER_NEWS_KEY] = final_others
 
+
+"""중분류가 없거나 뉴스가 없는 대분류 제거"""
 def remove_empty_categories(categories):
-    """중분류가 없거나 뉴스가 없는 대분류 제거"""
     cleaned = []
     for major in categories:
         valid_middles = [m for m in major.get(MIDDLE_LIST_KEY, []) if m.get(RELATED_NEWS_KEY)]
