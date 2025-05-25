@@ -58,5 +58,3 @@ def get_data():
         driver.quit() 
 
     return result
-
-get_data()
