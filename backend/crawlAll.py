@@ -11,6 +11,8 @@ from crawl.unn import get_data as unn
 from crawl.usline import get_data as usline
 from crawl.veritas import get_data as veritas
 from crawl.yna import get_data as yna
+from crawl.incheonilbo import get_data as incheonilbo
+from crawl.kyeongin import get_data as kyeongin
 
 
 lock = threading.Lock()
@@ -25,7 +27,7 @@ def crawl_all():
     data = []
     threads = []
 
-    sources = [chosun, dhnews, incheon, kcce, kyosu, moe, unipress, unn, usline, veritas, yna]
+    sources = [chosun, dhnews, incheon, kcce, kyosu, moe, unipress, unn, usline, veritas, yna, incheonilbo, kyeongin]
 
     for source in sources:
         thread = threading.Thread(target=fetch_news, args=(source, data))
@@ -39,7 +41,7 @@ def crawl_all():
     # with open("data/news.json", "w", encoding="utf-8") as f:
     #     json.dump(data, f, ensure_ascii=False, indent=4)
 
-    print("크롤링 완료: 총 {len(data)}개 기사 수집")
+    print(f"크롤링 완료: 총 {len(data)}개 기사 수집")
     return data
 
 # crawl_all()
