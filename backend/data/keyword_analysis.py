@@ -54,7 +54,7 @@ def split_news_by_uni_name(titles_with_links, tokenized_titles):
 """FastText 임베딩으로 KMeans 클러스터링 실행"""
 def cluster_news(kmeans_num, news_list):
     try:
-        # FastText 모델 불러오기기
+        # FastText 모델 불러오기
         w2v_model = FastText.load(FASTTEXT_MODEL_PATH)
         # 뉴스 tokens 벡터전환 
         vectors = np.array([get_document_vector(w2v_model, item["tokens"]) for item in news_list])
@@ -81,20 +81,23 @@ def cluster_news(kmeans_num, news_list):
 """대분류 카테고리 생성 (대학교 및 클러스터)"""
 def create_major_categories(uni_news, clustered_news):
     results = []
-    # '대학교' 대분류 구조 생성
+
     if uni_news:
         uni_category = {
             MAJOR_KEY: "대학교",
             MIDDLE_LIST_KEY: [],
             OTHER_NEWS_KEY: []
         }
-        # all_uni_news: [{title, link, tokens}, {}]
-        all_uni_news = [item for news_list in uni_news.values() for item in news_list]
-        # 기타뉴스에 저장
-        uni_category[OTHER_NEWS_KEY].extend(all_uni_news)
-        results.append(uni_category)
 
-    # 근데 이걸 그냥 all_uni_news로 하지 말고 이미 '학교명' : title, link, tokens 있으니까 그대로 중분류 넣으면 되는거 아님?
+        for uni_name, news_list in uni_news.items():
+            if not news_list:
+                continue
+            uni_category[MIDDLE_LIST_KEY].append({
+                MIDDLE_ITEM_KEY: uni_name,
+                RELATED_NEWS_KEY: news_list
+            })
+
+        results.append(uni_category)
 
     # KMeans 클러스터링 기반 대분류 추가
     if clustered_news:
@@ -130,11 +133,45 @@ def create_major_categories(uni_news, clustered_news):
 
     return results
 
+""" 중분류 개수 제한 및 기타 뉴스 분리 처리 """
+def trim_middle_categories(category, num_middle_keywords):
+   
+    middle_categories = category.get(MIDDLE_LIST_KEY, [])
+    unassigned_news = []
+
+    # 뉴스 수 기준 정렬
+    middle_categories = sorted(middle_categories, key=lambda c: len(c[RELATED_NEWS_KEY]), reverse=True)
+    top_middle = middle_categories[:min(num_middle_keywords, 10)]
+    removed = middle_categories[min(num_middle_keywords, 10):]
+
+    # 제거된 중분류 뉴스들을 기타 뉴스로 이동
+    for rem in removed:
+        unassigned_news.extend(rem.get(RELATED_NEWS_KEY, []))
+
+    # 기타 뉴스 중복 제거
+    seen_links = set()
+    final_others = []
+    for news in unassigned_news:
+        link = news.get("link")
+        if link and link not in seen_links:
+            final_others.append(news)
+            seen_links.add(link)
+
+    # 최종 반영
+    category[MIDDLE_LIST_KEY] = top_middle
+    category[OTHER_NEWS_KEY] = final_others
+
 
 """각 대분류 내에서 중분류 키워드 선정 및 뉴스 할당"""
-def assign_middle_categories(category, university_news_by_name, num_middle_keywords):
+def assign_middle_categories(category, num_middle_keywords):
     # 대분류 이름, 해당 뉴스 가져오기 및 초기화 
     major_name = category.get(MAJOR_KEY)
+
+    # '대학교'는 trim만 수행
+    if major_name == "대학교":
+        trim_middle_categories(category, num_middle_keywords)
+        return
+    
     news_list = category.get(OTHER_NEWS_KEY, [])
     category[MIDDLE_LIST_KEY] = []
     category[OTHER_NEWS_KEY] = []
@@ -143,16 +180,11 @@ def assign_middle_categories(category, university_news_by_name, num_middle_keywo
     if not news_list:
         return
 
-    # 중분류 후보 키워드 선정
-    if major_name == "대학교":
-        # 대학교 일 경우 key('00대')를 중분류로 사용
-        middle_keywords = list(university_news_by_name.keys())
-    else:
-        # tokens의 빈도수 기반으로 중분류 설정
-        all_tokens = [token for news in news_list for token in news["tokens"]]
-        token_counts = Counter(all_tokens)
-        candidates = [w for w, _ in token_counts.most_common(num_middle_keywords * 3 + 5) if len(w) > 1 and w != major_name]
-        middle_keywords = candidates[:num_middle_keywords * 2]
+    # 중분류 후보 키워드 선정(tokens의 빈도수 기반)
+    all_tokens = [token for news in news_list for token in news["tokens"]]
+    token_counts = Counter(all_tokens)
+    candidates = [w for w, _ in token_counts.most_common(num_middle_keywords * 3 + 5) if len(w) > 1 and w != major_name]
+    middle_keywords = candidates[:num_middle_keywords * 2]
 
     # 중분류 구조 생성
     middle_categories = [{
@@ -184,42 +216,13 @@ def assign_middle_categories(category, university_news_by_name, num_middle_keywo
         if not assigned:
             unassigned_news.append(news)
             assigned_links.add(news_link)
-
-    # 중분류 필터링 
-    # valid_middle_categories = []
-    # news_from_removed_singletons = [] 
-
-    # for middle_item in middle_candidates_structure:
-    #     if len(middle_item.get(RELATED_NEWS_KEY, [])) >= 2: # 뉴스가 2개 이상인 경우만 유효
-    #         valid_middle_categories.append(middle_item)
-    #     else: 
-    #         news_from_removed_singletons.extend(middle_item.get(RELATED_NEWS_KEY, []))
-
-    # # 제거된 중분류의 뉴스들을 기타 목록에 추가
-    # unassigned_news_in_major.extend(news_from_removed_singletons)
-
-
-    # 중분류 정렬(뉴스 수 기준) 및 상위 중분류 유지, 나머지는 기타로 이동
-    middle_categories = sorted(middle_categories, key=lambda c: len(c[RELATED_NEWS_KEY]), reverse=True)
-    top_middle = middle_categories[:min(num_middle_keywords, 10)]
-    removed = middle_categories[min(num_middle_keywords, 10):]
-
-    for rem in removed:
-        unassigned_news.extend(rem[RELATED_NEWS_KEY])
-
-    # 최종 중분류 확정정
-    category[MIDDLE_LIST_KEY] = top_middle
-
-    # 기타 뉴스 중복 제거 후 저장
-    seen_links = set()
-    final_others = []
-    for news in unassigned_news:
-        link = news.get("link")
-        if link and link not in seen_links:
-            final_others.append(news)
-            seen_links.add(link)
-
-    category[OTHER_NEWS_KEY] = final_others
+            
+    # 정리 및 기타 뉴스 분리
+    category[MIDDLE_LIST_KEY] = middle_categories
+    category[OTHER_NEWS_KEY] = unassigned_news
+    
+    # 최종 중분류 개수 조절
+    trim_middle_categories(category, num_middle_keywords)
 
 
 """중분류가 없거나 뉴스가 없는 대분류 제거"""
@@ -282,7 +285,7 @@ def analyze_keywords(titles_with_links, tokenized_titles, num_final_topics=10, n
 
     # 4. 중분류 할당 및 기타 뉴스 분리
     for major in major_categories:
-        assign_middle_categories(major, uni_news, num_middle_keywords)
+        assign_middle_categories(major, num_middle_keywords)
 
     # 5. 중분류 없는 대분류 제거
     final_results = remove_empty_categories(major_categories)
