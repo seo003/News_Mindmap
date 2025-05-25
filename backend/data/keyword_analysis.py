@@ -248,7 +248,7 @@ def assign_middle_categories(category, num_middle_keywords, w2v_model):
     if major_vector is None:
         print(f"FastText 모델에 대분류'{major_name}'가 없어 대분류 유사도 비교 건너뜀")
 
-    # 뉴스할당당
+    # 뉴스할당
     for i, news in enumerate(news_list):
         news_link = news.get("link")
         if news_link in assigned_links:
