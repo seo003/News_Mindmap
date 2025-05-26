@@ -43,10 +43,10 @@ def get_data():
                     "link": link,
                     "date": date
                 })
-                print(f"제목: {title}")
-                print(f"날짜: {date}")
-                print(f"링크: {link}")
-                print("-" * 100)
+                # print(f"제목: {title}")
+                # print(f"날짜: {date}")
+                # print(f"링크: {link}")
+                # print("-" * 100)
             except Exception as e:
                 print(f"Error parsing individual news item: {e}")
                 continue
