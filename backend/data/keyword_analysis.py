@@ -227,79 +227,71 @@ def assign_middle_categories(category, num_middle_keywords, w2v_model):
     if not news_list:
         return
 
-    # 중분류 후보 키워드 선정 (tokens의 빈도수 기반)
-    all_tokens = [token for news in news_list for token in news["tokens"]]
-    token_counts = Counter(all_tokens)
-    candidates = [w for w, _ in token_counts.most_common(num_middle_keywords * 3 + 5) if len(w) > 1 and w != major_name]
-    middle_keywords = candidates[:num_middle_keywords * 2]
-    print(f"대분류:'{major_name}' 중분류 후보리스트: {middle_keywords}")
+    # 클러스터링을 위한 뉴스 목록
+    news_for_clustering = news_list
 
-    # 중분류 구조 생성
-    middle_categories = [{
-        MIDDLE_ITEM_KEY: kw,
-        RELATED_NEWS_KEY: []
-    } for kw in middle_keywords]
+    # 중분류 클러스터 생성
+    clustered_middle_news = cluster_news(num_middle_keywords, news_for_clustering, w2v_model)
+    print(f"중분류를 위해 {len(news_for_clustering)}개의 뉴스를 {len(clustered_middle_news)}개 클러스터로 분류 완료.")
 
-    unassigned_news = []
-    assigned_links = set() # 중복 할당 방지를 위한 링크 집합
+     # 클러스터링 실패 시 기타 뉴스로 저장
+    if not clustered_middle_news:
+        category[OTHER_NEWS_KEY] = news_list
+        return
 
-    # 대분류 이름의 벡터
-    major_vector = get_document_vector(w2v_model, [major_name]) if major_name in w2v_model.wv else None
-    if major_vector is None:
-        print(f"FastText 모델에 대분류'{major_name}'가 없어 대분류 유사도 비교 건너뜀")
+    # 각 클러스터터 TF-IDF 점수 계산
+    all_tokens_in_middle_clusters = defaultdict(list)
+    for label, news_items in clustered_middle_news.items():
+        for news in news_items:
+            all_tokens_in_middle_clusters[label].extend(news["tokens"])
 
-    # 뉴스할당
-    for i, news in enumerate(news_list):
-        news_link = news.get("link")
-        if news_link in assigned_links:
+    tfidf_scores_by_middle_cluster = calculate_tfidf_scores(all_tokens_in_middle_clusters)
+
+    middle_categories_result = []
+    assigned_links = set()
+
+    # 각 클러스터 별 중분류 키워드 선정
+    for label in sorted(clustered_middle_news.keys(), key=lambda k: len(clustered_middle_news[k]), reverse=True):
+        cluster_news_items = clustered_middle_news[label]
+        if not cluster_news_items:
             continue
+
+        middle_name = f"클러스터 {label + 1}"
+        middle_cluster_tfidf_scores = tfidf_scores_by_middle_cluster.get(label, {})
         
-        news_vector = get_document_vector(w2v_model, news["tokens"])
+        sorted_tfidf_words = sorted(middle_cluster_tfidf_scores.items(), key=lambda item: item[1], reverse=True)
+        print(f"    - TF-IDF 상위 5개 단어: {sorted_tfidf_words[:5]}")
+        
+        # 중분류 이름 후보 선정
+        candidate_words = [
+            word for word, score in sorted_tfidf_words
+            if len(word) > 1 and word not in load_exclude_words(NON_UNIV_WORD_PATH) and word != major_name
+        ]
+        print(f"    - 중분류 이름 후보 (상위 5개): {candidate_words[:5]}")
 
-        # 대분류와 유사도 검사
-        if major_vector is not None and np.linalg.norm(major_vector) > 0 and np.linalg.norm(news_vector) > 0:
-            major_similarity = np.dot(major_vector, news_vector) / (np.linalg.norm(major_vector) * np.linalg.norm(news_vector))
-            # 대분류 유사도 임계값 (조정 가능)
-            if major_similarity < 0.2: # 0.2보다 낮으면 해당 대분류와 관련성이 낮음
-                unassigned_news.append(news)
-                assigned_links.add(news_link)
-                continue 
-
-        best_middle_cat = None
-        max_similarity = -1 # 중분류 유사도 중 최대값
-
-        # 중분류 키워드 매칭 및 유사도 계산
-        for mid_cat in middle_categories:
-            mid_kw = mid_cat[MIDDLE_ITEM_KEY]
-            
-            # 1. 중분류 키워드가 뉴스에 직접 포함되어 있는 경우
-            if mid_kw in news["tokens"]:
-                best_middle_cat = mid_cat
+        # 최종 중분류 결정
+        for cand in candidate_words:
+            if not any(mid_cat.get(MIDDLE_ITEM_KEY) == cand for mid_cat in middle_categories_result):
+                middle_name = cand
                 break
+        print(f"    - '{middle_name}' 중분류 확정")
 
-            # 2. 유사도 계산
-            if mid_kw in w2v_model.wv and np.linalg.norm(news_vector) > 0:
-                mid_kw_vector = w2v_model.wv[mid_kw]
-                if np.linalg.norm(mid_kw_vector) > 0: # 중분류 키워드 벡터가 0이 아닌 경우
-                    similarity = np.dot(mid_kw_vector, news_vector) / (np.linalg.norm(mid_kw_vector) * np.linalg.norm(news_vector))
-                    if similarity > max_similarity:
-                        max_similarity = similarity
-                        best_middle_cat = mid_cat
-        
-        # 직접 일치했거나, 유사도가 특정 임계값 (조정 가능) 이상인 경우 뉴스 할당
-        if best_middle_cat and (best_middle_cat[MIDDLE_ITEM_KEY] in news["tokens"] or max_similarity > 0.4): # 0.4보다 높으면 할당
-            best_middle_cat[RELATED_NEWS_KEY].append(news)
-            assigned_links.add(news_link)
-        else:
-            # 적절한 중분류를 찾지 못했으면 기타 뉴스로 분류
-            unassigned_news.append(news)
-            assigned_links.add(news_link)
-            
-    # 최종 중분류 리스트와 기타 뉴스 리스트를 반영
-    category[MIDDLE_LIST_KEY] = middle_categories
+        middle_categories_result.append({
+            MIDDLE_ITEM_KEY: middle_name,
+            RELATED_NEWS_KEY: cluster_news_items
+        })
+        for news in cluster_news_items:
+            assigned_links.add(news.get("link"))
+
+    # 중분류에 할당되지 않은 뉴스
+    unassigned_news = [news for news in news_list if news.get("link") not in assigned_links]
+
+    category[MIDDLE_LIST_KEY] = middle_categories_result
     category[OTHER_NEWS_KEY] = unassigned_news
+    
     print(f"대분류 '{major_name}'")
-    print(f"할당된 중분류 수: {len(category[MIDDLE_LIST_KEY])}, 기타 뉴스 수: {len(category[OTHER_NEWS_KEY])}")
+    print(f"  중분류 할당 결과: {len(category[MIDDLE_LIST_KEY])}개 중분류, {len(category[OTHER_NEWS_KEY])}개 기타 뉴스")
+
 
     # 중분류 개수 제한 및 기타 뉴스 분리 처리
     trim_middle_categories(category, num_middle_keywords)
