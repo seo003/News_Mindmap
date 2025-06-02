@@ -4,6 +4,7 @@ import numpy as np
 from gensim.models import FastText
 from sklearn.cluster import KMeans
 from config.config import FASTTEXT_MODEL_PATH, NON_UNIV_WORD_PATH
+from data.cluster_utils import find_optimal_k_combined
 
 MAJOR_KEY = "majorKeyword"
 MIDDLE_LIST_KEY = "middleKeywords"
@@ -50,17 +51,18 @@ def split_news_by_uni_name(titles_with_links, tokenized_titles):
             other_news.append(news_info)
     return univ_news, other_news
 
-
 """FastText 임베딩으로 KMeans 클러스터링 실행"""
 def cluster_news(kmeans_num, news_list, w2v_model):
     try:
         # 뉴스 tokens 벡터전환 
         vectors = np.array([get_document_vector(w2v_model, item["tokens"]) for item in news_list])
-        # 클러스터 수 설정
-        n_clusters = max(1, min(kmeans_num, len(news_list)))
+
+        # 클러스터 수 자동 결정
+        optimal_k = find_optimal_k_combined(vectors, plot=True, k_range=(2, 15), strategy="average")
+
         # kmeans 클러스터링
-        if n_clusters > 0:
-            kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+        if optimal_k > 0 and optimal_k <= len(news_list):
+            kmeans = KMeans(n_clusters=optimal_k, random_state=42, n_init=10)
             labels = kmeans.fit_predict(vectors)
             clustered = defaultdict(list)
             for item, label in zip(news_list, labels):
@@ -239,7 +241,7 @@ def assign_middle_categories(category, num_middle_keywords, w2v_model):
         category[OTHER_NEWS_KEY] = news_list
         return
 
-    # 각 클러스터터 TF-IDF 점수 계산
+    # 각 클러스터 TF-IDF 점수 계산
     all_tokens_in_middle_clusters = defaultdict(list)
     for label, news_items in clustered_middle_news.items():
         for news in news_items:
@@ -367,6 +369,7 @@ def analyze_keywords(titles_with_links, tokenized_titles, num_final_topics=10, n
     if w2v_model:
         print("기타 뉴스 KMeans 클러스터링 시작")
         clustered_news = cluster_news(num_final_topics, other_news, w2v_model)
+        print(f"기타분류 {len(other_news)}개의 뉴스를 {len(clustered_news)}개 클러스터로 분류 완료.")
     else:
         print("FastText 모델 로드 실패 KMeans 클러스터링을 건너뜁니다.")
 
