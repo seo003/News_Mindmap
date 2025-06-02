@@ -29,7 +29,7 @@ __pycache__/
 models/
 
 # 뉴스 데이터
-backend/data/news.json
+backend/data/
 
 # 테스트 실행 파일
 backend/test_run.py

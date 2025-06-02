@@ -4,7 +4,7 @@ import numpy as np
 from gensim.models import FastText
 from sklearn.cluster import KMeans
 from config.config import FASTTEXT_MODEL_PATH, NON_UNIV_WORD_PATH
-from data.cluster_utils import find_optimal_k_combined
+from analysis.cluster_utils import find_optimal_k_combined
 
 MAJOR_KEY = "majorKeyword"
 MIDDLE_LIST_KEY = "middleKeywords"
