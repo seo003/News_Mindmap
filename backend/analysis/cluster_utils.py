@@ -6,7 +6,7 @@ import numpy as np
 
 
 ''' 엘보우 방법으로 최적 클러스터 개수 찾기 '''
-def find_optimal_k_elbow(vectors, k_range=(2, 15), plot=True):
+def find_optimal_k_elbow(vectors, k_range, plot):
     inertias = []
     k_list = list(range(k_range[0], k_range[1] + 1))
 
@@ -35,7 +35,7 @@ def plot_elbow(k_list, inertias):
     plt.show()
 
 ''' 실루엣 점수 기반으로 최적 클러스터 개수(k) 찾기 '''
-def find_optimal_k_silhouette(vectors, k_range=(2, 15), plot=True):
+def find_optimal_k_silhouette(vectors, k_range, plot):
     best_score = -1
     best_k = k_range[0]
     best_labels = None
@@ -89,7 +89,7 @@ def plot_silhouette(X, n_clusters, cluster_labels):
     plt.show()
 
 ''' 엘보우와 실루엣 점수로 최적 k 결정 '''
-def find_optimal_k_combined(vectors, plot, k_range=(2, 15), strategy="silhouette"):
+def find_optimal_k_combined(vectors, plot, k_range, strategy):
     elbow_k = find_optimal_k_elbow(vectors, k_range, plot)
     silhouette_k = find_optimal_k_silhouette(vectors, k_range, plot)
     avg_k = round((elbow_k + silhouette_k) / 2)
@@ -105,5 +105,5 @@ def find_optimal_k_combined(vectors, plot, k_range=(2, 15), strategy="silhouette
         return avg_k
     elif strategy == "elbow":
         return elbow_k
-    else:  # default: silhouette
+    else: 
         return silhouette_k

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS 
-from backend.analysis.keyword_extraction import extract_keywords
+from analysis.keyword_extraction import extract_keywords
 from analysis.keyword_analysis import analyze_keywords
 from crawlAll import crawl_all
     

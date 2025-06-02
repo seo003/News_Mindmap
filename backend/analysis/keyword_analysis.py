@@ -58,7 +58,7 @@ def cluster_news(kmeans_num, news_list, w2v_model):
         vectors = np.array([get_document_vector(w2v_model, item["tokens"]) for item in news_list])
 
         # 클러스터 수 자동 결정
-        optimal_k = find_optimal_k_combined(vectors, plot=True, k_range=(2, 15), strategy="average")
+        optimal_k = find_optimal_k_combined(vectors, plot=False, k_range=(2, 15), strategy="average")
 
         # kmeans 클러스터링
         if optimal_k > 0 and optimal_k <= len(news_list):
