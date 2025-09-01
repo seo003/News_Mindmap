@@ -24,6 +24,8 @@ yarn-error.log*
 __pycache__/
 *.pyc
 *.pyo
+.idea/
+.venv/
 
 # FastText 모델 폴더
 models/
@@ -33,3 +35,6 @@ backend/data/
 
 # 테스트 실행 파일
 backend/test_run.py
+
+# 디비 연결
+backend/data.env
