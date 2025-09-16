@@ -13,7 +13,8 @@ function App() {
         setLoading(true); 
         setError(null); 
 
-        const response = await fetch('http://localhost:5000/api/keywords');
+        // 뉴스 분석 API 사용 (대학교 분류 + 키워드별 중분류)
+        const response = await fetch('http://localhost:5000/api/news_analysis');
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -80,7 +80,7 @@ def cluster_news(kmeans_num, news_list, w2v_model):
 """ TF-IDF 점수 계산 """
 def calculate_tfidf_scores(all_tokens_in_clusters):
     print(f"\n총 클러스터 수: {len(all_tokens_in_clusters)}")
-    # 문서-단어 행렬 생성
+    
     doc_word_counts = {} # {클러스터_ID: Counter(단어빈도), ...}
     for label, tokens_list in all_tokens_in_clusters.items():
         doc_word_counts[label] = Counter(tokens_list)
@@ -99,7 +99,7 @@ def calculate_tfidf_scores(all_tokens_in_clusters):
             document_frequency[token] += 1
     
     print(f"총 고유 단어 수: {len(all_unique_tokens)}")
-    for token in list(all_unique_tokens)[:5]: # 상위 5개 단어의 IDF 점수만 샘플 출력
+    for token in list(all_unique_tokens)[:5]:
         print(f"  {token}'의 DF: {document_frequency[token]}, IDF: {np.log(num_documents / (document_frequency[token] + 1)):.4f}")
 
     for token in all_unique_tokens:

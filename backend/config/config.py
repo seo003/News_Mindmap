@@ -33,4 +33,4 @@ DB_USER = os.getenv('dbuser')
 DB_PASSWORD = os.getenv('dbpass')
 
 # News freshness period (in days)
-NEWS_FRESHNESS_DAYS = 7
+NEWS_FRESHNESS_DAYS = 5

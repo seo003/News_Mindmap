@@ -25,10 +25,9 @@ class NewsFetcher:
             print(f"데이터베이스 연결 실패: {err}")
             raise
     
-    def get_news_titles(self, days: int = None) -> List[Dict]:
+    def get_news_titles(self, days: int = None, limit: int = None) -> List[Dict]:
         """
-        뉴스 제목들을 가져옵니다.
-        기본적으로 7일 이내의 뉴스를 가져옵니다.
+        뉴스 제목들을 가져오기
         """
         if not self.connection or self.connection.closed:
             self.connect()
@@ -40,11 +39,14 @@ class NewsFetcher:
         cutoff_date = datetime.now() - timedelta(days=days)
         
         query = """
-        SELECT title 
+        SELECT title, link, date
         FROM newsinfo 
         WHERE date >= %s 
         ORDER BY date DESC
         """
+        
+        if limit:
+            query += f" LIMIT {limit}"
         
         try:
             cursor = self.connection.cursor(cursor_factory=RealDictCursor)
@@ -52,7 +54,8 @@ class NewsFetcher:
             results = cursor.fetchall()
             cursor.close()
             
-            print(f"뉴스 {len(results)}개 가져옴 ({days}일 이내)")
+            limit_text = f" (최대 {limit}개)" if limit else ""
+            print(f"뉴스 {len(results)}개 가져옴 ({days}일 이내{limit_text})")
             return results
             
         except psycopg2.Error as err:
@@ -65,13 +68,13 @@ class NewsFetcher:
             self.connection.close()
             print("데이터베이스 연결 종료")
 
-def fetch_news_from_db() -> List[Dict]:
+def fetch_news_from_db(limit: int = None) -> List[Dict]:
     """
     데이터베이스에서 뉴스를 가져오는 편의 함수
     """
     fetcher = NewsFetcher()
     try:
-        news_data = fetcher.get_news_titles()
+        news_data = fetcher.get_news_titles(limit=limit)
         return news_data
     finally:
         fetcher.close()

@@ -16,9 +16,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "start": "react-scripts start",
     "frontend": "react-scripts start",
-    "backend": "conda activate news-env && cross-env PYTHONIOENCODING=utf-8 python ../backend/app.py"
+    "backend": "cd ../backend && echo Starting backend... && python app.py",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
   },
   "eslintConfig": {
     "extends": [
