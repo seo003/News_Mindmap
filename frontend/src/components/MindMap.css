@@ -1,0 +1,317 @@
+/* MindMap 컴포넌트 전용 CSS */
+
+/* 컨테이너 스타일 */
+.mindmap-container {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+}
+
+.mindmap-graph {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* 줌 컨트롤 버튼 스타일 */
+.zoom-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.zoom-button {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #495057;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+  /* 기본 크기 */
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.zoom-button.reset {
+  font-size: 14px;
+}
+
+/* 425px 이하에서 버튼 가로 배치 및 위치 변경 */
+@media only screen and (max-width: 425px) {
+  .zoom-controls {
+    position: absolute;
+    top: 0px; /* canvas 상단 모서리에 맞춤 */
+    right: 0px; /* canvas 우측 모서리에 맞춤 */
+    flex-direction: row; /* 가로 배치로 변경 */
+    gap: 6px; /* 간격 줄이기 */
+  }
+  
+  .zoom-button {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .zoom-button.reset {
+    font-size: 12px;
+  }
+}
+
+.zoom-button:hover {
+  background-color: #e9ecef;
+}
+
+/* 뉴스 패널 스타일 */
+.news-panel {
+  position: fixed;
+  top: auto;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  max-height: 40vh;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 0;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.news-panel-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 20px;
+  border-radius: 16px 16px 0 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.news-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 0;
+  margin: 0;
+}
+
+.news-panel-indicator {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.news-panel-close {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+  transition: all 0.2s ease;
+}
+
+.news-panel-close:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+}
+
+.news-list {
+  padding: 16px 20px;
+  max-height: calc(40vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.news-item {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.news-item:hover {
+  background-color: #f8fafc;
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.news-link {
+  text-decoration: none;
+  color: #1e40af;
+  font-weight: 500;
+  line-height: 1.5;
+  display: block;
+  transition: color 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-link:hover {
+  color: #1d4ed8;
+}
+
+.no-news-message {
+  text-align: center;
+  color: #6b7280;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.invalid-news-item {
+  margin-bottom: 10px;
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+}
+
+/* 기본 글자 크기 설정 - 모든 화면에서 적용 */
+.news-panel h4 {
+  font-size: 20px;
+  color: #1f2937;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 320px 이하에서 뉴스 리스트 반응형 설정 */
+@media only screen and (max-width: 320px) {
+  .news-panel {
+    width: 95%;
+    max-height: 30vh;
+    bottom: 10px;
+  }
+  
+  .news-panel-header {
+    padding: 6px 8px; /* 헤더 패딩 줄임 */
+  }
+  
+  .news-list {
+    max-height: calc(30vh - 40px);
+    padding: 6px 6px; /* 위아래 패딩 줄임 */
+  }
+  
+  .news-item {
+    padding: 8px 12px; /* 패딩 줄임 */
+    margin-bottom: 4px; /* 마진 줄임 */
+  }
+  
+  .news-panel h4 {
+    font-size: 16px;
+  }
+  
+  .news-link {
+    font-size: 14px;
+  }
+}
+
+/* 321px~480px에서 뉴스 리스트 반응형 설정 */
+@media only screen and (min-width: 321px) and (max-width: 480px) {
+  .news-panel {
+    width: 90%;
+    max-height: 30vh;
+    bottom: 10px;
+  }
+  
+  .news-panel-header {
+    padding: 6px 8px; /* 320px과 동일한 헤더 패딩 */
+  }
+  
+  .news-list {
+    max-height: calc(30vh - 40px);
+    padding: 6px 6px; /* 320px과 동일한 위아래 패딩 */
+  }
+  
+  .news-item {
+    padding: 8px 12px; /* 320px과 동일한 패딩 */
+    margin-bottom: 4px; /* 320px과 동일한 마진 */
+  }
+  
+  .news-panel h4 {
+    font-size: 16px; /* 320px과 동일한 폰트 크기 */
+  }
+  
+  .news-link {
+    font-size: 14px; /* 320px과 동일한 폰트 크기 */
+  }
+}
+
+/* 425px 이하에서 뉴스 패널 90% 너비 설정 */
+@media only screen and (max-width: 425px) {
+  .news-panel {
+    width: 90%;
+  }
+}
+
+/* 481px~768px에서 뉴스 리스트 반응형 설정 */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .news-panel h4 {
+    font-size: 18px;
+  }
+  
+  .news-link {
+    font-size: 16px;
+  }
+}
+
+/* 769px 이상에서 뉴스 패널 기본 설정 */
+@media only screen and (min-width: 769px) {
+  .news-panel {
+    position: fixed;
+    top: auto;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    max-height: 30vh;
+  }
+  
+  .news-list {
+    max-height: calc(30vh - 60px);
+    padding: 16px 20px;
+  }
+  
+  .news-panel h4 {
+    font-size: 18px;
+  }
+  
+  .news-link {
+    font-size: 16px;
+  }
+}

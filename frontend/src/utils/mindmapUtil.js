@@ -2,7 +2,16 @@ export const MAJOR_KEY = "majorKeyword";
 export const MIDDLE_LIST_KEY = "middleKeywords";
 export const MIDDLE_ITEM_KEY = "middleKeyword";
 export const RELATED_NEWS_KEY = "relatedNews"; 
-export const OTHER_NEWS_KEY = "otherNews"; 
+export const OTHER_NEWS_KEY = "otherNews";
+
+// 디버깅을 위한 키 상수 출력
+console.log("MindmapUtil constants:", {
+    MAJOR_KEY,
+    MIDDLE_LIST_KEY,
+    MIDDLE_ITEM_KEY,
+    RELATED_NEWS_KEY,
+    OTHER_NEWS_KEY
+}); 
 
 
 // 노드 ID 생성 함수
@@ -97,6 +106,50 @@ export const findNestedData = (node, keywordsData) => {
     }
 
     return null;
+};
+
+
+// 대분류별 뉴스 개수 계산 함수
+export const calculateNewsCountsByMajor = (keywordsData) => {
+    if (!keywordsData || !Array.isArray(keywordsData)) {
+        return {};
+    }
+    
+    const newsCounts = {};
+    
+    keywordsData.forEach((majorCatObj) => {
+        const majorKeyword = majorCatObj[MAJOR_KEY];
+        if (!majorKeyword) return;
+        
+        let totalNewsCount = 0;
+        
+        // 중분류들의 뉴스 개수 합산
+        if (majorCatObj[MIDDLE_LIST_KEY] && Array.isArray(majorCatObj[MIDDLE_LIST_KEY])) {
+            majorCatObj[MIDDLE_LIST_KEY].forEach(middleCat => {
+                if (middleCat[RELATED_NEWS_KEY] && Array.isArray(middleCat[RELATED_NEWS_KEY])) {
+                    totalNewsCount += middleCat[RELATED_NEWS_KEY].length;
+                }
+            });
+        }
+        
+        // 기타 뉴스 개수 추가
+        if (majorCatObj[OTHER_NEWS_KEY] && Array.isArray(majorCatObj[OTHER_NEWS_KEY])) {
+            totalNewsCount += majorCatObj[OTHER_NEWS_KEY].length;
+        }
+        
+        newsCounts[majorKeyword] = totalNewsCount;
+    });
+    
+    return newsCounts;
+};
+
+// 색상 진하기 계산 함수 (뉴스 개수에 따라)
+export const calculateColorIntensity = (newsCount, maxNewsCount, minNewsCount = 0) => {
+    if (maxNewsCount === minNewsCount) return 0.5; // 모든 값이 같으면 중간값
+    
+    const normalizedCount = (newsCount - minNewsCount) / (maxNewsCount - minNewsCount);
+    // 0.3 ~ 1.0 범위로 정규화 (너무 연하지 않게)
+    return Math.max(0.3, Math.min(1.0, normalizedCount));
 };
 
 

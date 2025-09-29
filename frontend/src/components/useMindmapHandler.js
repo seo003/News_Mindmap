@@ -80,6 +80,11 @@ export function useMindmapHandler({
             if (nodeLevel === 1 && expandedNodeIds.has(nodeId)) {
                 console.log(`Collapsing node: ${nodeId} (Level ${nodeLevel})`);
 
+                // 중앙 노드('뉴스')로 focus
+                if (fgRef.current) {
+                    fgRef.current.centerAt(0, 0, 1000);
+                }
+
                 const nodesToRemove = collectDescendants(nodeId);
 
                 // 노드 제거
@@ -126,6 +131,11 @@ export function useMindmapHandler({
             if (nodeLevel === 1) {
                 console.log(`Expanding Major: ${parsed.majorKeyword}`);
 
+                // 클릭된 노드로 focus
+                if (fgRef.current) {
+                    fgRef.current.centerAt(node.x, node.y, 1000);
+                }
+
                 // 대분류 아래의 중분류 목록 확인
                 const middleCategoriesData = currentNodeData[MIDDLE_LIST_KEY] || [];
 
@@ -168,12 +178,29 @@ export function useMindmapHandler({
             // 중분류 클릭 시 뉴스 표시
             else if (nodeLevel === 2) {
                 console.log(`Clicked on Middle-category: ${parsed.middleKeyword}`);
+                
+                // 중분류 재클릭 시 뉴스 패널 닫기 (부모 노드로 focus)
+                if (selectedNodeIdForNews === nodeId) {
+                    console.log(`Closing news panel and focusing on parent node`);
+                    
+                    // 부모 노드 찾기
+                    const parentNode = graphData.nodes.find(n => n.id === node.parentId);
+                    if (parentNode && fgRef.current) {
+                        fgRef.current.centerAt(parentNode.x, parentNode.y, 1000);
+                    }
+                    
+                    setSelectedNews(null);
+                    setSelectedNodeIdForNews(null);
+                    return;
+                }
+                
                 const newsList = currentNodeData?.[RELATED_NEWS_KEY] || [];
                 setSelectedNews(newsList);
                 setSelectedNodeIdForNews(nodeId);
                 console.log(`Found ${newsList.length} related news items.`);
                 return;
             }
+
 
             // 그 외 클릭 시 처리
             else {

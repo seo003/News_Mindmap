@@ -46,7 +46,7 @@ function App() {
   if (loading) {
     return (
       <section className="loading">
-        <h1 className="loading-title">뉴스정보 가져오는 중...</h1>
+        <h1 className="loading-title">뉴스 제목 분석 중...</h1>
         <div className="progress-bar" aria-hidden="true">
           <span className="progress-bar-gauge"></span>
         </div>
@@ -59,7 +59,7 @@ function App() {
      return (
        <section className="error">
          <h1 className="error-title">데이터를 불러오는데 실패했습니다.</h1>
-         <p>{error.message}</p>
+         <p className="error-message">잠시 후 다시 시도해주세요</p>
        </section>
      );
   }
@@ -69,7 +69,7 @@ function App() {
   if (!loading && !error && keywords) {
     return (
       <div>
-        <h1>마인드맵</h1>
+        <h1 style={{ textAlign: 'center', margin: '20px 0' }}>뉴스 최신 정보 키워드 마인드맵</h1>
         <MindMap keywords={keywords} /> 
       </div>
     );
@@ -78,8 +78,8 @@ function App() {
   // 예외 상황 또는 데이터 분석 결과가 빈 경우
    return (
        <div>
-           <h1>마인드맵</h1>
-           <p>표시할 뉴스 정보가 없습니다.</p> 
+           <h1 style={{ textAlign: 'center', margin: '20px 0' }}>뉴스 최신 정보 키워드 마인드맵</h1>
+           <p style={{ textAlign: 'center' }}>표시할 뉴스 정보가 없습니다.</p> 
        </div>
    );
 }
