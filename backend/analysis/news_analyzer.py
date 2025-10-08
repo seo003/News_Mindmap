@@ -38,7 +38,6 @@ class NewsAnalyzer:
     
     def split_news_by_uni_name(self, processed_data):
         """대학교 이름으로 뉴스 분류"""
-        print(f"\n=== 대학교 이름으로 뉴스 분류 (총 {len(processed_data)}개) ===")
         
         univ_news = defaultdict(list)
         other_news = []
@@ -77,13 +76,13 @@ class NewsAnalyzer:
                 # if i < 20:  # 20개씩 출력
                 #     print(f"{i+1:2d}. 기타: {title}")
         
-        print(f"\n대학교 분류 완료:")
-        print(f"- 대학교 뉴스: {len(univ_news)}개 대학, {sum(len(news_list) for news_list in univ_news.values())}개 뉴스")
-        print(f"- 기타 뉴스: {len(other_news)}개")
+        # print(f"\n대학교 분류 완료:")
+        # print(f"- 대학교 뉴스: {len(univ_news)}개 대학, {sum(len(news_list) for news_list in univ_news.values())}개 뉴스")
+        # print(f"- 기타 뉴스: {len(other_news)}개")
         
         # 대학교별 뉴스 수 출력
-        for uni_name, news_list in sorted(univ_news.items(), key=lambda x: len(x[1]), reverse=True):
-            print(f"  {uni_name}: {len(news_list)}개")
+        # for uni_name, news_list in sorted(univ_news.items(), key=lambda x: len(x[1]), reverse=True):
+        #     print(f"  {uni_name}: {len(news_list)}개")
         
         return univ_news, other_news
     
@@ -132,21 +131,11 @@ class NewsAnalyzer:
                 unique_titles.append(item)
             else:
                 duplicate_count += 1
-                # print(f"중복 제거: {title}")
-        
-        print(f"중복 제거 완료: {len(processed_titles)} → {len(unique_titles)}개 (중복 {duplicate_count}개 제거)")
-        
-        # 최종 결과 출력
-        # print(f"\n=== 전처리 최종 결과 (상위 20개) ===")
-        # for i, item in enumerate(unique_titles[:20]):
-        #     print(f"{i+1:2d}. {item['cleaned_title']}")
-        
         return unique_titles
     
     
     def extract_nouns_with_konlpy(self, processed_data):
         """KoNLPy로 명사 추출"""
-        # print(f"\n=== 3단계: KoNLPy 명사 추출 (총 {len(processed_data)}개) ===")
         
         noun_extracted_data = []
         
@@ -181,10 +170,8 @@ class NewsAnalyzer:
 
     def extract_keywords_with_konlpy_tfidf(self, texts, topn=5, show_details=False):
         """KonlPy + TF-IDF 키워드 추출 (이미지 요구사항)"""
-        print(f"\n=== KonlPy + TF-IDF 키워드 추출 (총 {len(texts)}개 텍스트) ===")
         
         # 1단계: KonlPy로 명사 추출
-        print("1단계: KonlPy 명사 추출...")
         noun_texts = []
         for i, text in enumerate(texts):
             # KoNLPy Okt로 형태소 분석
@@ -197,14 +184,13 @@ class NewsAnalyzer:
             noun_texts.append(" ".join(nouns))
             
             # 상세 출력
-            if show_details and i < 10:
-                print(f"{i+1:2d}. 원본: {text}")
-                print(f"    형태소: {tokens}")
-                print(f"    명사: {nouns}")
-                print()
+            # if show_details and i < 10:
+            #     print(f"{i+1:2d}. 원본: {text}")
+            #     print(f"    형태소: {tokens}")
+            #     print(f"    명사: {nouns}")
+            #     print()
         
         # 2단계: TF-IDF 벡터화
-        print("2단계: TF-IDF 벡터화...")
         vectorizer = TfidfVectorizer(
             ngram_range=(1, 3),  # 1-3그램 사용
             max_features=5000,   # 최대 특성 수
@@ -221,9 +207,9 @@ class NewsAnalyzer:
             top_indices = mean_scores.argsort()[-topn:][::-1]
             
             # TF-IDF 점수와 함께 출력
-            print(f"\nTF-IDF 상위 {topn}개 키워드:")
-            for i, idx in enumerate(top_indices):
-                print(f"{i+1:2d}. {feature_names[idx]} (TF-IDF: {mean_scores[idx]:.4f})")
+            # print(f"\nTF-IDF 상위 {topn}개 키워드:")
+            # for i, idx in enumerate(top_indices):
+            #     print(f"{i+1:2d}. {feature_names[idx]} (TF-IDF: {mean_scores[idx]:.4f})")
             
             return [feature_names[i] for i in top_indices]
         except Exception as e:
@@ -232,14 +218,11 @@ class NewsAnalyzer:
     
     def enhanced_cluster_news(self, titles_data, use_hdbscan=False, use_hybrid=True):
         """HDBSCAN + K-Means"""
-        print("=== 뉴스 클러스터링 시작 ===")
         
         titles = [item["cleaned_title"] for item in titles_data]
         # print(f"클러스터링 대상: {len(titles)}개 뉴스")
         
-        # 1단계: HDBSCAN으로 밀도 기반 클러스터링 (개선된 파라미터)
-        print("\n1단계: HDBSCAN 밀도 기반 클러스터링...")
-        
+        # 1단계: HDBSCAN으로 밀도 기반 클러스터링 
         # HDBSCAN 최적화된 파라미터 설정
         n_data = len(titles_data)
         if n_data < 20:
@@ -278,7 +261,6 @@ class NewsAnalyzer:
             print("HDBSCAN: 유의미한 클러스터를 찾지 못했습니다(전부 노이즈).")
             # 아래 그래프 폴백으로 진행
         else:
-            # print(f"HDBSCAN 성공: {len(set(hdbscan_labels) - {-1})}개 클러스터 발견")
             pass
         
         # HDBSCAN 결과 분석
@@ -296,7 +278,7 @@ class NewsAnalyzer:
                 else:
                     hdbscan_clusters[label].append(item)
             
-            print(f"HDBSCAN 결과: {len(hdbscan_clusters)}개 클러스터, 노이즈 {len(noise_data)}개")
+            # print(f"HDBSCAN 결과: {len(hdbscan_clusters)}개 클러스터, 노이즈 {len(noise_data)}개")
             
             # 의미있는 클러스터만 추출 (크기 4개 이상, 중복 뉴스가 아닌 클러스터)
             meaningful_clusters = {}
@@ -318,12 +300,11 @@ class NewsAnalyzer:
                 else:
                     meaningless_clusters.append((cluster_id, cluster_news, f"크기 부족 ({len(cluster_news)}개)"))
             
-            print(f"뉴스 3개 이상 클러스터: {len(meaningful_clusters)}개")
-            print(f"그 외 클러스터: {len(meaningless_clusters)}개")
+            # print(f"뉴스 3개 이상 클러스터: {len(meaningful_clusters)}개")
+            # print(f"그 외 클러스터: {len(meaningless_clusters)}개")
             
             # 의미없는 클러스터들을 노이즈로 이동
             for cluster_id, cluster_news, reason in meaningless_clusters:
-                # print(f"  - 클러스터 {cluster_id}: {reason}")
                 noise_data.extend(cluster_news)
                 # 해당 클러스터의 임베딩도 노이즈로 이동
                 for item in cluster_news:
@@ -334,13 +315,13 @@ class NewsAnalyzer:
             hdbscan_clusters = meaningful_clusters
             
             # HDBSCAN 클러스터별 결과 출력 (의미있는 클러스터만)
-            print(f"\n=== HDBSCAN 클러스터링 결과 ===")
-            for cluster_id, cluster_news in sorted(hdbscan_clusters.items()):
-                print(f"\n--- 클러스터 {cluster_id} ({len(cluster_news)}개 뉴스) ---")
-                for i, news in enumerate(cluster_news[:5]):  # 상위 5개만 출력
-                    print(f"  {i+1}. {news['cleaned_title']}")
-                if len(cluster_news) > 5:
-                    print(f"  ... 그 외 {len(cluster_news) - 5}개")
+            # print(f"\n=== HDBSCAN 클러스터링 결과 ===")
+            # for cluster_id, cluster_news in sorted(hdbscan_clusters.items()):
+            #     print(f"\n--- 클러스터 {cluster_id} ({len(cluster_news)}개 뉴스) ---")
+            #     for i, news in enumerate(cluster_news[:5]):  # 상위 5개만 출력
+            #         print(f"  {i+1}. {news['cleaned_title']}")
+            #     if len(cluster_news) > 5:
+            #         print(f"  ... 그 외 {len(cluster_news) - 5}개")
         else:
             # HDBSCAN이 실패한 경우 모든 데이터를 노이즈로 처리
             noise_data = titles_data.copy()
@@ -359,7 +340,7 @@ class NewsAnalyzer:
             else:
                 n_clusters = min(15, n_data // 15)
             
-            print(f"K-Means 클러스터 수: {n_clusters}")
+            # print(f"K-Means 클러스터 수: {n_clusters}")
             
             if n_clusters >= 2:
                 kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
@@ -369,7 +350,7 @@ class NewsAnalyzer:
                 for i, (label, item) in enumerate(zip(kmeans_labels, titles_data)):
                     hdbscan_clusters[label].append(item)
                 
-                print(f"K-Means 클러스터링 완료: {n_clusters}개 클러스터 생성")
+                # print(f"K-Means 클러스터링 완료: {n_clusters}개 클러스터 생성")
             else:
                 print("데이터가 너무 적어 클러스터링을 수행할 수 없습니다.")
         
@@ -386,7 +367,7 @@ class NewsAnalyzer:
             else:
                 n_clusters = min(2, n_noise // 5)
             
-            print(f"  - K-Means 클러스터 수: {n_clusters}")
+            # print(f"  - K-Means 클러스터 수: {n_clusters}")
             
             if n_clusters >= 2:
                 kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
@@ -410,20 +391,17 @@ class NewsAnalyzer:
         final_clusters = hdbscan_clusters
         final_noise = []
         
-        print(f"\n=== 클러스터링 완료 ===")
-        print(f"총 클러스터 수: {len(final_clusters)}개")
-        print(f"최종 노이즈: {len(final_noise)}개")
+        # print(f"총 클러스터 수: {len(final_clusters)}개")
+        # print(f"최종 노이즈: {len(final_noise)}개")
         
         # 클러스터별 뉴스 수 출력
-        for cluster_id, news_list in sorted(final_clusters.items(), key=lambda x: len(x[1]), reverse=True):
-            print(f"  클러스터 {cluster_id}: {len(news_list)}개 뉴스")
+        # for cluster_id, news_list in sorted(final_clusters.items(), key=lambda x: len(x[1]), reverse=True):
+        #     print(f"  클러스터 {cluster_id}: {len(news_list)}개 뉴스")
         
         return final_clusters, final_noise
     
     def extract_keywords_with_keybert(self, text, top_k=3, show_details=False):
         """KeyBERT 키워드 추출 (이미지 요구사항)"""
-        print(f"\n=== KeyBERT 키워드 추출 ===")
-        print(f"입력 텍스트: {text[:100]}...")
         
         try:
             # KeyBERT로 키워드 추출
@@ -436,10 +414,10 @@ class NewsAnalyzer:
                 diversity=0.5   # 다양성 파라미터
             )
             
-            if show_details:
-                print(f"KeyBERT 상위 {top_k}개 키워드:")
-                for i, (keyword, score) in enumerate(keybert_keywords):
-                    print(f"{i+1:2d}. {keyword} (점수: {score:.4f})")
+            # if show_details:
+            #     print(f"KeyBERT 상위 {top_k}개 키워드:")
+            #     for i, (keyword, score) in enumerate(keybert_keywords):
+            #         print(f"{i+1:2d}. {keyword} (점수: {score:.4f})")
             
             return [kw for kw, score in keybert_keywords]
         except Exception as e:
@@ -448,8 +426,6 @@ class NewsAnalyzer:
 
     def generate_cluster_labels(self, clusters):
         """클러스터별 키워드 라벨 생성 (이미 추출된 명사 사용 + KeyBERT)"""
-        print("=== 클러스터 라벨 생성 시작 ===")
-        
         cluster_labels = {}
         cluster_count = 0
         
@@ -458,16 +434,14 @@ class NewsAnalyzer:
             titles = [item["cleaned_title"] for item in news_list]
             combined_text = " ".join(titles)
             
-            print(f"\n--- 클러스터 {cluster_id} (뉴스 {len(news_list)}개) ---")
-            
             # 1단계: TF-IDF 기반 키워드 추출
             tfidf_keywords = self.extract_keywords_with_konlpy_tfidf(
-                titles, topn=5, show_details=(cluster_count <= 3)
+                titles, topn=5, show_details=False
             )
             
             # 2단계: KeyBERT 키워드 추출
             keybert_keywords = self.extract_keywords_with_keybert(
-                combined_text, top_k=3, show_details=(cluster_count <= 3)
+                combined_text, top_k=3, show_details=False
             )
             
             # 3단계: 키워드 결합 및 중복 제거
@@ -485,11 +459,7 @@ class NewsAnalyzer:
                 "tfidf_keywords": tfidf_keywords,
                 "keybert_keywords": keybert_keywords
             }
-            
-            print(f"대분류: {major_category}")
-            print(f"통합 키워드: {cluster_labels[cluster_id]['keywords']}")
         
-        print(f"\n=== 클러스터 라벨 생성 완료 ({len(cluster_labels)}개) ===")
         return cluster_labels
     
     def determine_major_category(self, keywords, titles):
@@ -772,10 +742,12 @@ class NewsAnalyzer:
             "total_news": total_univ_news + total_cluster_news + len(noise_news)
         }
     
+    def normalize_keyword(self, keyword):
+        """키워드의 공백을 하이픈으로 변경 (노드 ID 매칭용)"""
+        return keyword.replace(" ", "-")
+    
     def create_frontend_data(self, univ_news, clusters, cluster_labels, noise_news):
         """프론트엔드용 데이터 구조 생성 (테스트 코드와 동일한 구조)"""
-        print("프론트엔드용 데이터 구조 생성 중...")
-        
         # 테스트 코드와 동일한 구조로 생성
         frontend_data = {
             "universities": [],
@@ -837,33 +809,26 @@ class NewsAnalyzer:
                     "minor_categories": minor_categories_data
                 })
         
-        print(f"프론트엔드 데이터 생성 완료: {len(frontend_data['universities'])}개 대학, {len(frontend_data['clusters'])}개 클러스터")
-        
         # 프론트엔드가 기대하는 형식으로 변환
         converted_data = []
         
         # 1. 대학교 데이터를 majorKeyword 형식으로 변환
         if frontend_data['universities']:
-            print(f"대학교 데이터 변환 중: {len(frontend_data['universities'])}개 대학")
             univ_middle_keywords = []
             univ_other_news = []
             
             for univ in frontend_data['universities']:
-                print(f"  - {univ['name']}: {univ['news_count']}개 뉴스")
                 univ_middle_keywords.append({
-                    "middleKeyword": univ['name'],
+                    "middleKeyword": self.normalize_keyword(univ['name']),
                     "relatedNews": univ['news']
                 })
                 univ_other_news.extend(univ['news'])
             
             converted_data.append({
-                "majorKeyword": "대학교",
+                "majorKeyword": self.normalize_keyword("대학교"),
                 "middleKeywords": univ_middle_keywords,
                 "otherNews": univ_other_news
             })
-            print(f"대학교 대분류 생성 완료: {len(univ_middle_keywords)}개 중분류")
-        else:
-            print("대학교 데이터가 없습니다.")
         
         # 2. 클러스터 데이터를 majorKeyword 형식으로 변환
         for cluster in frontend_data['clusters']:
@@ -872,64 +837,43 @@ class NewsAnalyzer:
             
             for minor_cat in cluster['minor_categories']:
                 cluster_middle_keywords.append({
-                    "middleKeyword": minor_cat['name'],
+                    "middleKeyword": self.normalize_keyword(minor_cat['name']),
                     "relatedNews": minor_cat['news']
                 })
                 cluster_other_news.extend(minor_cat['news'])
             
-            converted_data.append({
-                "majorKeyword": cluster['major_category'],
-                "middleKeywords": cluster_middle_keywords,
-                "otherNews": cluster_other_news
-            })
+            # 뉴스가 있는 경우에만 대분류 추가
+            if cluster_middle_keywords or cluster_other_news:
+                converted_data.append({
+                    "majorKeyword": self.normalize_keyword(cluster['major_category']),
+                    "middleKeywords": cluster_middle_keywords,
+                    "otherNews": cluster_other_news
+                })
         
-        print(f"프론트엔드 변환 완료: {len(converted_data)}개 대분류")
         return converted_data
     
     def analyze_from_db(self, news_data, use_hdbscan=False, use_hybrid=True):
         """뉴스 제목 분석 파이프라인 (이미지 요구사항)"""
-        print("=== 뉴스 제목 분석 시작 ===")
-        print(f"입력 데이터: {len(news_data)}개 뉴스")
-        
         # 1단계: 전처리 (특수문자 제거)
-        print("\n1단계: 전처리")
         processed_data = self.preprocess_titles(news_data)
         
         if len(processed_data) < 5:
-            print("분석할 뉴스가 너무 적습니다.")
             return None
         
         # 2단계: 대학교 이름으로 분류
-        print("\n2단계: 대학교 이름 분류")
         univ_news, other_news = self.split_news_by_uni_name(processed_data)
         
         # 3단계: 클러스터링 (HDBSCAN + K-Means)
-        print("\n3단계: 클러스터링")
         if other_news:
-            print(f"기타 뉴스 {len(other_news)}개에 대해 하이브리드 클러스터링 수행...")
             clusters, noise_news = self.enhanced_cluster_news(other_news, use_hdbscan=use_hdbscan, use_hybrid=use_hybrid)
         else:
             clusters, noise_news = {}, []
         
         # 4단계: 키워드 추출 (KonlPy + TF-IDF + KeyBERT)
-        print("\n4단계: 키워드 추출")
         cluster_labels = self.generate_cluster_labels(clusters)
         
         # 5단계: 마인드맵 데이터 생성
-        print("\n5단계: 마인드맵 데이터 생성")
         frontend_data = self.create_frontend_data(univ_news, clusters, cluster_labels, noise_news)
-        
-        # 분석 결과 요약
-        total_univ_news = sum(len(news_list) for news_list in univ_news.values())
-        total_cluster_news = sum(len(news_list) for news_list in clusters.values())
-        total_news = total_univ_news + total_cluster_news + len(noise_news)
-        
-        print(f"\n=== 분석 완료 ===")
-        print(f"- 대학교 뉴스: {len(univ_news)}개 대학, {total_univ_news}개 뉴스")
-        print(f"- 클러스터 뉴스: {len(clusters)}개 클러스터, {total_cluster_news}개 뉴스")
-        print(f"- 노이즈 뉴스: {len(noise_news)}개")
-        print(f"- 총 처리 뉴스: {total_news}개")
-        print(f"- 마인드맵 대분류: {len(frontend_data)}개")
         
         return frontend_data
 

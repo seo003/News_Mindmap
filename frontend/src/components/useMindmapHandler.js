@@ -1,14 +1,18 @@
 import { useState, useCallback } from "react";
 
 import {
-    generateNodeId,
-    parseNodeId,
-    findNestedData,
-    MIDDLE_LIST_KEY,
-    MIDDLE_ITEM_KEY,
-    RELATED_NEWS_KEY,
+  generateNodeId,
+  parseNodeId,
+  findNestedData,
+  formatKeywordForDisplay,
+  MIDDLE_LIST_KEY,
+  MIDDLE_ITEM_KEY,
+  RELATED_NEWS_KEY,
 } from "../utils/mindmapUtil";
 
+/**
+ * 마인드맵 인터랙션 핸들러 훅
+ */
 export function useMindmapHandler({
     keywords,
     fgRef,
@@ -17,7 +21,10 @@ export function useMindmapHandler({
     expandedNodeIds,
     setExpandedNodeIds,
 }) {
+    // 선택된 뉴스 상태
     const [selectedNews, setSelectedNews] = useState(null);
+    
+    // 뉴스 선택을 위한 노드 ID 상태
     const [selectedNodeIdForNews, setSelectedNodeIdForNews] = useState(null);
     
     // 노드 축소 시 하위 노드 검색 함수
@@ -57,9 +64,6 @@ export function useMindmapHandler({
                 return;
             }
 
-            console.log(`Node clicked: ID=${nodeId}, Level=${nodeLevel}, Type=${parsed.type}`);
-
-
             // 메인 노드("뉴스") 클릭
             if (nodeLevel === 0) {
                 setSelectedNews(null);
@@ -78,8 +82,6 @@ export function useMindmapHandler({
 
             // 대분류 재클릭 시 축소
             if (nodeLevel === 1 && expandedNodeIds.has(nodeId)) {
-                console.log(`Collapsing node: ${nodeId} (Level ${nodeLevel})`);
-
                 // 중앙 노드('뉴스')로 focus
                 if (fgRef.current) {
                     fgRef.current.centerAt(0, 0, 1000);
@@ -129,8 +131,6 @@ export function useMindmapHandler({
 
             // 대분류 클릭 시 중분류 생성
             if (nodeLevel === 1) {
-                console.log(`Expanding Major: ${parsed.majorKeyword}`);
-
                 // 클릭된 노드로 focus
                 if (fgRef.current) {
                     fgRef.current.centerAt(node.x, node.y, 1000);
@@ -140,13 +140,12 @@ export function useMindmapHandler({
                 const middleCategoriesData = currentNodeData[MIDDLE_LIST_KEY] || [];
 
                 if (middleCategoriesData.length > 0) {
-                    console.log(`Found ${middleCategoriesData.length} Middle Categories`);
                     middleCategoriesData.forEach((middleCatObj) => {
                         const middleKeywordValue = middleCatObj[MIDDLE_ITEM_KEY];
                         const relatedNews = middleCatObj[RELATED_NEWS_KEY] || [];
                         
-                        // 중분류가 존재하고 실제 뉴스가 있는 경우에만 처리
-                        if (middleKeywordValue && Array.isArray(relatedNews) && relatedNews.length > 0) {
+                        // 중분류가 존재하고 뉴스가 2개 이상인 경우에만 처리
+                        if (middleKeywordValue && Array.isArray(relatedNews) && relatedNews.length >= 2) {
                             // 중분류 노드 ID 생성
                             const middleNodeId = generateNodeId(
                                 parsed.majorKeyword,
@@ -159,32 +158,26 @@ export function useMindmapHandler({
                                     id: middleNodeId,
                                     group: 2,
                                     level: 2,
-                                    label: middleKeywordValue,
+                                    label: formatKeywordForDisplay(middleKeywordValue),
                                     type: "middle",
                                     parentId: nodeId,
                                 });
                                 // 링크 추가
                                 linksToAdd.push({ source: nodeId, target: middleNodeId });
                             } else if (!middleNodeId) {
-                                console.warn("Skipping middle node due to invalid ID generated for value:", middleKeywordValue);
+                                console.warn(`중분류 노드 ID 생성 실패: ${middleKeywordValue}`);
                             }
                         } else {
-                            console.warn("Skipping middle category object with no keyword value:", middleCatObj);
+                            console.warn(`건너뛰기: 뉴스 부족 (뉴스 개수: ${relatedNews.length}, 최소 필요: 2개)`);
                         }
                     });
-                } else {
-                    console.log(`No Middle Categories found for Major: ${parsed.majorKeyword}`);
                 }
             }
 
             // 중분류 클릭 시 뉴스 표시
             else if (nodeLevel === 2) {
-                console.log(`Clicked on Middle-category: ${parsed.middleKeyword}`);
-                
                 // 중분류 재클릭 시 뉴스 패널 닫기 (부모 노드로 focus)
                 if (selectedNodeIdForNews === nodeId) {
-                    console.log(`Closing news panel and focusing on parent node`);
-                    
                     // 부모 노드 찾기
                     const parentNode = graphData.nodes.find(n => n.id === node.parentId);
                     if (parentNode && fgRef.current) {
@@ -199,7 +192,6 @@ export function useMindmapHandler({
                 const newsList = currentNodeData?.[RELATED_NEWS_KEY] || [];
                 setSelectedNews(newsList);
                 setSelectedNodeIdForNews(nodeId);
-                console.log(`Found ${newsList.length} related news items.`);
                 return;
             }
 
@@ -245,9 +237,6 @@ export function useMindmapHandler({
 
             // 노드 업데이트
             if (uniqueNodesToAdd.length > 0 || uniqueLinksToAdd.length > 0) {
-                console.log(
-                    `Adding ${uniqueNodesToAdd.length} nodes and ${uniqueLinksToAdd.length} links.`
-                );
                 setGraphData((prevGraphData) => ({
                     nodes: [...prevGraphData.nodes, ...uniqueNodesToAdd],
                     links: [...prevGraphData.links, ...uniqueLinksToAdd],
@@ -256,14 +245,13 @@ export function useMindmapHandler({
                 if (nodeLevel === 1) {
                     setExpandedNodeIds((prevIds) => new Set(prevIds).add(nodeId));
                 }
-            } else {
-                console.log(`No new nodes or links to add for node: ${nodeId}`);
             }
         },
-        [graphData, setGraphData, expandedNodeIds, setExpandedNodeIds, keywords, fgRef, setSelectedNews, setSelectedNodeIdForNews, collectDescendants]
+        [graphData, setGraphData, expandedNodeIds, setExpandedNodeIds, keywords, fgRef, setSelectedNews, setSelectedNodeIdForNews, selectedNodeIdForNews, collectDescendants]
     );
 
 
+    // 훅에서 반환할 인터랙션 핸들러와 상태
     return {
         handleNodeClick,
         selectedNews,

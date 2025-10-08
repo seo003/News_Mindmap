@@ -1,22 +1,22 @@
+/**
+ * 마인드맵 유틸리티 함수들
+ */
+
+// 데이터 구조 키 상수
 export const MAJOR_KEY = "majorKeyword";
 export const MIDDLE_LIST_KEY = "middleKeywords";
 export const MIDDLE_ITEM_KEY = "middleKeyword";
 export const RELATED_NEWS_KEY = "relatedNews"; 
 export const OTHER_NEWS_KEY = "otherNews";
 
-// 디버깅을 위한 키 상수 출력
-console.log("MindmapUtil constants:", {
-    MAJOR_KEY,
-    MIDDLE_LIST_KEY,
-    MIDDLE_ITEM_KEY,
-    RELATED_NEWS_KEY,
-    OTHER_NEWS_KEY
-}); 
-
+// 키워드 표시용 함수 (하이픈을 공백으로 변환)
+export const formatKeywordForDisplay = (keyword) => {
+    return keyword ? keyword.replace(/-/g, ' ') : '';
+};
 
 // 노드 ID 생성 함수
 export const generateNodeId = (majorValue, middleValue = null) => {
-    const safe = (value) => value ? String(value).replace(/[^a-zA-Z0-9가-힣_.]/g, '') : '';
+    const safe = (value) => value ? String(value).replace(/[^a-zA-Z0-9가-힣_.-]/g, '') : '';
 
     const safeMajor = safe(majorValue);
     const safeMiddle = safe(middleValue);
@@ -42,17 +42,19 @@ export const parseNodeId = (nodeId) => {
          console.warn("parseNodeId: Received null or undefined nodeId.");
          return { level: -1, type: 'invalid', majorKeyword: null, middleKeyword: null };
     }
-    // 소분류 관련 파싱 로직 제거
+    
+    // 중앙 노드 처리
     if (nodeId === "뉴스") return { level: 0, type: 'central', majorKeyword: null, middleKeyword: null };
 
     const parts = nodeId.split('_');
     const type = parts[0]; 
 
     try {
+        // 대분류 노드 파싱
         if (type === 'MAJOR' && parts.length === 2) {
             return { level: 1, type: 'major', majorKeyword: parts[1], middleKeyword: null };
         }
-        // 중분류 ID 파싱 (MIDDLE_MAJOR_MIDDLE 포맷)
+        // 중분류 노드 파싱
         if (type === 'MIDDLE' && parts.length === 3) {
             return { level: 2, type: 'middle', majorKeyword: parts[1], middleKeyword: parts[2] };
         }
@@ -62,10 +64,10 @@ export const parseNodeId = (nodeId) => {
     }
 
     console.warn("parseNodeId: Unknown node ID format:", nodeId);
-    return { level: -1, type: 'unknown', majorKeyword: null, middleKeyword: null }; // 알 수 없는 포맷
+    return { level: -1, type: 'unknown', majorKeyword: null, middleKeyword: null };
 };
 
-// 노드 객체와 원래 키워드를 기반으로 해당 레벨의 데이터 객체를 찾는 헬퍼 함수 (2단계 구조 유지)
+// 노드 객체와 원래 키워드를 기반으로 해당 레벨의 데이터 객체를 찾는 헬퍼 함수 
 export const findNestedData = (node, keywordsData) => {
     if (!keywordsData || !Array.isArray(keywordsData) || !node) {
         console.error("findNestedData: Invalid inputs.");
@@ -88,19 +90,22 @@ export const findNestedData = (node, keywordsData) => {
     const { majorKeyword, middleKeyword, type } = parsed;
 
 
-    if (level === 0) return null; // 중앙노드는 직접 매핑 X
+    // // 중앙노드는 직접 매핑 X
+    if (level === 0) return null;
 
-    // 대분류 찾기 
+    // 대분류 데이터 찾기 
     const majorCat = keywordsData.find(cat => cat[MAJOR_KEY] === majorKeyword);
     if (!majorCat) {
         return null;
     }
 
-    if (level === 1 && type === 'major') { // 대분류 클릭 시 대분류 반환
+    // 대분류 클릭 시 대분류 데이터 반환
+    if (level === 1 && type === 'major') {
         return majorCat; 
     }
 
-    if (level === 2 && type === 'middle') { // 중분류 반환
+    // 중분류 클릭 시 중분류 데이터 반환
+    if (level === 2 && type === 'middle') {
         const middleCat = majorCat[MIDDLE_LIST_KEY]?.find(mid => mid[MIDDLE_ITEM_KEY] === middleKeyword);
         return middleCat; 
     }
@@ -143,25 +148,28 @@ export const calculateNewsCountsByMajor = (keywordsData) => {
     return newsCounts;
 };
 
-// 색상 진하기 계산 함수 (뉴스 개수에 따라)
+// 색상 진하기 계산 함수
 export const calculateColorIntensity = (newsCount, maxNewsCount, minNewsCount = 0) => {
-    if (maxNewsCount === minNewsCount) return 0.5; // 모든 값이 같으면 중간값
+    if (maxNewsCount === minNewsCount) return 0.5; 
     
     const normalizedCount = (newsCount - minNewsCount) / (maxNewsCount - minNewsCount);
-    // 0.3 ~ 1.0 범위로 정규화 (너무 연하지 않게)
+    // 정규화 (너무 연하지 않게)
     return Math.max(0.3, Math.min(1.0, normalizedCount));
 };
 
 
-// 초기 마인드맵 데이터 생성 함수
+/**
+ * 초기 마인드맵 데이터 생성 함수
+ */
 export const generateInitialMindMapData = (keywordsData) => {
     // 중앙 노드 ID 생성 
-    const centralNodeId = generateNodeId(); // "뉴스" 반환
+    const centralNodeId = generateNodeId(); 
     if (!centralNodeId) {
          console.error("Failed to generate central node ID.");
          return { nodes: [], links: [] };
     }
-    // 노드 객체 생성 시 parentId 설정
+    
+    // 초기 노드 배열
     const nodes = [{
         id: centralNodeId,
         group: 0,
@@ -180,11 +188,11 @@ export const generateInitialMindMapData = (keywordsData) => {
     keywordsData.forEach((majorCatObj) => {
         const majorKeywordValue = majorCatObj[MAJOR_KEY];
         
-        // 더 엄격한 검증: 중분류와 기타 뉴스 모두 체크
+        // 중분류와 기타 뉴스 모두 체크
         const middleCategories = majorCatObj[MIDDLE_LIST_KEY] || [];
         const otherNews = majorCatObj[OTHER_NEWS_KEY] || [];
         
-        // 중분류가 있고 실제 뉴스가 있는지 확인
+        // 중분류가 및 실제 뉴스가 있는지 확인
         const hasValidMiddleCategories = middleCategories.some(middle => 
             middle[MIDDLE_ITEM_KEY] && 
             middle[RELATED_NEWS_KEY] && 
@@ -197,7 +205,7 @@ export const generateInitialMindMapData = (keywordsData) => {
         
         const hasContent = hasValidMiddleCategories || hasValidOtherNews;
 
-        if (majorKeywordValue && hasContent) { // 유효한 대분류 이름이 있고 내용이 있는 경우만 노드 생성
+        if (majorKeywordValue && hasContent) { // 유효한 경우만 노드 생성
             // 대분류 노드 ID 생성
             const majorNodeId = generateNodeId(majorKeywordValue); 
 
@@ -208,7 +216,7 @@ export const generateInitialMindMapData = (keywordsData) => {
 
             // 이미 존재하는지 확인 
             if (!nodes.some(n => n.id === majorNodeId)) {
-                nodes.push({ id: majorNodeId, group: 1, level: 1, label: majorKeywordValue, type: 'major', parentId: centralNodeId });
+                nodes.push({ id: majorNodeId, group: 1, level: 1, label: formatKeywordForDisplay(majorKeywordValue), type: 'major', parentId: centralNodeId });
                 // 중앙 노드에서 대분류 노드로 링크 추가
                 links.push({ source: centralNodeId, target: majorNodeId });
             }
@@ -217,7 +225,9 @@ export const generateInitialMindMapData = (keywordsData) => {
         }
     });
 
-    const initialSpreadRadius = 400; 
+    // 화면 크기에 따라 초기 분산 반지름 조정
+    const screenWidth = window.innerWidth;
+    const initialSpreadRadius = screenWidth < 480 ? 600 : screenWidth < 768 ? 500 : 400;
 
     nodes.forEach(node => {
       if (node.level === 0) {

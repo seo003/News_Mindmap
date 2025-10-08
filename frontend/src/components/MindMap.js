@@ -15,51 +15,66 @@ import {
   RELATED_NEWS_KEY,
 } from "../utils/mindmapUtil";
 
-
+/**
+ * 뉴스 마인드맵 컴포넌트
+ */
 const MindMap = ({ keywords }) => {
+  // 초기 마인드맵 데이터 생성
   const initialData = generateInitialMindMapData(keywords);
+  
+  // 마인드맵 그래프 데이터 상태
   const [graphData, setGraphData] = useState(initialData);
+  
+  // 화면 크기 상태 
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth, // 초기값을 실제 화면 크기로 설정
+    width: window.innerWidth, 
     height: window.innerHeight,
   });
 
 
   // 화면 크기별 줌 레벨 적용
   const getInitialZoom = useCallback(() => {
-    // 디바이스 툴바 대응을 위해 window.innerWidth 직접 사용
     const viewportWidth = window.innerWidth;
     let zoomLevel;
     
     if (viewportWidth <= 320) {
-      zoomLevel = 2.0; // 320px 이하에서는 더 작게
+      zoomLevel = 1.9; 
+    } else if (viewportWidth <= 480) {
+      zoomLevel = 2.2; 
+    } else if (viewportWidth <= 768) {
+      zoomLevel = 2.6; 
     } else if (viewportWidth <= 1024) {
-      zoomLevel = 2.0; // 768px 이하에서는 기존 크기
+      zoomLevel = 2.9; 
     } else {
-      zoomLevel = 3.0; // 768px 이상에서는 기본 크기
+      zoomLevel = 3.4; 
     }
     
-    console.log(`화면 크기 변경 감지: window.innerWidth=${window.innerWidth}, dimensions.width=${dimensions.width}, viewportWidth=${viewportWidth}, 줌 레벨=${zoomLevel}`);
     return zoomLevel;
-  }, [dimensions.width]);
+  }, []);
 
+  // 초기 줌 레벨 계산
   const initialZoom = getInitialZoom();
 
+  // 노드 확장 상태
   const [expandedNodeIds, setExpandedNodeIds] = useState(new Set());
-  const [currentZoom, setCurrentZoom] = useState(initialZoom);
-  const [userZoomed, setUserZoomed] = useState(false); // 사용자가 수동으로 줌 조정했는지 추적  
   
-  // 줌 컨트롤 함수들
+  // 현재 줌 레벨 상태
+  const [currentZoom, setCurrentZoom] = useState(initialZoom);
+  
+  // 사용자가 수동으로 줌 조정했는지 추적
+  const [userZoomed, setUserZoomed] = useState(false);  
+  
+  /**
+   * 줌 컨트롤 함수
+   */
+  
+  // 줌 인 함수: 마인드맵 확대
   const handleZoomIn = useCallback(() => {
-    console.log('줌인 버튼 클릭됨, 현재 줌:', currentZoom);
     const newZoom = Math.min(currentZoom * 1.2, 10); // 최대 줌 레벨 제한
-    console.log('새로운 줌 레벨:', newZoom);
     
     if (fgRef.current) {
       try {
-        // 줌 적용을 여러 번 시도
         fgRef.current.zoom(newZoom);
-        // 약간의 지연 후 다시 시도
         setTimeout(() => {
           if (fgRef.current) {
             fgRef.current.zoom(newZoom);
@@ -67,7 +82,6 @@ const MindMap = ({ keywords }) => {
         }, 100);
         setCurrentZoom(newZoom);
         setUserZoomed(true);
-        console.log('줌인 적용 완료');
       } catch (error) {
         console.error('줌인 적용 중 오류:', error);
       }
@@ -76,16 +90,13 @@ const MindMap = ({ keywords }) => {
     }
   }, [currentZoom]);
 
+  // 줌 아웃 함수: 마인드맵 축소
   const handleZoomOut = useCallback(() => {
-    console.log('줌아웃 버튼 클릭됨, 현재 줌:', currentZoom);
     const newZoom = Math.max(currentZoom / 1.2, 0.1); // 최소 줌 레벨 제한
-    console.log('새로운 줌 레벨:', newZoom);
     
     if (fgRef.current) {
       try {
-        // 줌 적용을 여러 번 시도
         fgRef.current.zoom(newZoom);
-        // 약간의 지연 후 다시 시도
         setTimeout(() => {
           if (fgRef.current) {
             fgRef.current.zoom(newZoom);
@@ -93,7 +104,6 @@ const MindMap = ({ keywords }) => {
         }, 100);
         setCurrentZoom(newZoom);
         setUserZoomed(true);
-        console.log('줌아웃 적용 완료');
       } catch (error) {
         console.error('줌아웃 적용 중 오류:', error);
       }
@@ -102,23 +112,15 @@ const MindMap = ({ keywords }) => {
     }
   }, [currentZoom]);
 
+  // 리셋 함수: 마인드맵 줌 상태 초기화
   const handleReset = useCallback(() => {
     if (fgRef.current) {
       fgRef.current.centerAt(0, 0, 1000);
       fgRef.current.zoom(initialZoom);
       setCurrentZoom(initialZoom);
-      setUserZoomed(false); // 리셋 시 사용자 줌 상태 초기화
+      setUserZoomed(false); 
     }
   }, [initialZoom]);
-
-  const handleResetZoom = useCallback(() => {
-    if (fgRef.current) {
-      const resetZoom = getInitialZoom();
-      setCurrentZoom(resetZoom);
-      fgRef.current.zoom(resetZoom);
-      fgRef.current.centerAt(0, 0, 1000);
-    }
-  }, [getInitialZoom]);
   
   // 뉴스 개수 데이터 계산
   const newsCountsByMajor = calculateNewsCountsByMajor(keywords);
@@ -127,7 +129,7 @@ const MindMap = ({ keywords }) => {
   
   // 뉴스 개수 순으로 정렬된 대분류 목록 생성
   const sortedMajors = Object.entries(newsCountsByMajor)
-    .sort(([,a], [,b]) => b - a) // 뉴스 개수 내림차순 정렬
+    .sort(([,a], [,b]) => b - a) // 내림차순 정렬
     .map(([major, count]) => ({ major, count }));
   
   // 각 대분류의 순위 계산
@@ -136,9 +138,13 @@ const MindMap = ({ keywords }) => {
     majorRankings[item.major] = index;
   });
 
+  // Force-graph 컴포넌트 참조
   const fgRef = useRef();
+  
+  // 컨테이너 DOM 참조
   const containerRef = useRef();
 
+  // 마인드맵 핸들러 훅 사용
   const {
     handleNodeClick,
     selectedNews,
@@ -153,10 +159,13 @@ const MindMap = ({ keywords }) => {
   });
 
 
+  /**
+   * 키워드 데이터 변경 시 마인드맵 초기화
+   */
   useEffect(() => {
     const newInitialData = generateInitialMindMapData(keywords);
     
-    
+    // 그래프 데이터 및 상태 초기화
     setGraphData(newInitialData);
     setExpandedNodeIds(new Set());
     setSelectedNews(null);
@@ -165,8 +174,9 @@ const MindMap = ({ keywords }) => {
     // 초기 줌 레벨 설정 및 사용자 줌 상태 초기화
     const initialZoomLevel = getInitialZoom();
     setCurrentZoom(initialZoomLevel);
-    setUserZoomed(false); // 새로운 데이터 로드 시 사용자 줌 상태 초기화
+    setUserZoomed(false);
     
+    // Force-graph 중앙 이동 및 초기 줌 적용
     if (fgRef.current) {
       fgRef.current.centerAt(0, 0, 1000);
       fgRef.current.zoom(initialZoomLevel);
@@ -193,7 +203,7 @@ const MindMap = ({ keywords }) => {
       }
     };
 
-    // 초기 크기 설정 - 즉시 실행
+    // 초기 크기 설정
     handleResize();
 
     // ResizeObserver 사용
@@ -223,14 +233,14 @@ const MindMap = ({ keywords }) => {
     };
   }, []);
 
-  // 화면 크기 변경 시 줌 레벨 자동 조정 (사용자가 수동으로 줌을 조정하지 않은 경우에만)
+  // 화면 크기 변경 시 줌 레벨 자동 조정
   useEffect(() => {
     if (fgRef.current && dimensions.width > 0 && dimensions.height > 0 && !userZoomed) {
       const zoomLevel = getInitialZoom();
       
-      // 화면 크기가 변경되면 항상 줌 레벨 업데이트 (디바이스 툴바 대응)
+      // 화면 크기가 변경되면 항상 줌 레벨 업데이트
       if (Math.abs(currentZoom - zoomLevel) > 0.1) {
-        // 약간의 지연을 두고 줌 적용 (force-graph가 완전히 로드된 후)
+        // 약간의 지연을 두고 줌 적용
         const timeoutId = setTimeout(() => {
           if (fgRef.current) {
             fgRef.current.centerAt(0, 0, 1000);
@@ -266,9 +276,11 @@ const MindMap = ({ keywords }) => {
     }
   }, [dimensions.width, dimensions.height]);
 
-  // 줌 상태 변경 시 ForceGraph2D 업데이트는 zoom prop을 통해 자동으로 처리됨
-
-
+  /**
+   * 노드 렌더링 함수
+   * 각 노드를 타원형으로 그리고 텍스트 표시
+   * 노드 레벨별로 다른 크기, 색상, 글자 크기 적용
+   */
   const nodeCanvasObject = (node, ctx, scale) => {
     // 유효한지 확인
     if (!node || !node.id) {
@@ -286,20 +298,31 @@ const MindMap = ({ keywords }) => {
 
     // 노드 별 크기 및 색상 조절
     if (node.level === 0) {
-      // 중앙 노드 (뉴스) - 진한 남색으로 대분류와 구분
+      // 중앙 노드 (뉴스)
       if (dimensions.width < 320) {
-        fontSize = 10; nodeHeight = 20;
+        fontSize = 9; nodeHeight = 16;
       } else if (dimensions.width < 480) {
-        fontSize = 12; nodeHeight = 24;
+        fontSize = 11; nodeHeight = 20; 
       } else if (dimensions.width < 700) {
-        fontSize = 14; nodeHeight = 28;
+        fontSize = 13; nodeHeight = 24; 
       } else {
-        fontSize = 16; nodeHeight = 32;
+        fontSize = 15; nodeHeight = 28;
       }
-      nodeWidth = Math.max(60, label.length * fontSize * 0.6 + 24);
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
+      if (dimensions.width < 320) {
+        widthMultiplier = 0.6; 
+      } else if (dimensions.width < 480) {
+        widthMultiplier = 0.7; 
+      } else if (dimensions.width < 700) {
+        widthMultiplier = 0.8; 
+      } else {
+        widthMultiplier = 1.0; 
+      }
+      nodeWidth = Math.max(40 * widthMultiplier, (label.length * fontSize * 0.4 + 12) * widthMultiplier);
       nodeColor = '#1e3a8a'; borderColor = '#1e40af'; // 진한 남색
     } else if (node.level === 1) {
-      // 1차 노드 (대분류) - 뉴스 개수에 따라 색상과 크기 조절
+      // 대분류 - 뉴스 개수에 따라 색상 및 크기 조절
       const parsed = parseNodeId(node.id);
       const majorKeyword = parsed.majorKeyword;
       const newsCount = newsCountsByMajor[majorKeyword] || 0;
@@ -308,48 +331,62 @@ const MindMap = ({ keywords }) => {
       // 뉴스 개수에 따른 크기 조절 (기본 0.8배, 최대 2.0배)
       const sizeMultiplier = Math.max(0.8, Math.min(2.0, 0.8 + intensity * 1.2));
       
-      // 기본 글자 크기 설정 (더 세밀한 조정)
+      // 기본 글자 크기 설정
       let baseFontSize;
       if (dimensions.width < 320) {
-        baseFontSize = 4;
+        baseFontSize = 4; 
       } else if (dimensions.width < 480) {
-        baseFontSize = 5;
+        baseFontSize = 5; 
       } else if (dimensions.width < 700) {
-        baseFontSize = 6;
+        baseFontSize = 6; 
       } else {
-        baseFontSize = 8;
+        baseFontSize = 7; 
       }
-      // 뉴스가 적을수록 글자 크기 줄이기 (최대치에서 시작해서 줄어듦)
+      // 뉴스가 적을수록 글자 크기 줄이기
       fontSize = baseFontSize * Math.max(0.7, sizeMultiplier);
       
+      // 화면 크기에 따른 세로 길이 조절
       let baseHeight;
       if (dimensions.width < 320) {
-        baseHeight = 12;
+        baseHeight = 10; 
       } else if (dimensions.width < 480) {
-        baseHeight = 14;
+        baseHeight = 12; 
       } else if (dimensions.width < 700) {
-        baseHeight = 16;
+        baseHeight = 14; 
       } else {
-        baseHeight = 20;
+        baseHeight = 16; 
       }
-      nodeHeight = baseHeight * sizeMultiplier;
-      nodeWidth = Math.max(40, label.length * fontSize * 0.6 + 14) * sizeMultiplier;
+      // 뉴스 개수에 따라 더 크게 증가
+      nodeHeight = baseHeight * sizeMultiplier * 1.2;
       
-      // 뉴스 개수 순위에 따른 완전히 다른 색상 (순위별로 점점 연해짐)
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
+      if (dimensions.width < 320) {
+        widthMultiplier = 0.6; 
+      } else if (dimensions.width < 480) {
+        widthMultiplier = 0.7; 
+      } else if (dimensions.width < 700) {
+        widthMultiplier = 0.8; 
+      } else {
+        widthMultiplier = 1.0; 
+      }
+      nodeWidth = Math.max(25 * widthMultiplier, (label.length * fontSize * 0.3 + 8) * widthMultiplier) * sizeMultiplier;
+      
+      // 뉴스 개수 순위에 따른 색상 조정  
       const totalMajors = sortedMajors.length;
       const rank = majorRankings[majorKeyword] || 0;
-      const rankRatio = rank / Math.max(totalMajors - 1, 1); // 0~1 범위로 정규화
+      const rankRatio = rank / Math.max(totalMajors - 1, 1); 
       
-      // 순위에 따라 색상 계산 (1위가 가장 진하고, 마지막 순위가 가장 연함)
-      const darkR = 59;   // #3b82f6의 R값 (예쁜 파란색)
-      const darkG = 130;  // #3b82f6의 G값  
-      const darkB = 246;  // #3b82f6의 B값
+      // 순위에 따라 색상 계산
+      const darkR = 59;   
+      const darkG = 130; 
+      const darkB = 246;  
       
-      const lightR = 147; // #93c5fd의 R값 (연한 파란색)
-      const lightG = 197; // #93c5fd의 G값
-      const lightB = 253; // #93c5fd의 B값
+      const lightR = 147; 
+      const lightG = 197; 
+      const lightB = 253; 
       
-      // 순위에 따라 색상 보간 (rankRatio가 0이면 진한 색, 1이면 연한 색)
+      // 순위에 따라 색상 보간
       const r = Math.round(darkR + (lightR - darkR) * rankRatio);
       const g = Math.round(darkG + (lightG - darkG) * rankRatio);
       const b = Math.round(darkB + (lightB - darkB) * rankRatio);
@@ -357,19 +394,18 @@ const MindMap = ({ keywords }) => {
       nodeColor = `rgb(${r}, ${g}, ${b})`;
       borderColor = `rgb(${Math.round(r * 0.8)}, ${Math.round(g * 0.8)}, ${Math.round(b * 0.8)})`;
       
-      // 연한 색상일 때는 텍스트 색상도 조정
+      // 텍스트 색상도 조정
       if (rankRatio > 0.7) {
-        textColor = '#1e40af'; // 진한 파란색 텍스트+
+        textColor = '#1e40af'; 
       }
     } else if (node.level === 2) {
-      // 2차 노드 (중분류) - 뉴스 개수에 따른 색상 차이, 글자 길이에 맞춤
+      // 중분류 - 뉴스 개수에 따른 색상 차이 및 글자 길이에 맞춤
       const parsed = parseNodeId(node.id);
       const majorKeyword = parsed.majorKeyword;
       const middleKeyword = parsed.middleKeyword;
       
-      // 해당 대분류의 중분류들 중에서 뉴스 개수 순위 계산
+      // 뉴스 개수 순위 계산
       const majorData = keywords.find(cat => cat[MAJOR_KEY] === majorKeyword);
-      let sizeMultiplier = 1.0; // 기본 크기
       
       if (majorData && majorData[MIDDLE_LIST_KEY]) {
         const middleCategories = majorData[MIDDLE_LIST_KEY];
@@ -382,28 +418,18 @@ const MindMap = ({ keywords }) => {
         const totalMiddles = middleNewsCounts.length;
         
         if (currentMiddleIndex >= 0 && totalMiddles > 0) {
-          const currentMiddle = middleNewsCounts[currentMiddleIndex];
-          const maxCount = middleNewsCounts[0]?.count || 0;
-          const minCount = middleNewsCounts[middleNewsCounts.length - 1]?.count || 0;
-          
-          // 뉴스 개수에 따른 크기 조절 (기본 1.0배, 최대 1.4배)
-          if (maxCount > minCount) {
-            const intensity = (currentMiddle.count - minCount) / (maxCount - minCount);
-            sizeMultiplier = Math.max(1.0, Math.min(1.4, 1.0 + intensity * 0.4));
-          }
-          
           const rankRatio = currentMiddleIndex / Math.max(totalMiddles - 1, 1);
           
-          // 순위에 따라 색상 계산 (뉴스가 많을수록 진한 색)
-          const darkR = 147; // #93c5fd의 R값
-          const darkG = 197; // #93c5fd의 G값  
-          const darkB = 253; // #93c5fd의 B값
+          // 순위에 따라 색상 계산
+          const darkR = 147; 
+          const darkG = 197; 
+          const darkB = 253; 
           
-          const lightR = 219; // #dbeafe의 R값
-          const lightG = 234; // #dbeafe의 G값
-          const lightB = 254; // #dbeafe의 B값
+          const lightR = 219; 
+          const lightG = 234; 
+          const lightB = 254; 
           
-          // 순위에 따라 색상 보간 (rankRatio가 0이면 진한 색, 1이면 연한 색)
+          // 순위에 따라 색상 보간
           const r = Math.round(darkR + (lightR - darkR) * rankRatio);
           const g = Math.round(darkG + (lightG - darkG) * rankRatio);
           const b = Math.round(darkB + (lightB - darkB) * rankRatio);
@@ -413,24 +439,24 @@ const MindMap = ({ keywords }) => {
           
           // 뉴스 개수에 따라 텍스트 색상 조절
           if (rankRatio > 0.7) {
-            textColor = '#1e40af'; // 연한 배경일 때는 진한 파란색 텍스트
+            textColor = '#1e40af'; 
           } else {
-            textColor = 'white'; // 진한 배경일 때는 흰색 텍스트
+            textColor = 'white'; 
           }
         } else {
           // 기본 색상
           nodeColor = '#93c5fd'; borderColor = '#60a5fa';
-          textColor = 'white'; // 흰색 텍스트
+          textColor = 'white'; 
         }
       } else {
         // 기본 색상
         nodeColor = '#93c5fd'; borderColor = '#60a5fa';
-        textColor = 'white'; // 흰색 텍스트
+        textColor = 'white'; 
       }
       
-      // 해당 대분류의 중분류들 중에서 뉴스 개수 순위 계산
+      // 뉴스 개수 순위 계산
       const majorData2 = keywords.find(cat => cat[MAJOR_KEY] === majorKeyword);
-      let sizeMultiplier2 = 1.0; // 기본 크기
+      let sizeMultiplier2 = 1.0; 
       
       if (majorData2 && majorData2[MIDDLE_LIST_KEY]) {
         const middleCategories = majorData2[MIDDLE_LIST_KEY];
@@ -446,27 +472,27 @@ const MindMap = ({ keywords }) => {
           const maxCount = middleNewsCounts[0]?.count || 0;
           const minCount = middleNewsCounts[middleNewsCounts.length - 1]?.count || 0;
           
-          // 뉴스 개수에 따른 크기 조절 (기본 0.7배, 최대 1.8배)
+          // 뉴스 개수에 따른 크기 조절
           if (maxCount > minCount) {
             const intensity = (currentMiddle.count - minCount) / (maxCount - minCount);
-            sizeMultiplier2 = Math.max(0.7, Math.min(1.8, 0.7 + intensity * 1.1));
+            sizeMultiplier2 = Math.max(0.7, Math.min(1.4, 0.7 + intensity * 0.7)); 
           }
         }
       }
       
-      // 기본 글자 크기 설정 (더 세밀한 조정)
+      // 기본 글자 크기 설정
       let baseFontSize2;
       if (dimensions.width < 320) {
-        baseFontSize2 = 3;
+        baseFontSize2 = 4; 
       } else if (dimensions.width < 480) {
-        baseFontSize2 = 4;
+        baseFontSize2 = 5; 
       } else if (dimensions.width < 700) {
-        baseFontSize2 = 5;
+        baseFontSize2 = 6; 
       } else {
-        baseFontSize2 = 7;
+        baseFontSize2 = 8; 
       }
-      // 뉴스가 적을수록 글자 크기 줄이기 (최대치에서 시작해서 줄어듦)
-      fontSize = baseFontSize2 * Math.max(0.7, sizeMultiplier2);
+      // 뉴스가 적을수록 글자 크기 줄이기
+      fontSize = baseFontSize2 * Math.max(0.8, sizeMultiplier2); 
       
       let baseHeight2;
       if (dimensions.width < 320) {
@@ -479,26 +505,46 @@ const MindMap = ({ keywords }) => {
         baseHeight2 = 18;
       }
       nodeHeight = baseHeight2 * sizeMultiplier2;
-      nodeWidth = Math.max(36, label.length * fontSize * 0.6 + 8) * sizeMultiplier2;
-    } else {
-      // 기타 노드 레벨 - 더 세밀한 조정
+      
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
       if (dimensions.width < 320) {
-        fontSize = 3; nodeHeight = 8;
+        widthMultiplier = 0.6; 
       } else if (dimensions.width < 480) {
-        fontSize = 4; nodeHeight = 10;
+        widthMultiplier = 0.7; 
       } else if (dimensions.width < 700) {
-        fontSize = 5; nodeHeight = 12;
+        widthMultiplier = 0.8; 
       } else {
-        fontSize = 7; nodeHeight = 14;
+        widthMultiplier = 1.0; 
       }
-      nodeWidth = Math.max(25, label.length * fontSize * 0.6 + 6);
-      nodeColor = '#dbeafe'; borderColor = '#93c5fd'; textColor = '#1e40af';
-      console.warn("Rendering node with unexpected level:", node);
-    }
+      nodeWidth = Math.max(36 * widthMultiplier, (label.length * fontSize * 0.4 + 6) * widthMultiplier) * sizeMultiplier2;
+      } else {
+        // 예상치 못한 노드 레벨 - 기본값으로 처리
+        console.warn("Rendering node with unexpected level:", node);
+        fontSize = 6; nodeHeight = 12; nodeWidth = 50;
+        nodeColor = '#dbeafe'; borderColor = '#93c5fd'; textColor = '#1e40af';
+      }
 
     // 타원형 그리기
-    const radiusX = nodeWidth / 2;
-    const radiusY = nodeHeight / 2;
+    let radiusX, radiusY;
+    
+    if (node.level === 0) {
+      // 중앙 노드
+      radiusX = nodeWidth / 2;
+      radiusY = Math.max(nodeHeight / 2, radiusX * 0.6);
+    } else if (node.level === 1) {
+      // 대분류 노드
+      radiusX = nodeWidth / 2;
+      radiusY = Math.max(nodeHeight / 2, radiusX * 0.5);
+    } else if (node.level === 2) {
+      // 중분류 노드
+      radiusX = nodeWidth / 2;
+      radiusY = Math.max(nodeHeight / 2, radiusX * 0.6); 
+      } else {
+        // 예상치 못한 노드 레벨 - 기본 타원형
+        radiusX = nodeWidth / 2;
+        radiusY = Math.max(nodeHeight / 2, radiusX * 0.6);
+      }
     const x = node.x;
     const y = node.y;
 
@@ -512,7 +558,7 @@ const MindMap = ({ keywords }) => {
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // 단순한 폰트 크기 (스케일 팩터 제거)
+    // 폰트 크기
     const adaptiveFontSize = fontSize;
     
     ctx.font = `${adaptiveFontSize}px sans-serif`;
@@ -523,6 +569,9 @@ const MindMap = ({ keywords }) => {
 
   };
 
+  /**
+   * 노드 클릭 영역 렌더링 함수
+   */
   const nodePointerAreaCanvasObject = (node, ctx, scale) => {
     // 유효한지 확인
     if (!node || !node.id) {
@@ -533,54 +582,79 @@ const MindMap = ({ keywords }) => {
     let nodeWidth, nodeHeight;
     let fontSize;
     
-    // 노드 크기를 반응형으로 계산 (뉴스 개수에 따른 크기 조절 포함) - 더 세밀한 조정
+    // 노드 크기를 반응형으로 계산
     if (node.level === 0) {
       if (dimensions.width < 320) {
-        fontSize = 10; nodeHeight = 20;
+        fontSize = 9; nodeHeight = 16; 
       } else if (dimensions.width < 480) {
-        fontSize = 12; nodeHeight = 24;
+        fontSize = 11; nodeHeight = 20; 
       } else if (dimensions.width < 700) {
-        fontSize = 14; nodeHeight = 28;
+        fontSize = 13; nodeHeight = 24; 
       } else {
-        fontSize = 16; nodeHeight = 32;
+        fontSize = 15; nodeHeight = 28; 
       }
-      nodeWidth = Math.max(60, label.length * fontSize * 0.6 + 24);
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
+      if (dimensions.width < 320) {
+        widthMultiplier = 0.6; 
+      } else if (dimensions.width < 480) {
+        widthMultiplier = 0.7; 
+      } else if (dimensions.width < 700) {
+        widthMultiplier = 0.8; 
+      } else {
+        widthMultiplier = 1.0; 
+      }
+      nodeWidth = Math.max(40 * widthMultiplier, (label.length * fontSize * 0.4 + 12) * widthMultiplier);
     } else if (node.level === 1) {
-      // 1차 노드 - 뉴스 개수에 따른 크기 조절
+      // 대분류: 뉴스 개수에 따른 크기 조절
       const parsed = parseNodeId(node.id);
       const majorKeyword = parsed.majorKeyword;
       const newsCount = newsCountsByMajor[majorKeyword] || 0;
       const intensity = calculateColorIntensity(newsCount, maxNewsCount, minNewsCount);
       const sizeMultiplier = Math.max(0.8, Math.min(2.0, 0.8 + intensity * 1.2));
       
-      // 기본 글자 크기 설정 (더 세밀한 조정)
+      // 기본 글자 크기 설정
       let baseFontSize;
       if (dimensions.width < 320) {
-        baseFontSize = 4;
+        baseFontSize = 4; 
       } else if (dimensions.width < 480) {
-        baseFontSize = 5;
+        baseFontSize = 5; 
       } else if (dimensions.width < 700) {
-        baseFontSize = 6;
+        baseFontSize = 6; 
       } else {
-        baseFontSize = 8;
+        baseFontSize = 7; 
       }
-      // 뉴스가 적을수록 글자 크기 줄이기 (최대치에서 시작해서 줄어듦)
+      // 뉴스가 적을수록 글자 크기 줄이기
       fontSize = baseFontSize * Math.max(0.7, sizeMultiplier);
       
+      // 화면 크기에 따른 세로 길이 조절
       let baseHeight;
       if (dimensions.width < 320) {
-        baseHeight = 12;
+        baseHeight = 10; 
       } else if (dimensions.width < 480) {
-        baseHeight = 14;
+        baseHeight = 12; 
       } else if (dimensions.width < 700) {
-        baseHeight = 16;
+        baseHeight = 14; 
       } else {
-        baseHeight = 20;
+        baseHeight = 16; 
       }
-      nodeHeight = baseHeight * sizeMultiplier;
-      nodeWidth = Math.max(40, label.length * fontSize * 0.6 + 14) * sizeMultiplier;
+      // 뉴스 개수에 따라 더 크게 증가
+      nodeHeight = baseHeight * sizeMultiplier * 1.2;
+      
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
+      if (dimensions.width < 320) {
+        widthMultiplier = 0.6; 
+      } else if (dimensions.width < 480) {
+        widthMultiplier = 0.7; 
+      } else if (dimensions.width < 700) {
+        widthMultiplier = 0.8; 
+      } else {
+        widthMultiplier = 1.0; 
+      }
+      nodeWidth = Math.max(25 * widthMultiplier, (label.length * fontSize * 0.3 + 8) * widthMultiplier) * sizeMultiplier;
     } else if (node.level === 2) {
-      // 2차 노드 - 뉴스 개수에 따른 크기 조절
+      // 중분류: 뉴스 개수에 따른 크기 조절
       const parsed = parseNodeId(node.id);
       const majorKeyword = parsed.majorKeyword;
       const middleKeyword = parsed.middleKeyword;
@@ -604,24 +678,24 @@ const MindMap = ({ keywords }) => {
           
           if (maxCount > minCount) {
             const intensity = (currentMiddle.count - minCount) / (maxCount - minCount);
-            sizeMultiplier3 = Math.max(0.7, Math.min(1.8, 0.7 + intensity * 1.1));
+            sizeMultiplier3 = Math.max(0.7, Math.min(1.4, 0.7 + intensity * 0.7)); 
           }
         }
       }
       
-      // 기본 글자 크기 설정 (더 세밀한 조정)
+      // 기본 글자 크기 설정
       let baseFontSize2;
       if (dimensions.width < 320) {
-        baseFontSize2 = 3;
+        baseFontSize2 = 4; 
       } else if (dimensions.width < 480) {
-        baseFontSize2 = 4;
+        baseFontSize2 = 5; 
       } else if (dimensions.width < 700) {
-        baseFontSize2 = 5;
+        baseFontSize2 = 6; 
       } else {
-        baseFontSize2 = 7;
+        baseFontSize2 = 8; 
       }
-      // 뉴스가 적을수록 글자 크기 줄이기 (최대치에서 시작해서 줄어듦)
-      fontSize = baseFontSize2 * Math.max(0.7, sizeMultiplier3);
+      // 뉴스가 적을수록 글자 크기 줄이기
+      fontSize = baseFontSize2 * Math.max(0.8, sizeMultiplier3); 
       
       let baseHeight2;
       if (dimensions.width < 320) {
@@ -634,24 +708,45 @@ const MindMap = ({ keywords }) => {
         baseHeight2 = 18;
       }
       nodeHeight = baseHeight2 * sizeMultiplier3;
-      nodeWidth = Math.max(36, label.length * fontSize * 0.6 + 8) * sizeMultiplier3;
-    } else {
-      // 기타 노드 레벨 - 더 세밀한 조정
+      
+      // 화면 크기에 따른 가로 길이 조절
+      let widthMultiplier;
       if (dimensions.width < 320) {
-        fontSize = 3; nodeHeight = 8;
+        widthMultiplier = 0.6; 
       } else if (dimensions.width < 480) {
-        fontSize = 4; nodeHeight = 10;
+        widthMultiplier = 0.7; 
       } else if (dimensions.width < 700) {
-        fontSize = 5; nodeHeight = 12;
+        widthMultiplier = 0.8; 
       } else {
-        fontSize = 7; nodeHeight = 14;
+        widthMultiplier = 1.0; 
       }
-      nodeWidth = Math.max(25, label.length * fontSize * 0.6 + 6);
-    }
+      nodeWidth = Math.max(36 * widthMultiplier, (label.length * fontSize * 0.4 + 6) * widthMultiplier) * sizeMultiplier3;
+      } else {
+        // 예상치 못한 노드 레벨 - 기본값으로 처리
+        console.warn("Rendering node with unexpected level:", node);
+        fontSize = 6; nodeHeight = 12; nodeWidth = 50;
+      }
 
-    // 클릭 영역을 타원형으로 설정 (여유 공간 포함)
-    const clickRadiusX = nodeWidth / 2 * 1.2;
-    const clickRadiusY = nodeHeight / 2 * 1.2;
+    // 클릭 영역을 타원형으로 설정
+    let clickRadiusX, clickRadiusY;
+    
+    if (node.level === 0) {
+      // 중앙 노드
+      clickRadiusX = nodeWidth / 2 * 1.2;
+      clickRadiusY = Math.max(nodeHeight / 2 * 1.2, clickRadiusX * 0.6);
+    } else if (node.level === 1) {
+      // 대분류 노드
+      clickRadiusX = nodeWidth / 2 * 1.2;
+      clickRadiusY = Math.max(nodeHeight / 2 * 1.2, clickRadiusX * 0.5);
+    } else if (node.level === 2) {
+      // 중분류 노드
+      clickRadiusX = nodeWidth / 2 * 1.2;
+      clickRadiusY = Math.max(nodeHeight / 2 * 1.2, clickRadiusX * 0.6); 
+      } else {
+        // 예상치 못한 노드 레벨 - 기본 클릭 영역
+        clickRadiusX = nodeWidth / 2 * 1.2;
+        clickRadiusY = Math.max(nodeHeight / 2 * 1.2, clickRadiusX * 0.6);
+      }
     const x = node.x;
     const y = node.y;
 
@@ -662,6 +757,9 @@ const MindMap = ({ keywords }) => {
     ctx.fill();
   };
 
+  /**
+   * 마인드맵 컴포넌트 렌더링
+   */
   return (
     <div 
       ref={containerRef}
@@ -718,7 +816,7 @@ const MindMap = ({ keywords }) => {
             const start = { x: source.x, y: source.y };
             const end = { x: target.x, y: target.y };
 
-            // 좌표가 유효한지 확인 (무한대, NaN 체크)
+            // 좌표가 유효한지 확인
             if (!isFinite(start.x) || !isFinite(start.y) || !isFinite(end.x) || !isFinite(end.y)) {
               return;
             }
@@ -756,13 +854,13 @@ const MindMap = ({ keywords }) => {
           onClick={handleZoomIn}
           className="zoom-button"
         >
-          +
+          &#43;
         </button>
         <button
           onClick={handleZoomOut}
           className="zoom-button"
         >
-          −
+          &#45;
         </button>
         <button
           onClick={handleReset}
@@ -807,7 +905,7 @@ const MindMap = ({ keywords }) => {
             </button>
           </div>
 
-          {/* 뉴스 리스트 - 스크롤 가능한 영역 */}
+          {/* 뉴스 리스트*/}
           <div className="news-list">
             {selectedNews.length === 0 ? (
               <p className="no-news-message">
