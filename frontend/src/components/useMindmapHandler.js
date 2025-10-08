@@ -143,8 +143,10 @@ export function useMindmapHandler({
                     console.log(`Found ${middleCategoriesData.length} Middle Categories`);
                     middleCategoriesData.forEach((middleCatObj) => {
                         const middleKeywordValue = middleCatObj[MIDDLE_ITEM_KEY];
-                        // 중분류가 존재할 경우에만 처리
-                        if (middleKeywordValue) {
+                        const relatedNews = middleCatObj[RELATED_NEWS_KEY] || [];
+                        
+                        // 중분류가 존재하고 실제 뉴스가 있는 경우에만 처리
+                        if (middleKeywordValue && Array.isArray(relatedNews) && relatedNews.length > 0) {
                             // 중분류 노드 ID 생성
                             const middleNodeId = generateNodeId(
                                 parsed.majorKeyword,

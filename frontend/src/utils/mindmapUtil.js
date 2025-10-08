@@ -179,9 +179,23 @@ export const generateInitialMindMapData = (keywordsData) => {
 
     keywordsData.forEach((majorCatObj) => {
         const majorKeywordValue = majorCatObj[MAJOR_KEY];
-        // 대분류에 중분류나 기타 뉴스가 있는지 확인
-        const hasContent = (majorCatObj[MIDDLE_LIST_KEY]?.length > 0) || (majorCatObj[OTHER_NEWS_KEY]?.length > 0);
-
+        
+        // 더 엄격한 검증: 중분류와 기타 뉴스 모두 체크
+        const middleCategories = majorCatObj[MIDDLE_LIST_KEY] || [];
+        const otherNews = majorCatObj[OTHER_NEWS_KEY] || [];
+        
+        // 중분류가 있고 실제 뉴스가 있는지 확인
+        const hasValidMiddleCategories = middleCategories.some(middle => 
+            middle[MIDDLE_ITEM_KEY] && 
+            middle[RELATED_NEWS_KEY] && 
+            Array.isArray(middle[RELATED_NEWS_KEY]) && 
+            middle[RELATED_NEWS_KEY].length > 0
+        );
+        
+        // 기타 뉴스가 실제로 있는지 확인
+        const hasValidOtherNews = Array.isArray(otherNews) && otherNews.length > 0;
+        
+        const hasContent = hasValidMiddleCategories || hasValidOtherNews;
 
         if (majorKeywordValue && hasContent) { // 유효한 대분류 이름이 있고 내용이 있는 경우만 노드 생성
             // 대분류 노드 ID 생성
@@ -199,7 +213,7 @@ export const generateInitialMindMapData = (keywordsData) => {
                 links.push({ source: centralNodeId, target: majorNodeId });
             }
         } else {
-             console.warn("generateInitialMindMapData: Skipping category with no name:", majorCatObj);
+            console.warn("generateInitialMindMapData: Skipping category with no name:", majorCatObj);
         }
     });
 

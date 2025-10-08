@@ -286,7 +286,7 @@ const MindMap = ({ keywords }) => {
 
     // 노드 별 크기 및 색상 조절
     if (node.level === 0) {
-      // 중앙 노드 (뉴스) - 예쁜 파란색, 크기 키움
+      // 중앙 노드 (뉴스) - 진한 남색으로 대분류와 구분
       if (dimensions.width < 320) {
         fontSize = 10; nodeHeight = 20;
       } else if (dimensions.width < 480) {
@@ -297,7 +297,7 @@ const MindMap = ({ keywords }) => {
         fontSize = 16; nodeHeight = 32;
       }
       nodeWidth = Math.max(60, label.length * fontSize * 0.6 + 24);
-      nodeColor = '#3b82f6'; borderColor = '#2563eb';
+      nodeColor = '#1e3a8a'; borderColor = '#1e40af'; // 진한 남색
     } else if (node.level === 1) {
       // 1차 노드 (대분류) - 뉴스 개수에 따라 색상과 크기 조절
       const parsed = parseNodeId(node.id);
@@ -411,17 +411,21 @@ const MindMap = ({ keywords }) => {
           nodeColor = `rgb(${r}, ${g}, ${b})`;
           borderColor = `rgb(${Math.round(r * 0.8)}, ${Math.round(g * 0.8)}, ${Math.round(b * 0.8)})`;
           
-          // 연한 색상일 때는 텍스트 색상도 조정
+          // 뉴스 개수에 따라 텍스트 색상 조절
           if (rankRatio > 0.7) {
-            textColor = '#1e40af'; // 진한 파란색 텍스트
+            textColor = '#1e40af'; // 연한 배경일 때는 진한 파란색 텍스트
+          } else {
+            textColor = 'white'; // 진한 배경일 때는 흰색 텍스트
           }
         } else {
           // 기본 색상
           nodeColor = '#93c5fd'; borderColor = '#60a5fa';
+          textColor = 'white'; // 흰색 텍스트
         }
       } else {
         // 기본 색상
         nodeColor = '#93c5fd'; borderColor = '#60a5fa';
+        textColor = 'white'; // 흰색 텍스트
       }
       
       // 해당 대분류의 중분류들 중에서 뉴스 개수 순위 계산
@@ -492,17 +496,14 @@ const MindMap = ({ keywords }) => {
       console.warn("Rendering node with unexpected level:", node);
     }
 
-     // 둥근 사각형 그리기
-    //  const cornerRadius = 8;
-    //  const x = node.x - nodeWidth / 2;
-    //  const y = node.y - nodeHeight / 2;
-    // 원형 그리기
-    const radius = Math.min(nodeWidth, nodeHeight) / 2;
+    // 타원형 그리기
+    const radiusX = nodeWidth / 2;
+    const radiusY = nodeHeight / 2;
     const x = node.x;
     const y = node.y;
 
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
     ctx.fillStyle = nodeColor;
     ctx.fill();
     
@@ -648,19 +649,15 @@ const MindMap = ({ keywords }) => {
       nodeWidth = Math.max(25, label.length * fontSize * 0.6 + 6);
     }
 
-    // 클릭 영역을 사각형으로 설정 (여유 공간 포함)
-    // const clickWidth = nodeWidth * 1.2;
-    // const clickHeight = nodeHeight * 1.2;
-    // const x = node.x - clickWidth / 2;
-    // const y = node.y - clickHeight / 2;
-    // 클릭 영역을 원형으로 설정 (여유 공간 포함)
-    const clickRadius = Math.min(nodeWidth, nodeHeight) / 2 * 1.2;
+    // 클릭 영역을 타원형으로 설정 (여유 공간 포함)
+    const clickRadiusX = nodeWidth / 2 * 1.2;
+    const clickRadiusY = nodeHeight / 2 * 1.2;
     const x = node.x;
     const y = node.y;
 
-    // 원형으로 클릭 영역 설정
+    // 타원형으로 클릭 영역 설정
     ctx.beginPath();
-    ctx.arc(x, y, clickRadius, 0, 2 * Math.PI);
+    ctx.ellipse(x, y, clickRadiusX, clickRadiusY, 0, 0, 2 * Math.PI);
     ctx.fillStyle = 'rgba(0, 0, 0, 0)';
     ctx.fill();
   };
@@ -784,6 +781,22 @@ const MindMap = ({ keywords }) => {
               <div className="news-panel-indicator"></div>
               <h4>
                 {`'${selectedNodeIdForNews ? (parseNodeId(selectedNodeIdForNews)?.middleKeyword || parseNodeId(selectedNodeIdForNews)?.majorKeyword || '뉴스') : '뉴스'}' 관련 뉴스`}
+                <span style={{ 
+                  display: 'inline-block',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  fontSize: '0.75em',
+                  fontWeight: 'bold',
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  marginLeft: '10px',
+                  minWidth: '20px',
+                  textAlign: 'center',
+                  lineHeight: '1.2',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                }}>
+                  {selectedNews?.length || 0}
+                </span>
               </h4>
             </div>
             <button
