@@ -20,7 +20,6 @@ class NewsFetcher:
                 user=DB_USER,
                 password=DB_PASSWORD
             )
-            print(f"데이터베이스 연결 성공: {DB_HOST}:{DB_PORT}/{DB_NAME}")
         except psycopg2.Error as err:
             print(f"데이터베이스 연결 실패: {err}")
             raise
@@ -55,7 +54,6 @@ class NewsFetcher:
             cursor.close()
             
             limit_text = f" (최대 {limit}개)" if limit else ""
-            print(f"뉴스 {len(results)}개 가져옴 ({days}일 이내{limit_text})")
             return results
             
         except psycopg2.Error as err:
@@ -66,7 +64,6 @@ class NewsFetcher:
         """데이터베이스 연결 종료"""
         if self.connection and not self.connection.closed:
             self.connection.close()
-            print("데이터베이스 연결 종료")
 
 def fetch_news_from_db(limit: int = None) -> List[Dict]:
     """

@@ -162,14 +162,12 @@ def create_major_categories(uni_news, clustered_news):
             
             # TF-IDF 점수가 높은 단어들을 후보로 선정 (기존 대분류와 겹치지 않는 단어)
             sorted_tfidf_words = sorted(cluster_tfidf_scores.items(), key=lambda item: item[1], reverse=True)
-            print(f" TF-IDF 상위 5개 단어: {sorted_tfidf_words[:5]}")
             
             # 여기서 TF-IDF 점수가 높은 상위 N개의 단어를 대분류 이름 후보로 사용
             candidate_words = [
                 word for word, score in sorted_tfidf_words
                 if len(word) > 1 and word not in load_exclude_words(NON_UNIV_WORD_PATH) and word != "대학교"
             ]
-            print(f"대분류 이름 후보 (상위 5개): {candidate_words[:5]}")
 
             # 최종 대분류 이름 선정
             for cand in candidate_words:
@@ -262,14 +260,14 @@ def assign_middle_categories(category, num_middle_keywords, w2v_model):
         middle_cluster_tfidf_scores = tfidf_scores_by_middle_cluster.get(label, {})
         
         sorted_tfidf_words = sorted(middle_cluster_tfidf_scores.items(), key=lambda item: item[1], reverse=True)
-        print(f"    - TF-IDF 상위 5개 단어: {sorted_tfidf_words[:5]}")
+        # print(f"    - TF-IDF 상위 5개 단어: {sorted_tfidf_words[:5]}")
         
         # 중분류 이름 후보 선정
         candidate_words = [
             word for word, score in sorted_tfidf_words
             if len(word) > 1 and word not in load_exclude_words(NON_UNIV_WORD_PATH) and word != major_name
         ]
-        print(f"    - 중분류 이름 후보 (상위 5개): {candidate_words[:5]}")
+        # print(f"    - 중분류 이름 후보 (상위 5개): {candidate_words[:5]}")
 
         # 최종 중분류 결정
         for cand in candidate_words:
