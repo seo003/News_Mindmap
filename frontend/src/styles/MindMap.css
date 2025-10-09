@@ -402,6 +402,42 @@
   }
 }
 
+/* 뉴스 카운트 배지 */
+.news-count-badge {
+  display: inline-block;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.75em;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 10px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+  color: #dc2626;
+}
+
+.error-description {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* 로딩 메시지 스타일 */
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+  font-size: 14px;
+  color: #666;
+}
+
 /* 769px 이상에서 뉴스 패널 기본 설정 */
 @media only screen and (min-width: 769px) {
   .news-panel {
@@ -427,4 +463,40 @@
   .news-link {
     font-size: 16px;
   }
+}
+
+/* 뉴스 카운트 배지 */
+.news-count-badge {
+  display: inline-block;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.75em;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 10px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+  color: #dc2626;
+}
+
+.error-description {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* 로딩 메시지 스타일 */
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+  font-size: 14px;
+  color: #666;
 }

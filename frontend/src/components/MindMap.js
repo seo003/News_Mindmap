@@ -69,20 +69,7 @@ const MindmapNewsPanel = ({ newsList, nodeId, onClose }) => {
           <div className="news-panel-indicator"></div>
           <h4>
             {`'${keyword}' 관련 뉴스`}
-            <span style={{ 
-              display: 'inline-block',
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              fontSize: '0.75em',
-              fontWeight: 'bold',
-              padding: '2px 8px',
-              borderRadius: '12px',
-              marginLeft: '10px',
-              minWidth: '20px',
-              textAlign: 'center',
-              lineHeight: '1.2',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-            }}>
+            <span className="news-count-badge">
               {newsList?.length || 0}
             </span>
           </h4>
@@ -438,10 +425,10 @@ const MindMap = ({ keywords, loading = false, error = null }) => {
   if (error) {
     return (
       <section className="loading">
-        <h1 className="loading-title" style={{ color: '#dc2626' }}>
+        <h1 className="loading-title error-message">
           데이터를 불러오는데 실패했습니다.
         </h1>
-        <p style={{ fontSize: '1.2rem', color: '#6b7280' }}>
+        <p className="error-description">
           잠시 후 다시 시도해주세요
         </p>
       </section>
@@ -487,14 +474,7 @@ const MindMap = ({ keywords, loading = false, error = null }) => {
             linkCanvasObject={linkCanvasObject}
           />
         ) : (
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            height: '600px',
-            fontSize: '14px',
-            color: '#666'
-          }}>
+          <div className="loading-placeholder">
             화면 크기 계산 중...
           </div>
         )}
