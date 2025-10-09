@@ -2,6 +2,8 @@
  * 마인드맵 유틸리티 함수들
  */
 
+import { FORCE_CONFIG, BREAKPOINTS } from './mindmapConstants';
+
 // 데이터 구조 키 상수
 export const MAJOR_KEY = "majorKeyword";
 export const MIDDLE_LIST_KEY = "middleKeywords";
@@ -227,7 +229,12 @@ export const generateInitialMindMapData = (keywordsData) => {
 
     // 화면 크기에 따라 초기 분산 반지름 조정
     const screenWidth = window.innerWidth;
-    const initialSpreadRadius = screenWidth < 480 ? 600 : screenWidth < 768 ? 500 : 400;
+    let initialSpreadRadius = FORCE_CONFIG.INITIAL_SPREAD_RADIUS.DEFAULT;
+    if (screenWidth < BREAKPOINTS.SMALL) {
+        initialSpreadRadius = FORCE_CONFIG.INITIAL_SPREAD_RADIUS.SMALL;
+    } else if (screenWidth < BREAKPOINTS.MEDIUM) {
+        initialSpreadRadius = FORCE_CONFIG.INITIAL_SPREAD_RADIUS.MEDIUM;
+    }
 
     nodes.forEach(node => {
       if (node.level === 0) {
