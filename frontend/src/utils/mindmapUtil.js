@@ -11,7 +11,7 @@ export const MIDDLE_ITEM_KEY = "middleKeyword";
 export const RELATED_NEWS_KEY = "relatedNews"; 
 export const OTHER_NEWS_KEY = "otherNews";
 
-// 키워드 표시용 함수 (하이픈을 공백으로 변환)
+// 키워드 표시용 함수
 export const formatKeywordForDisplay = (keyword) => {
     return keyword ? keyword.replace(/-/g, ' ') : '';
 };
@@ -27,10 +27,10 @@ export const generateNodeId = (majorValue, middleValue = null) => {
     if (!majorValue && !middleValue) return "뉴스"; 
 
     // 대분류 노드
-    if (majorValue && !middleValue) return `MAJOR_${safeMajor}`; // Level 1
+    if (majorValue && !middleValue) return `MAJOR_${safeMajor}`; 
 
     // 중분류 노드
-    if (majorValue && middleValue) return `MIDDLE_${safeMajor}_${safeMiddle}`; // Level 2
+    if (majorValue && middleValue) return `MIDDLE_${safeMajor}_${safeMiddle}`; 
 
     // 유효하지 않은 조합 시 null 반환
     console.error("generateNodeId: Invalid input values for ID.", {majorValue, middleValue});
