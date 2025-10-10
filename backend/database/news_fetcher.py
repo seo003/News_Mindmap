@@ -7,6 +7,7 @@ from config.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, NEWS_
 
 class NewsFetcher:
     def __init__(self):
+        """데이터베이스 연결 초기화"""
         self.connection = None
         self.connect()
     
@@ -38,7 +39,7 @@ class NewsFetcher:
         cutoff_date = datetime.now() - timedelta(days=days)
         
         query = """
-        SELECT title, link, date
+        SELECT title, link
         FROM newsinfo 
         WHERE date >= %s 
         ORDER BY date DESC
