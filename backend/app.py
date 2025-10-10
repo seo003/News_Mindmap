@@ -1,8 +1,15 @@
+import logging
 from flask import Flask, jsonify
 from flask_cors import CORS
 from database.news_fetcher import fetch_news_from_db
 from analysis.news_analyzer import NewsAnalyzer
 
+# 로깅 설정 (콘솔에만 출력)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Flask 앱 생성 및 CORS 설정
 app = Flask(__name__)
@@ -70,12 +77,14 @@ def get_news_analysis():
         news_data = fetch_news_from_db(limit=1000)
         
         if not news_data:
+            logger.error("데이터베이스에서 뉴스 데이터를 가져올 수 없습니다")
             return jsonify({"error": "뉴스 데이터를 가져올 수 없습니다."}), 500
         
         # 뉴스 분석 실행 (전처리, 클러스터링, 키워드 추출)
         result = news_analyzer.analyze_from_db(news_data)
         
         if result is None:
+            logger.warning("분석 가능한 뉴스가 부족합니다")
             return jsonify({"error": "분석할 뉴스가 없습니다."}), 400
         
         # 분석 결과를 계층 구조로 콘솔에 출력
@@ -84,7 +93,7 @@ def get_news_analysis():
         return jsonify(result)
     
     except Exception as e:
-        print(f"뉴스 분석 오류: {e}")
+        logger.error(f"뉴스 분석 중 오류 발생: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 
