@@ -144,9 +144,20 @@ function App() {
 
   // MindMap 컴포넌트에 모든 상태 전달
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', margin: '20px 0' }}>뉴스 최신 정보 키워드 마인드맵</h1>
-      <MindMap keywords={keywords} loading={loading} error={error} /> 
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <h1 style={{ 
+        textAlign: 'center', 
+        margin: '20px 0', 
+        fontSize: '28px',
+        fontWeight: '600',
+        color: '#1976d2',
+        textShadow: '0 2px 4px rgba(25, 118, 210, 0.1)'
+      }}>
+        뉴스 최신 정보 키워드 마인드맵
+      </h1>
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <MindMap keywords={keywords} loading={loading} error={error} /> 
+      </div>
     </div>
   );
 }

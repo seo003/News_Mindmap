@@ -24,29 +24,29 @@ import {
 /**
  * 줌 컨트롤 컴포넌트
  */
-const MindmapZoomControls = ({ onZoomIn, onZoomOut, onReset }) => {
+const MindmapZoomControls = ({ onZoomIn, onZoomOut, onReset, isLoading = false }) => {
   return (
     <div className="zoom-controls">
       <button
         onClick={onZoomIn}
-        className="zoom-button"
+        className="zoom-button zoom-in"
         aria-label="확대"
       >
-        &#43;
+        <i className="fas fa-plus"></i>
       </button>
       <button
         onClick={onZoomOut}
-        className="zoom-button"
+        className="zoom-button zoom-out"
         aria-label="축소"
       >
-        &#45;
+        <i className="fas fa-minus"></i>
       </button>
       <button
         onClick={onReset}
         className="zoom-button reset"
-        aria-label="초기화"
+        aria-label="새로고침"
       >
-        Reset
+        <i className={`fas fa-sync-alt ${isLoading ? 'animate-spin' : ''}`}></i>
       </button>
     </div>
   );
@@ -413,10 +413,10 @@ const MindMap = ({ keywords, loading = false, error = null }) => {
   if (loading) {
     return (
       <section className="loading">
-        <h1 className="loading-title">뉴스 제목 분석 중...</h1>
-        <div className="progress-bar" aria-hidden="true">
-          <span className="progress-bar-gauge"></span>
+        <div className="loading-icon">
+          <i className="fas fa-sitemap"></i>
         </div>
+        <h1 className="loading-title">마인드맵 로딩 중...</h1>
       </section>
     );
   }
