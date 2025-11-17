@@ -38,3 +38,6 @@ backend/test_run.py
 
 # 디비 연결
 backend/data.env
+
+# 로그
+logs/
