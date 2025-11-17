@@ -170,9 +170,9 @@ const AccuracyModal = ({ isOpen, onClose }) => {
               alignItems: 'stretch'
             }}>
               {(availableMethods.length > 0 ? availableMethods : [
+                { id: 'simple', name: '빈도수' },
                 { id: 'tfidf', name: 'TF-IDF' },
                 { id: 'fasttext', name: 'FastText' },
-                { id: 'simple', name: '빈도수' },
                 { id: 'news_analyzer', name: 'HDBSCAN' }
               ]).map((method) => {
                 const isSelected = clusteringMethod === method.id;
