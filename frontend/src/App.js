@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import MindMap from './components/MindMap';
+import AccuracyModal from './components/AccuracyModal';
 
 function App() {
   const [loading, setLoading] = useState(true); 
   const [keywords, setKeywords] = useState(null); 
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+  const [showAccuracyModal, setShowAccuracyModal] = useState(false);
 
   useEffect(() => {
     const fetchKeywords = async () => {
@@ -13,8 +15,10 @@ function App() {
         setLoading(true); 
         setError(null); 
 
-        // 뉴스 분석 API 사용 (대학교 분류 + 키워드별 중분류)
-        const response = await fetch('http://localhost:5000/api/news_analysis');
+        // 뉴스 분석 API 사용 (기본: news_analyzer)
+        const response = await fetch(
+          'http://localhost:5000/api/news_analysis?method=news_analyzer'
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -22,7 +26,13 @@ function App() {
 
         const data = await response.json(); 
 
-        setKeywords(data);
+        // 응답 형식: { method, method_name, method_description, data }
+        if (data.data) {
+          setKeywords(data.data);
+        } else {
+          // 기존 형식 호환성
+          setKeywords(data);
+        }
         setLoading(false);
 
       } catch (error) {
@@ -145,19 +155,61 @@ function App() {
   // MindMap 컴포넌트에 모든 상태 전달
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <h1 style={{ 
-        textAlign: 'center', 
-        margin: '20px 0', 
-        fontSize: '28px',
-        fontWeight: '600',
-        color: '#1976d2',
-        textShadow: '0 2px 4px rgba(25, 118, 210, 0.1)'
-      }}>
-        뉴스 최신 정보 키워드 마인드맵
-      </h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', flexWrap: 'wrap', gap: '10px' }}>
+        <h1 style={{ 
+          fontSize: '28px',
+          fontWeight: '600',
+          color: '#1976d2',
+          textShadow: '0 2px 4px rgba(25, 118, 210, 0.1)',
+          margin: '20px 0'
+        }}>
+          뉴스 최신 정보 키워드 마인드맵
+        </h1>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => setShowAccuracyModal(true)}
+            className="accuracy-button"
+            style={{
+              background: 'linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '12px 20px',
+              color: 'white',
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 12px rgba(76, 175, 80, 0.3)',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+            }}
+          >
+            <i className="fas fa-chart-line"></i>
+            정확도 평가
+          </button>
+        </div>
+      </div>
+      
       <div style={{ flex: 1, minHeight: 0 }}>
         <MindMap keywords={keywords} loading={loading} error={error} /> 
       </div>
+
+      {/* 정확도 평가 모달 */}
+      <AccuracyModal 
+        isOpen={showAccuracyModal}
+        onClose={() => setShowAccuracyModal(false)}
+      />
     </div>
   );
 }

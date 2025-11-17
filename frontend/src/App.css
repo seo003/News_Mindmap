@@ -44,3 +44,112 @@ h1 {
     font-size: 1.3rem !important;
   }
 }
+
+/* 정확도 평가 버튼 반응형 */
+@media only screen and (max-width: 768px) {
+  .accuracy-button {
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .accuracy-button {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
+  
+  .accuracy-button i {
+    font-size: 12px !important;
+  }
+}
+
+/* 클러스터링 방법 선택 버튼 그룹 스타일 */
+.clustering-method-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.clustering-method-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.clustering-method-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.clustering-method-button:hover:not(:disabled) {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+  transform: translateY(-1px);
+}
+
+.clustering-method-button.selected {
+  border: 2px solid #1976d2;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  transform: translateY(-1px);
+}
+
+.clustering-method-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 반응형 디자인 */
+@media only screen and (max-width: 768px) {
+  .clustering-method-buttons {
+    padding: 6px;
+    gap: 6px;
+  }
+  
+  .clustering-method-label {
+    font-size: 12px;
+  }
+  
+  .clustering-method-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .clustering-method-buttons {
+    padding: 4px;
+    gap: 4px;
+  }
+  
+  .clustering-method-label {
+    font-size: 11px;
+    margin-right: 2px;
+  }
+  
+  .clustering-method-button {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
