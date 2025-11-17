@@ -6,7 +6,7 @@ const AccuracyModal = ({ isOpen, onClose }) => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [limit, setLimit] = useState(1000);
-  const [clusteringMethod, setClusteringMethod] = useState('news_analyzer');
+  const [clusteringMethod, setClusteringMethod] = useState(null);
   const [availableMethods, setAvailableMethods] = useState([]);
 
   // 사용 가능한 클러스터링 방법 목록 가져오기
@@ -26,10 +26,20 @@ const AccuracyModal = ({ isOpen, onClose }) => {
         }
       };
       fetchMethods();
+    } else {
+      // 모달이 닫힐 때 상태 초기화
+      setClusteringMethod(null);
+      setResult(null);
+      setError(null);
     }
   }, [isOpen]);
 
   const runAccuracyEvaluation = async () => {
+    if (!clusteringMethod) {
+      setError('클러스터링 방법을 선택해주세요.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -59,6 +69,11 @@ const AccuracyModal = ({ isOpen, onClose }) => {
   };
 
   const runSummaryEvaluation = async () => {
+    if (!clusteringMethod) {
+      setError('클러스터링 방법을 선택해주세요.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -151,13 +166,14 @@ const AccuracyModal = ({ isOpen, onClose }) => {
               display: 'flex',
               gap: '8px',
               flexWrap: 'wrap',
-              marginTop: '8px'
+              marginTop: '8px',
+              alignItems: 'stretch'
             }}>
               {(availableMethods.length > 0 ? availableMethods : [
                 { id: 'tfidf', name: 'TF-IDF' },
                 { id: 'fasttext', name: 'FastText' },
-                { id: 'simple', name: 'Simple' },
-                { id: 'news_analyzer', name: 'News Analyzer' }
+                { id: 'simple', name: '빈도수' },
+                { id: 'news_analyzer', name: 'HDBSCAN' }
               ]).map((method) => {
                 const isSelected = clusteringMethod === method.id;
                 return (
@@ -183,7 +199,12 @@ const AccuracyModal = ({ isOpen, onClose }) => {
                         : '0 1px 3px rgba(0, 0, 0, 0.1)',
                       transform: isSelected ? 'translateY(-1px)' : 'none',
                       whiteSpace: 'nowrap',
-                      opacity: loading ? 0.6 : 1
+                      opacity: loading ? 0.6 : 1,
+                      flexShrink: 0,
+                      height: '36px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                     onMouseEnter={(e) => {
                       if (!loading && !isSelected) {
@@ -210,7 +231,7 @@ const AccuracyModal = ({ isOpen, onClose }) => {
           <div className="button-group">
             <button
               onClick={runSummaryEvaluation}
-              disabled={loading}
+              disabled={loading || !clusteringMethod}
               className="btn btn-primary"
             >
               <i className="fas fa-chart-bar"></i>
@@ -218,7 +239,7 @@ const AccuracyModal = ({ isOpen, onClose }) => {
             </button>
             <button
               onClick={runAccuracyEvaluation}
-              disabled={loading}
+              disabled={loading || !clusteringMethod}
               className="btn btn-secondary"
             >
               <i className="fas fa-chart-line"></i>
