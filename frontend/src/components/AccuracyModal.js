@@ -137,7 +137,7 @@ const AccuracyModal = ({ isOpen, onClose }) => {
         <div className="accuracy-modal-header">
           <div className="accuracy-modal-title">
             <i className="fas fa-chart-line"></i>
-            <h3>백엔드 정확도 평가</h3>
+            <h3>클러스터링 평가</h3>
           </div>
           <button onClick={onClose} className="accuracy-modal-close">
             <i className="fas fa-times"></i>
@@ -274,19 +274,19 @@ const AccuracyModal = ({ isOpen, onClose }) => {
               <div className="result-summary">
                 <div className="score-display">
                   <div className="score-circle" style={{ 
-                    background: `conic-gradient(${getGradeColor(result.grade)} 0deg ${((typeof result.overall_score === 'number' ? result.overall_score : result.overall_score.score || 0) / 100) * 360}deg, #e0e0e0 ${((typeof result.overall_score === 'number' ? result.overall_score : result.overall_score.score || 0) / 100) * 360}deg 360deg)`
+                    background: `conic-gradient(${getGradeColor(result.overall_score.grade || 'D')} 0deg ${((typeof result.overall_score === 'number' ? result.overall_score : result.overall_score.score || 0) / 100) * 360}deg, #e0e0e0 ${((typeof result.overall_score === 'number' ? result.overall_score : result.overall_score.score || 0) / 100) * 360}deg 360deg)`
                   }}>
                     <div className="score-inner">
                       <span className="score-number">{(typeof result.overall_score === 'number' ? result.overall_score : result.overall_score.score || 0).toFixed(1)}</span>
-                      <span className="score-grade">{getGradeEmoji(result.grade)} {result.grade}</span>
+                      <span className="score-grade">{getGradeEmoji(result.overall_score.grade || 'D')} {result.overall_score.grade || 'D'}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="score-details">
                   <h4>종합 점수</h4>
-                  <p>분석된 뉴스: {result.news_count}개</p>
-                  <p>평가 시간: {result.timestamp}</p>
+                  <p>분석된 뉴스: {result.data_info?.total_news || result.data_info?.limit || 0}개</p>
+                  <p>평가 시간: {result.evaluation_timestamp || 'N/A'}</p>
                 </div>
               </div>
             )}
