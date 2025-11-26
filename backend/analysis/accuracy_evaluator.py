@@ -503,18 +503,27 @@ class AccuracyEvaluator:
                     # 해당 클러스터의 모든 뉴스 본문 수집
                     cluster_texts = []
                     for news in related_news:
-                        # 원본 뉴스 데이터에서 본문 찾기
-                        news_id = news.get('id') or news.get('title', '')
-                        original_news = next(
-                            (item for item in news_data[:limit] 
-                             if item.get('id') == news_id or item.get('title') == news.get('title', '')),
-                            None
-                        )
-                        if original_news:
-                            # 본문이 있으면 사용, 없으면 제목 사용
-                            text = original_news.get('content', '') or original_news.get('title', '')
-                            if text:
-                                cluster_texts.append(text)
+                        # 뉴스 데이터 구조 확인 (원본 또는 처리된 데이터)
+                        # cleaned_title이 있으면 처리된 데이터, 없으면 원본 데이터
+                        if 'cleaned_title' in news:
+                            # 처리된 데이터: 원본 뉴스 찾기
+                            news_id = news.get('id') or news.get('original', {}).get('id')
+                            title = news.get('cleaned_title', '') or news.get('original', {}).get('title', '')
+                            original_news = next(
+                                (item for item in news_data[:limit] 
+                                 if (item.get('id') == news_id) or 
+                                    (item.get('title') == title) or
+                                    (item.get('title') == news.get('original', {}).get('title', ''))),
+                                news.get('original', news)  # 원본이 없으면 현재 뉴스 사용
+                            )
+                        else:
+                            # 원본 데이터
+                            original_news = news
+                        
+                        # 본문이 있으면 사용, 없으면 제목 사용
+                        text = original_news.get('content', '') or original_news.get('title', '') or news.get('cleaned_title', '')
+                        if text:
+                            cluster_texts.append(text)
                     
                     if not cluster_texts:
                         continue
@@ -575,16 +584,26 @@ class AccuracyEvaluator:
                     # 기타 뉴스의 본문 수집
                     other_texts = []
                     for news in other_news[:10]:  # 최대 10개만
-                        news_id = news.get('id') or news.get('title', '')
-                        original_news = next(
-                            (item for item in news_data[:limit] 
-                             if item.get('id') == news_id or item.get('title') == news.get('title', '')),
-                            None
-                        )
-                        if original_news:
-                            text = original_news.get('content', '') or original_news.get('title', '')
-                            if text:
-                                other_texts.append(text)
+                        # 뉴스 데이터 구조 확인 (원본 또는 처리된 데이터)
+                        if 'cleaned_title' in news:
+                            # 처리된 데이터: 원본 뉴스 찾기
+                            news_id = news.get('id') or news.get('original', {}).get('id')
+                            title = news.get('cleaned_title', '') or news.get('original', {}).get('title', '')
+                            original_news = next(
+                                (item for item in news_data[:limit] 
+                                 if (item.get('id') == news_id) or 
+                                    (item.get('title') == title) or
+                                    (item.get('title') == news.get('original', {}).get('title', ''))),
+                                news.get('original', news)  # 원본이 없으면 현재 뉴스 사용
+                            )
+                        else:
+                            # 원본 데이터
+                            original_news = news
+                        
+                        # 본문이 있으면 사용, 없으면 제목 사용
+                        text = original_news.get('content', '') or original_news.get('title', '') or news.get('cleaned_title', '')
+                        if text:
+                            other_texts.append(text)
                     
                     if other_texts:
                         combined_text = ' '.join(other_texts)
