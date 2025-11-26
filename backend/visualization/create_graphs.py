@@ -292,7 +292,10 @@ class GraphGenerator:
         for label in ax.get_xticklabels():
             label.set_fontproperties(self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.15, top=0.9, left=0.1, right=0.95)
         plt.savefig(self.output_dir / '1_overall_score_comparison.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '1_overall_score_comparison.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '1_overall_score_comparison.png'}")
@@ -382,7 +385,10 @@ class GraphGenerator:
         ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize=11, prop=self.korean_font)
         ax.set_title('평가 지표별 레이더 차트', fontsize=16, fontweight='bold', pad=20, fontproperties=self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.1, top=0.9, left=0.1, right=0.9)
         plt.savefig(self.output_dir / '2_radar_chart.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '2_radar_chart.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '2_radar_chart.png'}")
@@ -427,7 +433,10 @@ class GraphGenerator:
         ax.grid(True, alpha=0.3, linestyle='--')
         ax.legend(fontsize=11, loc='best', prop=self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.15, top=0.9, left=0.1, right=0.95)
         plt.savefig(self.output_dir / '3_time_vs_accuracy.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '3_time_vs_accuracy.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '3_time_vs_accuracy.png'}")
@@ -472,7 +481,10 @@ class GraphGenerator:
         for label in ax.get_xticklabels():
             label.set_fontproperties(self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.15, top=0.9, left=0.1, right=0.95)
         plt.savefig(self.output_dir / '4_cluster_count_comparison.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '4_cluster_count_comparison.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '4_cluster_count_comparison.png'}")
@@ -512,13 +524,28 @@ class GraphGenerator:
         ax.set_ylabel('노이즈 비율 (%)', fontsize=14, fontweight='bold', fontproperties=self.korean_font)
         ax.set_xlabel('클러스터링 방법', fontsize=14, fontweight='bold', fontproperties=self.korean_font)
         ax.set_title('클러스터링 방법별 노이즈 비율 비교', fontsize=16, fontweight='bold', pad=20, fontproperties=self.korean_font)
-        ax.set_ylim(0, max(ratios) * 1.2 if ratios else 30)
+        
+        # ylim 설정 개선 (0이거나 비어있는 경우 처리)
+        if ratios:
+            max_ratio = max(ratios)
+            if max_ratio > 0:
+                ax.set_ylim(0, max_ratio * 1.2)
+            else:
+                # 모든 값이 0인 경우 기본 범위 설정
+                ax.set_ylim(0, 5)
+        else:
+            ax.set_ylim(0, 30)
+        
         ax.grid(axis='y', alpha=0.3, linestyle='--')
         # x축 레이블에 한글 폰트 적용
         for label in ax.get_xticklabels():
             label.set_fontproperties(self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            # tight_layout 실패 시 수동으로 여백 조정
+            plt.subplots_adjust(bottom=0.15, top=0.9, left=0.1, right=0.95)
         plt.savefig(self.output_dir / '5_noise_ratio_comparison.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '5_noise_ratio_comparison.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '5_noise_ratio_comparison.png'}")
@@ -567,7 +594,10 @@ class GraphGenerator:
         for label in ax.get_xticklabels():
             label.set_fontproperties(self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.15, top=0.9, left=0.1, right=0.95)
         plt.savefig(self.output_dir / '6_silhouette_comparison.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '6_silhouette_comparison.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '6_silhouette_comparison.png'}")
@@ -672,7 +702,10 @@ class GraphGenerator:
         for label in axes[1, 2].get_xticklabels():
             label.set_fontproperties(self.korean_font)
         
-        plt.tight_layout()
+        try:
+            plt.tight_layout()
+        except Exception:
+            plt.subplots_adjust(bottom=0.1, top=0.95, left=0.05, right=0.98, hspace=0.3, wspace=0.3)
         plt.savefig(self.output_dir / '7_comprehensive_comparison.png', dpi=300, bbox_inches='tight')
         plt.savefig(self.output_dir / '7_comprehensive_comparison.pdf', bbox_inches='tight')
         print(f"✅ 저장 완료: {self.output_dir / '7_comprehensive_comparison.png'}")

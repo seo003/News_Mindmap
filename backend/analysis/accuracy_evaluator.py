@@ -174,7 +174,6 @@ class AccuracyEvaluator:
             # 분석 결과에서 클러스터링 통계 추출
             if analysis_result:
                 n_clusters = len(analysis_result)
-                n_noise = 0  # NewsAnalyzer는 모든 데이터를 클러스터에 할당
                 
                 # 실제로 클러스터에 할당된 뉴스 수 계산
                 clustered_news_count = 0
@@ -188,10 +187,14 @@ class AccuracyEvaluator:
                     # 기타 뉴스 수
                     clustered_news_count += len(other_news)
                 
+                # 노이즈/미할당 뉴스 수 계산
+                n_noise = len(titles) - clustered_news_count
+                
                 logger.info(f"🔢 클러스터 수: {n_clusters}개")
-                logger.info(f"🔇 노이즈 수: {n_noise}개")
+                logger.info(f"📊 전체 뉴스 수: {len(titles)}개")
+                logger.info(f"📊 클러스터에 할당된 뉴스: {clustered_news_count}개")
+                logger.info(f"🔇 노이즈/미할당 뉴스 수: {n_noise}개")
                 logger.info(f"📈 노이즈 비율: {(n_noise / len(titles) * 100):.1f}%")
-                logger.info(f"📊 실제 클러스터된 뉴스: {clustered_news_count}개")
                 
                 quality_metrics.update({
                     "total_news": len(titles),
