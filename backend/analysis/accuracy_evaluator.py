@@ -158,8 +158,8 @@ class AccuracyEvaluator:
                 logger.info("♻️ 기존 임베딩을 재사용하여 뉴스 분석 수행...")
                 # 클러스터러 타입에 따라 다른 메서드 호출
                 if hasattr(clusterer, 'analyze_from_db'):
-                    # NewsAnalyzer
-                    analysis_result = clusterer.analyze_from_db(news_data[:limit], embeddings)
+                    # NewsAnalyzer: 정확도 평가에서는 항상 HDBSCAN 사용
+                    analysis_result = clusterer.analyze_from_db(news_data[:limit], embeddings, clustering_method='advanced')
                 elif hasattr(clusterer, 'analyze_news'):
                     # SimpleClusterer, TfidfClusterer, FastTextClusterer
                     analysis_result = clusterer.analyze_news(news_data[:limit])
@@ -389,7 +389,8 @@ class AccuracyEvaluator:
                 # 전체 뉴스 데이터로 분석 수행 (클러스터러 타입에 따라 다른 메서드 호출)
                 if embeddings is not None and hasattr(clusterer, 'analyze_from_db'):
                     logger.info("♻️ 기존 임베딩을 재사용하여 분석...")
-                    analysis_result = clusterer.analyze_from_db(news_data[:limit], embeddings)
+                    # NewsAnalyzer: 정확도 평가에서는 항상 HDBSCAN 사용
+                    analysis_result = clusterer.analyze_from_db(news_data[:limit], embeddings, clustering_method='advanced')
                 elif hasattr(clusterer, 'analyze_news'):
                     logger.info("♻️ 선택한 클러스터러로 분석...")
                     analysis_result = clusterer.analyze_news(news_data[:limit])

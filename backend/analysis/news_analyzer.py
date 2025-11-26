@@ -36,7 +36,7 @@ class NewsAnalyzer:
     MIN_MIDDLE_KEYWORDS_COUNT = 1  # 대분류로 표시되기 위한 최소 중분류 개수 (2→1로 완화)
     
     # 클러스터링 방법 설정 ('graph_based', 'frequency_based', 'advanced')
-    CLUSTERING_METHOD = 'frequency_based'   # 테스트용: 빈도 기반 클러스터링
+    CLUSTERING_METHOD = 'frequency_based'   # 메인 마인드맵 기본값: 빈도 기반 클러스터링
     
     # 클러스터링 관련 (적절한 클러스터 수를 위한 조정)
     HDBSCAN_MIN_CLUSTER_SIZE = 20          # HDBSCAN 최소 클러스터 크기 (25→20으로 완화)
@@ -1585,7 +1585,7 @@ class NewsAnalyzer:
         clusters_data = self._build_cluster_data(clusters, cluster_labels)
         return self._convert_to_major_keyword_format(universities, clusters_data)
     
-    def analyze_from_db(self, news_data, embeddings=None):
+    def analyze_from_db(self, news_data, embeddings=None, clustering_method=None):
         """
         뉴스 제목 분석 파이프라인
         
@@ -1594,6 +1594,8 @@ class NewsAnalyzer:
         Args:
             news_data (list): 원본 뉴스 데이터
             embeddings: 미리 생성된 임베딩 (None이면 새로 생성)
+            clustering_method (str): 클러스터링 방법 ('graph_based', 'frequency_based', 'advanced')
+                                     None이면 self.CLUSTERING_METHOD 사용
             
         Returns:
             list: 프론트엔드 형식의 분석 결과
@@ -1606,8 +1608,9 @@ class NewsAnalyzer:
         university_news, other_news = self.split_news_by_uni_name(processed_data)
         
         if other_news:
-            # 클러스터링 방법 선택
-            clustering_method = self.CLUSTERING_METHOD
+            # 클러스터링 방법 선택 (파라미터가 없으면 기본값 사용)
+            if clustering_method is None:
+                clustering_method = self.CLUSTERING_METHOD
             
             if clustering_method == 'graph_based':
                 logger.info("🔗 그래프 기반 클러스터링 사용 (TF-IDF 코사인 유사도 + 연결요소)")
