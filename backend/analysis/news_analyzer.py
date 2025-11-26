@@ -248,7 +248,30 @@ class NewsAnalyzer:
         Returns:
             list: 추출된 키워드 리스트
         """
+        if not texts or len(texts) == 0:
+            return []
+        
         noun_texts = [" ".join(self.extract_nouns(text)) for text in texts]
+        # 빈 텍스트 필터링
+        noun_texts = [text for text in noun_texts if text.strip()]
+        
+        if not noun_texts:
+            return []
+        
+        # 뉴스 수가 적으면 (5개 이하) TF-IDF 대신 빈도 기반 사용
+        if len(noun_texts) <= 5:
+            from collections import Counter
+            all_nouns = []
+            for text in noun_texts:
+                if text.strip():
+                    all_nouns.extend(text.split())
+            
+            if not all_nouns:
+                return []
+            
+            noun_counts = Counter(all_nouns)
+            top_keywords = [word for word, count in noun_counts.most_common(topn)]
+            return top_keywords
         
         vectorizer = TfidfVectorizer(
             ngram_range=(self.TFIDF_NGRAM_MIN, self.TFIDF_NGRAM_MAX),
@@ -262,64 +285,40 @@ class NewsAnalyzer:
             feature_names = vectorizer.get_feature_names_out()
             
             if len(feature_names) == 0:
-                logger.warning("⚠️ TF-IDF 특성이 없음. 빈 리스트 반환")
-                return []
+                # 빈도 기반으로 fallback
+                return self._extract_keywords_by_frequency(noun_texts, topn)
             
             mean_scores = np.asarray(tfidf_matrix.mean(axis=0)).ravel()
             top_indices = mean_scores.argsort()[-topn:][::-1]
             
             return [feature_names[i] for i in top_indices]
         except ValueError as e:
-            logger.warning(f"⚠️ TF-IDF 벡터화 실패 (데이터 부족): {e}")
-            # 파라미터를 더 관대하게 조정해서 재시도
-            try:
-                logger.info("🔄 TF-IDF 파라미터 조정 후 재시도...")
-                vectorizer_relaxed = TfidfVectorizer(
-                    ngram_range=(self.TFIDF_NGRAM_MIN, self.TFIDF_NGRAM_MAX),
-                    max_features=self.TFIDF_MAX_FEATURES,
-                    min_df=1,  # 최소값 고정
-                    max_df=0.99  # 더 관대하게
-                )
-                tfidf_matrix = vectorizer_relaxed.fit_transform(noun_texts)
-                feature_names = vectorizer_relaxed.get_feature_names_out()
-                
-                if len(feature_names) == 0:
-                    logger.warning("⚠️ 조정된 TF-IDF도 특성이 없음")
-                    return []
-                
-                mean_scores = np.asarray(tfidf_matrix.mean(axis=0)).ravel()
-                top_indices = mean_scores.argsort()[-topn:][::-1]
-                
-                logger.info(f"✅ TF-IDF 재시도 성공: {len(feature_names)}개 특성")
-                return [feature_names[i] for i in top_indices]
-            except Exception as retry_e:
-                logger.warning(f"⚠️ TF-IDF 재시도 실패: {retry_e}")
-                # 최종 fallback: 단순한 키워드 추출
-                try:
-                    logger.info("🔄 최종 fallback: 단순 키워드 추출 시도...")
-                    # 모든 명사를 수집하고 빈도 기반으로 키워드 추출
-                    all_nouns = []
-                    for text in noun_texts:
-                        if text.strip():
-                            all_nouns.extend(text.split())
-                    
-                    if not all_nouns:
-                        return []
-                    
-                    # 빈도 계산
-                    from collections import Counter
-                    noun_counts = Counter(all_nouns)
-                    
-                    # 상위 키워드 반환
-                    top_keywords = [word for word, count in noun_counts.most_common(topn)]
-                    logger.info(f"✅ Fallback 키워드 추출 성공: {len(top_keywords)}개")
-                    return top_keywords
-                except Exception as fallback_e:
-                    logger.error(f"❌ 모든 TF-IDF 방법 실패: {fallback_e}")
-                    return []
-        except Exception as e:
-            logger.error(f"❌ TF-IDF 계산 중 예상치 못한 오류: {e}")
+            # TF-IDF 실패 시 빈도 기반으로 fallback (경고 로그 제거)
+            return self._extract_keywords_by_frequency(noun_texts, topn)
+    
+    def _extract_keywords_by_frequency(self, noun_texts, topn=5):
+        """
+        빈도 기반 키워드 추출 (fallback 메서드)
+        
+        Args:
+            noun_texts (list): 명사 텍스트 리스트
+            topn (int): 추출할 키워드 개수
+            
+        Returns:
+            list: 추출된 키워드 리스트
+        """
+        from collections import Counter
+        all_nouns = []
+        for text in noun_texts:
+            if text.strip():
+                all_nouns.extend(text.split())
+        
+        if not all_nouns:
             return []
+        
+        noun_counts = Counter(all_nouns)
+        top_keywords = [word for word, count in noun_counts.most_common(topn)]
+        return top_keywords
     
     def calculate_kmeans_clusters(self, n_data):
         """

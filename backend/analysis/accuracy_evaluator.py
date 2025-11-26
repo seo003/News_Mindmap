@@ -4,7 +4,8 @@ import logging
 import time
 import numpy as np
 from collections import defaultdict, Counter
-from sklearn.metrics import silhouette_score, davies_bouldin_score
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans
 from sentence_transformers import SentenceTransformer
 from database.news_fetcher import fetch_news_from_db
@@ -56,7 +57,9 @@ class AccuracyEvaluator:
         
         # NewsAnalyzer의 모델을 재사용 (중복 로딩 방지)
         self.embedding_model = self.news_analyzer.embedding_model
+        self.keybert_model = self.news_analyzer.kw_model  # KeyBERT 모델 재사용
         logger.info("✅ SentenceTransformer 모델 재사용 (NewsAnalyzer에서 로딩된 모델)")
+        logger.info("✅ KeyBERT 모델 재사용 (NewsAnalyzer에서 로딩된 모델)")
         
         # 평가용 기준 데이터
         self.university_keywords = {
@@ -178,16 +181,29 @@ class AccuracyEvaluator:
                 n_clusters = len(analysis_result)
                 n_noise = 0  # NewsAnalyzer는 모든 데이터를 클러스터에 할당
                 
+                # 실제로 클러스터에 할당된 뉴스 수 계산
+                clustered_news_count = 0
+                for major_category in analysis_result:
+                    middle_keywords = major_category.get('middleKeywords', [])
+                    other_news = major_category.get('otherNews', [])
+                    # 중분류에 포함된 뉴스 수
+                    for middle_cat in middle_keywords:
+                        related_news = middle_cat.get('relatedNews', [])
+                        clustered_news_count += len(related_news)
+                    # 기타 뉴스 수
+                    clustered_news_count += len(other_news)
+                
                 logger.info(f"🔢 클러스터 수: {n_clusters}개")
                 logger.info(f"🔇 노이즈 수: {n_noise}개")
                 logger.info(f"📈 노이즈 비율: {(n_noise / len(titles) * 100):.1f}%")
+                logger.info(f"📊 실제 클러스터된 뉴스: {clustered_news_count}개")
                 
                 quality_metrics.update({
                     "total_news": len(titles),
                     "n_clusters": n_clusters,
                     "n_noise": n_noise,
                     "noise_ratio": n_noise / len(titles) if len(titles) > 0 else 0,
-                    "avg_cluster_size": (len(titles) - n_noise) / n_clusters if n_clusters > 0 else 0
+                    "avg_cluster_size": clustered_news_count / n_clusters if n_clusters > 0 else 0
                 })
                 
                 logger.info(f"📊 평균 클러스터 크기: {quality_metrics['avg_cluster_size']:.1f}")
@@ -262,16 +278,29 @@ class AccuracyEvaluator:
                 if n_clusters > 1 and len(cluster_labels) == len(other_embeddings):
                     logger.info("📏 Davies-Bouldin Index 계산 중...")
                     try:
-                        from sklearn.metrics import davies_bouldin_score
                         db_index = davies_bouldin_score(other_embeddings, cluster_labels)
                         quality_metrics["davies_bouldin_index"] = db_index
-                        logger.info(f"✅ Davies-Bouldin Index: {db_index:.4f}")
+                        logger.info(f"✅ Davies-Bouldin Index: {db_index:.4f} (낮을수록 좋음)")
                     except Exception as e:
                         logger.warning(f"⚠️ Davies-Bouldin Index 계산 실패: {e}")
                         quality_metrics["davies_bouldin_index"] = None
                 else:
                     logger.warning("⚠️ 클러스터가 1개 이하이거나 데이터 수가 일치하지 않아 Davies-Bouldin Index 계산 불가")
                     quality_metrics["davies_bouldin_index"] = None
+                
+                # Calinski-Harabasz Index 계산 (추가된 내부 평가 지표)
+                if n_clusters > 1 and len(cluster_labels) == len(other_embeddings):
+                    logger.info("📏 Calinski-Harabasz Index 계산 중...")
+                    try:
+                        ch_index = calinski_harabasz_score(other_embeddings, cluster_labels)
+                        quality_metrics["calinski_harabasz_index"] = ch_index
+                        logger.info(f"✅ Calinski-Harabasz Index: {ch_index:.4f} (높을수록 좋음)")
+                    except Exception as e:
+                        logger.warning(f"⚠️ Calinski-Harabasz Index 계산 실패: {e}")
+                        quality_metrics["calinski_harabasz_index"] = None
+                else:
+                    logger.warning("⚠️ 클러스터가 1개 이하이거나 데이터 수가 일치하지 않아 Calinski-Harabasz Index 계산 불가")
+                    quality_metrics["calinski_harabasz_index"] = None
                 
                 # 클러스터별 통계
                 logger.info("📋 클러스터별 통계 생성 중...")
@@ -428,6 +457,200 @@ class AccuracyEvaluator:
             logger.error(f"키워드 추출 정확도 평가 중 오류: {e}")
             return {"error": str(e)}
     
+    def evaluate_topic_consistency(self, news_data, analysis_result, limit=1000):
+        """
+        Topic Consistency 평가 (ChatGPT 제안)
+        
+        각 클러스터의 대표 키워드와 뉴스 본문 KeyBERT 키워드 간 유사도를 측정합니다.
+        
+        Args:
+            news_data (list): 뉴스 데이터
+            analysis_result (list): 분석 결과
+            limit (int): 분석할 최대 뉴스 개수
+            
+        Returns:
+            dict: Topic Consistency 지표
+        """
+        try:
+            logger.info("=" * 60)
+            logger.info("📊 Topic Consistency 평가 시작")
+            logger.info("=" * 60)
+            
+            if not analysis_result:
+                logger.warning("⚠️ 분석 결과가 없어 Topic Consistency 평가 불가")
+                return {"error": "분석 결과가 없습니다"}
+            
+            consistency_scores = []
+            cluster_details = []
+            
+            # 각 클러스터별로 평가
+            for major_idx, major_category in enumerate(analysis_result):
+                major_keyword = major_category.get('majorKeyword', '')
+                middle_keywords = major_category.get('middleKeywords', [])
+                other_news = major_category.get('otherNews', [])
+                
+                # 중분류별로 평가
+                for middle_cat in middle_keywords:
+                    middle_keyword = middle_cat.get('middleKeyword', '')
+                    related_news = middle_cat.get('relatedNews', [])
+                    
+                    if not related_news:
+                        continue
+                    
+                    # 클러스터 대표 키워드 (중분류 키워드 사용)
+                    cluster_keyword = middle_keyword if middle_keyword else major_keyword
+                    
+                    # 해당 클러스터의 모든 뉴스 본문 수집
+                    cluster_texts = []
+                    for news in related_news:
+                        # 원본 뉴스 데이터에서 본문 찾기
+                        news_id = news.get('id') or news.get('title', '')
+                        original_news = next(
+                            (item for item in news_data[:limit] 
+                             if item.get('id') == news_id or item.get('title') == news.get('title', '')),
+                            None
+                        )
+                        if original_news:
+                            # 본문이 있으면 사용, 없으면 제목 사용
+                            text = original_news.get('content', '') or original_news.get('title', '')
+                            if text:
+                                cluster_texts.append(text)
+                    
+                    if not cluster_texts:
+                        continue
+                    
+                    # KeyBERT로 클러스터 전체의 키워드 추출
+                    combined_text = ' '.join(cluster_texts[:20])  # 최대 20개 뉴스만 사용
+                    try:
+                        keybert_keywords = self.keybert_model.extract_keywords(
+                            combined_text,
+                            keyphrase_ngram_range=(1, 3),
+                            top_n=5,
+                            use_mmr=True,
+                            diversity=0.5
+                        )
+                        keybert_keyword_list = [kw for kw, score in keybert_keywords]
+                    except Exception as e:
+                        logger.warning(f"⚠️ KeyBERT 키워드 추출 실패: {e}")
+                        keybert_keyword_list = []
+                    
+                    # 클러스터 대표 키워드와 KeyBERT 키워드 간 유사도 계산
+                    if keybert_keyword_list and cluster_keyword:
+                        try:
+                            # 키워드들을 임베딩으로 변환
+                            keywords_to_compare = [cluster_keyword] + keybert_keyword_list[:3]  # 상위 3개만
+                            keyword_embeddings = self.embedding_model.encode(
+                                keywords_to_compare, 
+                                normalize_embeddings=True
+                            )
+                            
+                            # 클러스터 대표 키워드와 KeyBERT 키워드들의 코사인 유사도 계산
+                            cluster_keyword_emb = keyword_embeddings[0]
+                            keybert_embs = keyword_embeddings[1:]
+                            
+                            similarities = cosine_similarity(
+                                [cluster_keyword_emb], 
+                                keybert_embs
+                            )[0]
+                            
+                            avg_similarity = float(np.mean(similarities)) if len(similarities) > 0 else 0.0
+                            consistency_scores.append(avg_similarity)
+                            
+                            cluster_details.append({
+                                "cluster_id": f"major_{major_idx}_middle_{len(cluster_details)}",
+                                "major_keyword": major_keyword,
+                                "middle_keyword": middle_keyword,
+                                "cluster_keyword": cluster_keyword,
+                                "keybert_keywords": keybert_keyword_list[:3],
+                                "similarity": avg_similarity,
+                                "news_count": len(related_news)
+                            })
+                            
+                        except Exception as e:
+                            logger.warning(f"⚠️ 유사도 계산 실패: {e}")
+                            continue
+                
+                # 기타 뉴스도 평가
+                if other_news and major_keyword:
+                    # 기타 뉴스의 본문 수집
+                    other_texts = []
+                    for news in other_news[:10]:  # 최대 10개만
+                        news_id = news.get('id') or news.get('title', '')
+                        original_news = next(
+                            (item for item in news_data[:limit] 
+                             if item.get('id') == news_id or item.get('title') == news.get('title', '')),
+                            None
+                        )
+                        if original_news:
+                            text = original_news.get('content', '') or original_news.get('title', '')
+                            if text:
+                                other_texts.append(text)
+                    
+                    if other_texts:
+                        combined_text = ' '.join(other_texts)
+                        try:
+                            keybert_keywords = self.keybert_model.extract_keywords(
+                                combined_text,
+                                keyphrase_ngram_range=(1, 3),
+                                top_n=5,
+                                use_mmr=True,
+                                diversity=0.5
+                            )
+                            keybert_keyword_list = [kw for kw, score in keybert_keywords]
+                        except Exception as e:
+                            logger.warning(f"⚠️ KeyBERT 키워드 추출 실패: {e}")
+                            keybert_keyword_list = []
+                        
+                        if keybert_keyword_list and major_keyword:
+                            try:
+                                keywords_to_compare = [major_keyword] + keybert_keyword_list[:3]
+                                keyword_embeddings = self.embedding_model.encode(
+                                    keywords_to_compare,
+                                    normalize_embeddings=True
+                                )
+                                
+                                cluster_keyword_emb = keyword_embeddings[0]
+                                keybert_embs = keyword_embeddings[1:]
+                                
+                                similarities = cosine_similarity(
+                                    [cluster_keyword_emb],
+                                    keybert_embs
+                                )[0]
+                                
+                                avg_similarity = float(np.mean(similarities)) if len(similarities) > 0 else 0.0
+                                consistency_scores.append(avg_similarity)
+                                
+                                cluster_details.append({
+                                    "cluster_id": f"major_{major_idx}_other",
+                                    "major_keyword": major_keyword,
+                                    "middle_keyword": "",
+                                    "cluster_keyword": major_keyword,
+                                    "keybert_keywords": keybert_keyword_list[:3],
+                                    "similarity": avg_similarity,
+                                    "news_count": len(other_news)
+                                })
+                            except Exception as e:
+                                logger.warning(f"⚠️ 유사도 계산 실패: {e}")
+            
+            # 전체 평균 계산
+            avg_consistency = float(np.mean(consistency_scores)) if consistency_scores else 0.0
+            
+            logger.info(f"✅ Topic Consistency 평가 완료")
+            logger.info(f"📊 평가된 클러스터 수: {len(consistency_scores)}개")
+            logger.info(f"📊 평균 Topic Consistency: {avg_consistency:.4f}")
+            logger.info("=" * 60)
+            
+            return {
+                "topic_consistency_score": avg_consistency,
+                "evaluated_clusters": len(consistency_scores),
+                "cluster_details": cluster_details,
+                "all_scores": consistency_scores
+            }
+            
+        except Exception as e:
+            logger.error(f"Topic Consistency 평가 중 오류: {e}")
+            return {"error": str(e)}
+    
     def _evaluate_university_keywords(self, university_news):
         """대학교 키워드 추출 정확도 평가"""
         if not university_news:
@@ -464,7 +687,48 @@ class AccuracyEvaluator:
         if not clusters:
             return {"cluster_keyword_accuracy": 0, "cluster_keyword_details": {}}
         
-        cluster_labels = self.news_analyzer.generate_cluster_labels(clusters)
+        # 클러스터 데이터 형식 확인 및 변환
+        # TF-IDF 클러스터러는 _format_news_item으로 포맷팅된 데이터를 반환하므로
+        # generate_cluster_labels를 사용하기 전에 원본 형식으로 변환 필요
+        converted_clusters = {}
+        for cluster_id, news_list in clusters.items():
+            converted_news = []
+            for news in news_list:
+                # 이미 포맷팅된 데이터인 경우 (title, link만 있는 경우)
+                if "title" in news and "cleaned_title" not in news:
+                    # title을 cleaned_title로 사용
+                    converted_news.append({
+                        "cleaned_title": news.get("title", ""),
+                        "original": news  # 원본 데이터 보존
+                    })
+                # 원본 형식 데이터인 경우
+                elif "cleaned_title" in news:
+                    converted_news.append(news)
+                else:
+                    # title도 없는 경우 건너뛰기
+                    logger.warning(f"⚠️ 클러스터 {cluster_id}의 뉴스에 title 또는 cleaned_title이 없습니다: {news}")
+                    continue
+            if converted_news:
+                converted_clusters[cluster_id] = converted_news
+        
+        if not converted_clusters:
+            logger.warning("⚠️ 변환된 클러스터가 없습니다")
+            return {"cluster_keyword_accuracy": 0, "cluster_keyword_details": {}}
+        
+        try:
+            cluster_labels = self.news_analyzer.generate_cluster_labels(converted_clusters)
+        except Exception as e:
+            logger.error(f"❌ generate_cluster_labels 실패: {e}")
+            # Fallback: 간단한 키워드 추출
+            cluster_labels = {}
+            for cluster_id, news_list in converted_clusters.items():
+                titles = [item.get("cleaned_title", item.get("title", "")) for item in news_list]
+                # 간단한 키워드 추출 (첫 번째 제목의 첫 단어 사용)
+                major_category = titles[0].split()[0] if titles else "Unknown"
+                cluster_labels[cluster_id] = {
+                    "major_category": major_category,
+                    "keywords": []
+                }
         
         total_clusters = len(clusters)
         meaningful_clusters = 0
@@ -487,7 +751,7 @@ class AccuracyEvaluator:
             details[f"cluster_{cluster_id}"] = {
                 "major_category": major_category,
                 "keywords": keywords,
-                "news_count": len(clusters[cluster_id]),
+                "news_count": len(clusters.get(cluster_id, [])),
                 "category_match": category_match
             }
         
@@ -649,6 +913,12 @@ class AccuracyEvaluator:
             keyword_results = self.evaluate_keyword_extraction(news_data, limit, embeddings, clusterer=clusterer)
             evaluation_results["keyword_extraction"] = keyword_results
             
+            # 2-1. Topic Consistency 평가 (ChatGPT 제안 - 새로운 평가 지표)
+            logger.info("\n" + "📊" * 20)
+            logger.info("2️⃣-1️⃣ Topic Consistency 평가 시작")
+            topic_consistency_results = self.evaluate_topic_consistency(news_data, analysis_result, limit)
+            evaluation_results["topic_consistency"] = topic_consistency_results
+            
             # 3. 성능 벤치마크 (클러스터링 품질 평가의 분석 시간 사용)
             logger.info("\n" + "⚡" * 20)
             logger.info("3️⃣ 성능 벤치마크 시작")
@@ -669,7 +939,7 @@ class AccuracyEvaluator:
             logger.info("\n" + "🏆" * 20)
             logger.info("4️⃣ 종합 점수 계산 시작")
             overall_score = self._calculate_overall_score(
-                clustering_results, keyword_results, performance_results
+                clustering_results, keyword_results, performance_results, topic_consistency_results
             )
             evaluation_results["overall_score"] = overall_score
             
@@ -946,33 +1216,62 @@ class AccuracyEvaluator:
         else:
             return obj
     
-    def _calculate_overall_score(self, clustering_results, keyword_results, performance_results):
-        """종합 점수 계산"""
+    def _calculate_overall_score(self, clustering_results, keyword_results, performance_results, topic_consistency_results=None):
+        """
+        종합 점수 계산 (ChatGPT 제안 반영)
+        
+        Args:
+            clustering_results: 클러스터링 품질 평가 결과
+            keyword_results: 키워드 추출 정확도 평가 결과
+            performance_results: 성능 평가 결과
+            topic_consistency_results: Topic Consistency 평가 결과 (선택)
+        """
         try:
             logger.info("🧮 종합 점수 계산 시작...")
             score_components = {}
             total_score = 0
             max_score = 0
             
-            # 클러스터링 품질 점수 (30점 만점)
+            # 클러스터링 품질 점수 (30점 만점) - 내부 평가 지표 개선
             logger.info("📊 클러스터링 품질 점수 계산 중...")
             if "error" not in clustering_results:
                 clustering_score = 0
                 
-                # 실루엣 점수 (15점)
-                if clustering_results.get("silhouette_score"):
+                # 실루엣 점수 (10점) - 가중치 조정
+                if clustering_results.get("silhouette_score") is not None:
                     silhouette = clustering_results["silhouette_score"]
-                    silhouette_points = min(15, max(0, silhouette * 15))
+                    # 실루엣 점수는 -1~1 범위이므로 0~1로 정규화 후 점수화
+                    normalized_silhouette = (silhouette + 1) / 2  # -1~1 -> 0~1
+                    silhouette_points = normalized_silhouette * 10
                     clustering_score += silhouette_points
                     logger.info(f"   📏 실루엣 점수: {silhouette:.4f} → {silhouette_points:.1f}점")
                 else:
                     logger.warning("   ⚠️ 실루엣 점수 없음")
                 
-                # 노이즈 비율 (15점)
-                noise_ratio = clustering_results.get("noise_ratio", 1)
-                noise_points = min(15, max(0, (1 - noise_ratio) * 15))
-                clustering_score += noise_points
-                logger.info(f"   🔇 노이즈 비율: {noise_ratio:.1%} → {noise_points:.1f}점")
+                # Calinski-Harabasz Index (10점) - 추가된 지표
+                if clustering_results.get("calinski_harabasz_index") is not None:
+                    ch_index = clustering_results["calinski_harabasz_index"]
+                    # CH Index는 값이 클수록 좋으므로 정규화 필요
+                    # 일반적으로 100~10000 범위이므로 로그 스케일 사용
+                    if ch_index > 0:
+                        normalized_ch = min(1.0, np.log10(ch_index + 1) / 4)  # 대략 0~1 범위로 정규화
+                        ch_points = normalized_ch * 10
+                        clustering_score += ch_points
+                        logger.info(f"   📊 Calinski-Harabasz Index: {ch_index:.2f} → {ch_points:.1f}점")
+                else:
+                    logger.warning("   ⚠️ Calinski-Harabasz Index 없음")
+                
+                # Davies-Bouldin Index (10점) - 추가된 지표
+                if clustering_results.get("davies_bouldin_index") is not None:
+                    db_index = clustering_results["davies_bouldin_index"]
+                    # DB Index는 낮을수록 좋으므로 역수 사용
+                    # 일반적으로 0~5 범위이므로 정규화
+                    normalized_db = max(0, 1 - (db_index / 5))  # 0~1 범위로 정규화
+                    db_points = normalized_db * 10
+                    clustering_score += db_points
+                    logger.info(f"   📏 Davies-Bouldin Index: {db_index:.4f} → {db_points:.1f}점")
+                else:
+                    logger.warning("   ⚠️ Davies-Bouldin Index 없음")
                 
                 score_components["clustering"] = clustering_score
                 total_score += clustering_score
@@ -981,29 +1280,45 @@ class AccuracyEvaluator:
                 logger.warning("   ❌ 클러스터링 평가 실패")
             max_score += 30
             
-            # 키워드 추출 정확도 점수 (40점 만점)
+            # 키워드 추출 정확도 점수 (30점 만점) - 가중치 조정
             logger.info("🔑 키워드 추출 정확도 점수 계산 중...")
             if "error" not in keyword_results:
                 keyword_score = 0
                 
-                # 대학교 키워드 정확도 (20점)
+                # 대학교 키워드 정확도 (15점)
                 univ_accuracy = keyword_results.get("university_keyword_accuracy", 0)
-                univ_points = univ_accuracy * 20
+                univ_points = univ_accuracy * 15
                 keyword_score += univ_points
                 logger.info(f"   🏫 대학교 키워드 정확도: {univ_accuracy:.1%} → {univ_points:.1f}점")
                 
-                # 클러스터 키워드 정확도 (20점)
+                # 클러스터 키워드 정확도 (15점)
                 cluster_accuracy = keyword_results.get("cluster_keyword_accuracy", 0)
-                cluster_points = cluster_accuracy * 20
+                cluster_points = cluster_accuracy * 15
                 keyword_score += cluster_points
                 logger.info(f"   🔍 클러스터 키워드 정확도: {cluster_accuracy:.1%} → {cluster_points:.1f}점")
                 
                 score_components["keyword_extraction"] = keyword_score
                 total_score += keyword_score
-                logger.info(f"   ✅ 키워드 추출 총점: {keyword_score:.1f}/40")
+                logger.info(f"   ✅ 키워드 추출 총점: {keyword_score:.1f}/30")
             else:
                 logger.warning("   ❌ 키워드 추출 평가 실패")
-            max_score += 40
+            max_score += 30
+            
+            # Topic Consistency 점수 (20점 만점) - ChatGPT 제안 추가
+            logger.info("📊 Topic Consistency 점수 계산 중...")
+            if topic_consistency_results and "error" not in topic_consistency_results:
+                topic_consistency_score = 0
+                consistency = topic_consistency_results.get("topic_consistency_score", 0)
+                consistency_points = consistency * 20  # 0~1 범위를 0~20점으로 변환
+                topic_consistency_score += consistency_points
+                logger.info(f"   📊 Topic Consistency: {consistency:.4f} → {consistency_points:.1f}점")
+                
+                score_components["topic_consistency"] = topic_consistency_score
+                total_score += topic_consistency_score
+                logger.info(f"   ✅ Topic Consistency 총점: {topic_consistency_score:.1f}/20")
+            else:
+                logger.warning("   ⚠️ Topic Consistency 평가 없음 (선택적 지표)")
+            max_score += 20
             
             # 성능 점수 (30점 만점)
             logger.info("⚡ 성능 점수 계산 중...")

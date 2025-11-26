@@ -376,20 +376,32 @@ class TfidfClusterer:
         if len(cluster_news) < 6:  # 뉴스가 너무 적으면 중분류 생성 안함
             return []
         
+        # 작은 클러스터(10개 이하)는 빈도 기반으로 바로 전환
+        if len(cluster_news) <= 10:
+            return self.create_subcategories(cluster_news, max_subcategories)
+        
         # TF-IDF로 중요 키워드 추출
         texts = [item.get("cleaned_title", "") for item in cluster_news]
         
         try:
+            # 클러스터 크기에 따라 min_df 동적 조정
+            # 작은 클러스터는 min_df=1, 큰 클러스터는 min_df=2
+            min_df_value = 1 if len(cluster_news) <= 15 else 2
+            
             # TF-IDF 벡터화
             tfidf = TfidfVectorizer(
                 max_features=50,
                 tokenizer=lambda x: self.extract_nouns(x),
                 token_pattern=None,
-                min_df=2,  # 최소 2개 문서에서 나타나야 함
-                max_df=0.8  # 너무 흔한 단어 제외
+                min_df=min_df_value,  # 동적 조정
+                max_df=0.9  # 더 관대하게 (0.8 -> 0.9)
             )
             tfidf_matrix = tfidf.fit_transform(texts)
             feature_names = tfidf.get_feature_names_out()
+            
+            if len(feature_names) == 0:
+                # 특성이 없으면 빈도 기반으로 전환
+                return self.create_subcategories(cluster_news, max_subcategories)
             
             # TF-IDF 점수 합산
             tfidf_scores = np.array(tfidf_matrix.sum(axis=0)).flatten()
@@ -420,11 +432,14 @@ class TfidfClusterer:
                         "size": len(subcategory_news)
                     })
             
+            # 중분류가 2개 미만이면 빈도 기반으로 재시도
+            if len(subcategories) < 2:
+                return self.create_subcategories(cluster_news, max_subcategories)
+            
             return subcategories
             
         except Exception as e:
-            logger.warning(f"⚠️ TF-IDF 중분류 생성 실패: {e}, 빈도 기반으로 대체")
-            # Fallback: 빈도 기반 중분류
+            # TF-IDF 실패 시 빈도 기반으로 전환 (경고 로그 제거)
             return self.create_subcategories(cluster_news, max_subcategories)
     
     def create_subcategories(self, cluster_news, max_subcategories=5):

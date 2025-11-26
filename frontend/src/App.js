@@ -7,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(true); 
   const [keywords, setKeywords] = useState(null); 
   const [error, setError] = useState(null);
-  const [showAccuracyModal, setShowAccuracyModal] = useState(false);
+  const [showAccuracyModal, setShowAccuracyModal] = useState(false); 
 
   useEffect(() => {
     const fetchKeywords = async () => {
@@ -31,7 +31,7 @@ function App() {
           setKeywords(data.data);
         } else {
           // 기존 형식 호환성
-          setKeywords(data);
+        setKeywords(data);
         }
         setLoading(false);
 
@@ -167,37 +167,37 @@ function App() {
         </h1>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-          <button
-            onClick={() => setShowAccuracyModal(true)}
-            className="accuracy-button"
-            style={{
-              background: 'linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)',
-              border: 'none',
-              borderRadius: '12px',
-              padding: '12px 20px',
-              color: 'white',
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 12px rgba(76, 175, 80, 0.3)',
+        <button
+          onClick={() => setShowAccuracyModal(true)}
+          className="accuracy-button"
+          style={{
+            background: 'linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            padding: '12px 20px',
+            color: 'white',
+            fontSize: '16px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 4px 12px rgba(76, 175, 80, 0.3)',
               transition: 'all 0.2s ease',
               whiteSpace: 'nowrap'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
-            }}
-          >
-            <i className="fas fa-chart-line"></i>
-            정확도 평가
-          </button>
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+          }}
+        >
+          <i className="fas fa-chart-line"></i>
+          정확도 평가
+        </button>
         </div>
       </div>
       
