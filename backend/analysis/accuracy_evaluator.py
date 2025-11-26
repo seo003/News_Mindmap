@@ -45,7 +45,7 @@ class AccuracyEvaluator:
     """
     뉴스 분석 정확도 평가 클래스
     
-    클러스터링 품질, 키워드 추출 정확도, 대학교 분류 정확도 등을 측정합니다.
+    클러스터링 품질, 키워드 추출 정확도, Topic Consistency, 성능 등을 측정합니다.
     """
     
     def __init__(self):
@@ -62,11 +62,6 @@ class AccuracyEvaluator:
         logger.info("✅ KeyBERT 모델 재사용 (NewsAnalyzer에서 로딩된 모델)")
         
         # 평가용 기준 데이터
-        self.university_keywords = {
-            "인하공전", "인하대", "항공대", "KAIST", "서울대", "연세대", "고려대",
-            "성균관대", "한양대", "중앙대", "경희대", "동국대", "홍익대", "국민대"
-        }
-        
         self.category_keywords = {
             "정치": ["대통령", "정부", "국회", "정치", "선거", "여야", "정책", "국정", "정당"],
             "경제": ["경제", "투자", "기업", "금융", "주식", "시장", "수출", "수입", "GDP", "금리"],
@@ -80,7 +75,7 @@ class AccuracyEvaluator:
             "환경": ["환경", "기후", "에너지", "재생", "친환경", "대기", "수질", "폐기물"]
         }
         
-        logger.info(f"📚 평가 기준 데이터 설정 완료 (대학교: {len(self.university_keywords)}개, 카테고리: {len(self.category_keywords)}개)")
+        logger.info(f"📚 평가 기준 데이터 설정 완료 (카테고리: {len(self.category_keywords)}개)")
         logger.info("🎉 AccuracyEvaluator 초기화 완료!")
     
     def evaluate_clustering_quality(self, news_data, limit=1000, embeddings=None, clusterer=None):
@@ -438,13 +433,7 @@ class AccuracyEvaluator:
             logger.info(f"🔍 클러스터된 뉴스: {keyword_metrics['clustered_news_count']}개")
             logger.info(f"🔇 노이즈 뉴스: {keyword_metrics['noise_news_count']}개")
             
-            # 대학교 키워드 추출 정확도
-            logger.info("🏫 대학교 키워드 추출 정확도 평가 중...")
-            university_accuracy = self._evaluate_university_keywords(university_news)
-            keyword_metrics.update(university_accuracy)
-            logger.info(f"✅ 대학교 키워드 정확도: {university_accuracy.get('university_keyword_accuracy', 0):.1%}")
-            
-            # 클러스터 키워드 추출 정확도
+            # 클러스터 키워드 추출 정확도 (대학교 뉴스 분류는 전처리 단계에서 공통 적용되므로 평가 제외)
             logger.info("🔍 클러스터 키워드 추출 정확도 평가 중...")
             cluster_accuracy = self._evaluate_cluster_keywords(clusters)
             keyword_metrics.update(cluster_accuracy)
@@ -671,37 +660,6 @@ class AccuracyEvaluator:
             logger.error(f"Topic Consistency 평가 중 오류: {e}")
             return {"error": str(e)}
     
-    def _evaluate_university_keywords(self, university_news):
-        """대학교 키워드 추출 정확도 평가"""
-        if not university_news:
-            return {"university_keyword_accuracy": 0, "university_keyword_details": {}}
-        
-        correct_classifications = 0
-        total_classifications = 0
-        details = {}
-        
-        for univ_name, news_list in university_news.items():
-            total_classifications += len(news_list)
-            
-            # 실제 대학교명이 제목에 포함되어 있는지 확인
-            correct_count = 0
-            for news in news_list:
-                title = news['cleaned_title']
-                if univ_name in title or any(keyword in title for keyword in self.university_keywords):
-                    correct_count += 1
-                    correct_classifications += 1
-            
-            details[univ_name] = {
-                "total_news": len(news_list),
-                "correct_classifications": correct_count,
-                "accuracy": correct_count / len(news_list) if len(news_list) > 0 else 0
-            }
-        
-        return {
-            "university_keyword_accuracy": correct_classifications / total_classifications if total_classifications > 0 else 0,
-            "university_keyword_details": details
-        }
-    
     def _evaluate_cluster_keywords(self, clusters):
         """클러스터 키워드 추출 정확도 평가"""
         if not clusters:
@@ -914,9 +872,16 @@ class AccuracyEvaluator:
             # 사용할 클러스터러 결정
             if clusterer is None:
                 clusterer = self.news_analyzer
-                logger.info(f"📌 기본 클러스터러 사용: NewsAnalyzer")
+                logger.info(f"📌 기본 클러스터러 사용: NewsAnalyzer (HDBSCAN)")
             else:
-                logger.info(f"📌 선택한 클러스터러 사용: {method}")
+                # method 이름을 더 명확하게 표시
+                method_display_name = {
+                    'simple': '빈도수',
+                    'tfidf': 'TF-IDF',
+                    'fasttext': 'FastText',
+                    'news_analyzer': 'HDBSCAN'
+                }.get(method, method)
+                logger.info(f"📌 선택한 클러스터러 사용: {method_display_name} ({method})")
             
             # 1. 클러스터링 품질 평가 (임베딩 재사용)
             logger.info("\n" + "📊" * 20)
@@ -1015,7 +980,8 @@ class AccuracyEvaluator:
                 f.write("📊 세부 점수\n")
                 f.write("-" * 40 + "\n")
                 f.write(f"클러스터링 품질: {components.get('clustering', 0):.1f}/30\n")
-                f.write(f"키워드 추출: {components.get('keyword_extraction', 0):.1f}/40\n")
+                f.write(f"키워드 추출: {components.get('keyword_extraction', 0):.1f}/15\n")
+                f.write(f"Topic Consistency: {components.get('topic_consistency', 0):.1f}/20\n")
                 f.write(f"성능: {components.get('performance', 0):.1f}/30\n\n")
                 
                 # 클러스터링 품질 상세
@@ -1042,7 +1008,6 @@ class AccuracyEvaluator:
                 keyword = evaluation_results.get('keyword_extraction', {})
                 f.write("🔑 키워드 추출 상세\n")
                 f.write("-" * 40 + "\n")
-                f.write(f"대학교 키워드 정확도: {keyword.get('university_keyword_accuracy', 0):.1%}\n")
                 f.write(f"클러스터 키워드 정확도: {keyword.get('cluster_keyword_accuracy', 0):.1%}\n\n")
                 
                 # 성능 상세
@@ -1238,7 +1203,13 @@ class AccuracyEvaluator:
     
     def _calculate_overall_score(self, clustering_results, keyword_results, performance_results, topic_consistency_results=None):
         """
-        종합 점수 계산 (ChatGPT 제안 반영)
+        종합 점수 계산
+        
+        총 95점 만점 (정규화하여 100점 만점으로 표시):
+        - 클러스터링 품질: 30점 (실루엣 10 + CH Index 10 + DB Index 10)
+        - 키워드 추출: 15점 (클러스터 키워드 정확도만, 대학교 키워드는 전처리 단계에서 공통 적용)
+        - Topic Consistency: 20점
+        - 성능: 30점 (처리 시간 15 + 처리량 15)
         
         Args:
             clustering_results: 클러스터링 품질 평가 결과
@@ -1300,18 +1271,12 @@ class AccuracyEvaluator:
                 logger.warning("   ❌ 클러스터링 평가 실패")
             max_score += 30
             
-            # 키워드 추출 정확도 점수 (30점 만점) - 가중치 조정
+            # 키워드 추출 정확도 점수 (15점 만점) - 클러스터 키워드 정확도만 평가
             logger.info("🔑 키워드 추출 정확도 점수 계산 중...")
             if "error" not in keyword_results:
                 keyword_score = 0
                 
-                # 대학교 키워드 정확도 (15점)
-                univ_accuracy = keyword_results.get("university_keyword_accuracy", 0)
-                univ_points = univ_accuracy * 15
-                keyword_score += univ_points
-                logger.info(f"   🏫 대학교 키워드 정확도: {univ_accuracy:.1%} → {univ_points:.1f}점")
-                
-                # 클러스터 키워드 정확도 (15점)
+                # 클러스터 키워드 정확도 (15점) - 클러스터링 방법에 따라 달라지는 지표
                 cluster_accuracy = keyword_results.get("cluster_keyword_accuracy", 0)
                 cluster_points = cluster_accuracy * 15
                 keyword_score += cluster_points
@@ -1319,10 +1284,10 @@ class AccuracyEvaluator:
                 
                 score_components["keyword_extraction"] = keyword_score
                 total_score += keyword_score
-                logger.info(f"   ✅ 키워드 추출 총점: {keyword_score:.1f}/30")
+                logger.info(f"   ✅ 키워드 추출 총점: {keyword_score:.1f}/15")
             else:
                 logger.warning("   ❌ 키워드 추출 평가 실패")
-            max_score += 30
+            max_score += 15
             
             # Topic Consistency 점수 (20점 만점) - ChatGPT 제안 추가
             logger.info("📊 Topic Consistency 점수 계산 중...")
@@ -1444,7 +1409,6 @@ if __name__ == "__main__":
             if "keyword_extraction" in result and "error" not in result["keyword_extraction"]:
                 ke = result["keyword_extraction"]
                 print(f"\n🔑 키워드 추출:")
-                print(f"   • 대학교 분류 정확도: {ke.get('university_keyword_accuracy', 0):.1%}")
                 print(f"   • 클러스터 키워드 정확도: {ke.get('cluster_keyword_accuracy', 0):.1%}")
             
             if "performance" in result and "error" not in result["performance"]:
