@@ -41,3 +41,4 @@ backend/data.env
 
 # 로그
 logs/
+graphs/

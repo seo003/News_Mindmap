@@ -936,7 +936,12 @@ class AccuracyEvaluator:
             self._save_evaluation_summary(evaluation_results, overall_score, analysis_result)
             
             # JSON 직렬화를 위해 float32를 float로 변환
-            return self._convert_to_json_serializable(evaluation_results)
+            serialized_results = self._convert_to_json_serializable(evaluation_results)
+            
+            # 그래프 생성을 위한 JSON 파일 저장
+            self._save_evaluation_json(serialized_results, method)
+            
+            return serialized_results
             
         except Exception as e:
             logger.error(f"종합 정확도 평가 중 오류: {e}")
@@ -1128,6 +1133,70 @@ class AccuracyEvaluator:
             
         except Exception as e:
             logger.error(f"평가 결과 요약 저장 실패: {e}")
+    
+    def _save_evaluation_json(self, evaluation_results, method):
+        """
+        평가 결과를 그래프 생성을 위한 JSON 파일로 저장
+        
+        Args:
+            evaluation_results (dict): 평가 결과 딕셔너리
+            method (str): 클러스터링 방법 ID
+        """
+        try:
+            import json
+            import os
+            from datetime import datetime
+            
+            # 결과 저장 디렉토리
+            backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            results_dir = os.path.join(backend_dir, "data", "evaluation_results")
+            os.makedirs(results_dir, exist_ok=True)
+            
+            # 1. 개별 방법별 JSON 파일 저장
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            individual_file = os.path.join(results_dir, f"evaluation_{method}_{timestamp}.json")
+            
+            with open(individual_file, 'w', encoding='utf-8') as f:
+                json.dump(evaluation_results, f, ensure_ascii=False, indent=2)
+            
+            logger.info(f"💾 개별 평가 결과 저장 완료: {individual_file}")
+            
+            # 2. 통합 JSON 파일 업데이트 (모든 방법의 결과를 하나로)
+            combined_file = os.path.join(results_dir, "evaluation_results_combined.json")
+            
+            # 기존 통합 파일이 있으면 로드
+            combined_results = {}
+            if os.path.exists(combined_file):
+                try:
+                    with open(combined_file, 'r', encoding='utf-8') as f:
+                        combined_results = json.load(f)
+                except Exception as e:
+                    logger.warning(f"⚠️ 기존 통합 파일 로드 실패: {e}, 새로 생성합니다.")
+                    combined_results = {}
+            
+            # 현재 방법의 결과 추가/업데이트
+            # 그래프 생성에 필요한 구조로 변환
+            graph_data = {
+                'overall_score': evaluation_results.get('overall_score', {}),
+                'clustering_quality': evaluation_results.get('clustering_quality', {}),
+                'keyword_extraction': evaluation_results.get('keyword_extraction', {}),
+                'topic_consistency': evaluation_results.get('topic_consistency', {}),
+                'performance': evaluation_results.get('performance', {})
+            }
+            
+            combined_results[method] = graph_data
+            combined_results['last_updated'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            combined_results['last_updated_method'] = method
+            
+            # 통합 파일 저장
+            with open(combined_file, 'w', encoding='utf-8') as f:
+                json.dump(combined_results, f, ensure_ascii=False, indent=2)
+            
+            logger.info(f"💾 통합 평가 결과 저장 완료: {combined_file}")
+            logger.info(f"📊 현재 저장된 방법: {list(combined_results.keys())}")
+            
+        except Exception as e:
+            logger.error(f"평가 결과 JSON 저장 실패: {e}")
     
     def _load_news_from_json(self, json_file_path, limit):
         """
