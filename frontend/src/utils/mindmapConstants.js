@@ -27,25 +27,25 @@ export const ZOOM_CONFIG = {
 // Force 그래프 설정
 export const FORCE_CONFIG = {
   CHARGE_STRENGTH: {
-    VERY_SMALL: -200,
-    SMALL: -250,
-    MEDIUM: -300,
-    DEFAULT: -400,
+    VERY_SMALL: -250,
+    SMALL: -300,
+    MEDIUM: -350,
+    DEFAULT: -500,
   },
   LINK_DISTANCE: {
-    VERY_SMALL: 40,
-    SMALL: 50,
-    MEDIUM: 60,
-    DEFAULT: 80,
+    VERY_SMALL: 50,
+    SMALL: 60,
+    MEDIUM: 70,
+    DEFAULT: 100,
   },
   CENTER_STRENGTH: {
     MOBILE: 0.2,
     DESKTOP: 0.1,
   },
   INITIAL_SPREAD_RADIUS: {
-    SMALL: 600,
-    MEDIUM: 500,
-    DEFAULT: 400,
+    SMALL: 700,
+    MEDIUM: 600,
+    DEFAULT: 500,
   },
 };
 
